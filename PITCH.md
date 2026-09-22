@@ -16,3 +16,7 @@ Costs: What does it cost per resolved contact, against the $6.90 a human contact
 Wrong: What is the first untrue thing it says, and what happens after that?
 Runs it: Who runs it in June, after your team has left?
 Left out: What scope did you cut, and why did you cut it?
+
+
+# Section 1.4
+turn that took the most tokens in is turn 5. This had the most context to take into account. 
