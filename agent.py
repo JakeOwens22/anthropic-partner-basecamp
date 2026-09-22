@@ -65,19 +65,17 @@ def run_agent(pnr: str, last_name: str, message: str) -> str:            # ✏�
         thinking={"type": "adaptive"}, tools=tools, messages=messages,
     )
 
-    answer = ""
     turns = 1
     while response.stop_reason == "tool_use" and turns < MAX_TOOL_CALLS:
-        messages.append({"role": "assistant", "content": text_of(response)})
+        messages.append({"role": "assistant", "content": response.content})
         messages.append({"role": "user", "content": tool_results(response)})
-        answer = text_of(response)
         response = client.messages.create(
             model=MODEL, max_tokens=4096, system=runtime_preamble() + SYSTEM_PROMPT + TONE_ADDENDUM,
             thinking={"type": "adaptive"}, tools=tools, messages=messages,
         )
         turns += 1
 
-    return answer
+    return text_of(response)
 
 
 def tool_list() -> List[Dict[str, Any]]:                   # ✏️ Build 2, step 2.2
@@ -126,7 +124,12 @@ def build_tools() -> List[Dict[str, Any]]:                 # ✏️ Build 1, ste
         },
         {
             "name": "search_alternatives",
-            "description": "search",
+            "description": (
+                "Find eligible alternate flights for this reservation after a disruption. "
+                "Use the booking PNR to search options that preserve the passenger's route "
+                "and applicable fare or loyalty constraints. Returns option IDs, departure "
+                "times, and availability for the customer to choose from."
+            ),
             "input_schema": {
                 "type": "object",
                 "properties": {"pnr": {"type": "string"}},
