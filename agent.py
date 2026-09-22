@@ -18,22 +18,22 @@ MAX_TOOL_CALLS = 8  # Larkspur's own build capped the loop here; then a human ta
 
 TONE_ADDENDUM = ""                       # ✏️ Build 4, step 4.1, intelligence goal
 EXTRA_TOOLS: List[Dict[str, Any]] = [
-        {
-            "name": "next_available_day",
-            "description": (
-                "Retrieve the next available day for a Larkspur reservation from Altura by confirmation code (PNR) "
-                "and the passenger's last name. Both are required to prevent a lookup on "
-                "a guessed PNR. Returns the available date."
-            ),
-            "input_schema": {
-                "type": "object",
-                "properties": {"origin": {"type": "string"}, "dest": {"type": "string"}, "date": {"type": "string"}, "cabin": {"type": "string"}},
-                "required": ["origin", "dest", "date", "cabin"],
-            },
-        },
+        # {
+        #     "name": "next_available_day",
+        #     "description": (
+        #         "Retrieve the next available day for a Larkspur reservation from Altura by confirmation code (PNR) "
+        #         "and the passenger's last name. Both are required to prevent a lookup on "
+        #         "a guessed PNR. Returns the available date."
+        #     ),
+        #     "input_schema": {
+        #         "type": "object",
+        #         "properties": {"origin": {"type": "string"}, "dest": {"type": "string"}, "date": {"type": "string"}, "cabin": {"type": "string"}},
+        #         "required": ["origin", "dest", "date", "cabin"],
+        #     },
+        # },
 ]   # ✏️ Build 2, step 2.1: schemas for the tools you add
 LOCAL_TOOLS: Dict[str, Any] = {
-    "next_available_day": next_available_day,
+    # "next_available_day": next_available_day,
 }         # ✏️ Build 2, step 2.1: the functions behind them
 
 
@@ -97,7 +97,8 @@ def run_agent(pnr: str, last_name: str, message: str) -> str:            # ✏�
 def tool_list() -> List[Dict[str, Any]]:                   # ✏️ Build 2, step 2.2
     """Given. Exactly what Claude is offered on every turn; run.py --show-tools
     prints this list."""
-    return build_tools() + EXTRA_TOOLS
+    return build_tools() + mcp_client.tools()
+    # return build_tools() + EXTRA_TOOLS
 
 
 # ──────────────────────────────────────────────────────────────────────────────
