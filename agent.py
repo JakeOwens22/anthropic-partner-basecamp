@@ -9,6 +9,8 @@ Where you edit:   grep -n '✏' agent.py   (six marks, one per place)
 Steps and gates:  https://anthropicpartnerbasecamp.bts.com/
 """
 from __future__ import annotations
+import re
+from pathlib import Path
 from typing import Any, Dict, List
 from support import (MODEL, SYSTEM_PROMPT, call_local, execute_tool, mcp_client,
                      new_session, next_available_day, record_tool_result,
@@ -31,9 +33,64 @@ EXTRA_TOOLS: List[Dict[str, Any]] = [
         #         "required": ["origin", "dest", "date", "cabin"],
         #     },
         # },
+        {
+            "name": "fare_rules",
+            "description": (
+                "Return the Larkspur Handbook text (fare rules and Customer Commitment, "
+                "sections 4 to 7) behind an entitlement decision. Call it when a customer "
+                "asks why something is or is not covered, or challenges an answer and wants "
+                "the rule, so the reply can quote the Handbook instead of paraphrasing it. "
+                "Call check_policy first: this is reference reading, and the policy table "
+                "remains the source of truth for what is owed. Needs one section, by number "
+                "or by words from its title. Returns that section's full text, or the list "
+                "of available sections if nothing matches."
+            ),
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "section": {
+                        "type": "string",
+                        "description": (
+                            "Which section to read: a number ('4' to '7') or words from its "
+                            "title. 4 = fare families (Basic, Main, Main Plus, First); "
+                            "5 = when we delay, cancel or divert (cause labels, rebooking, "
+                            "refunds); 6 = care while you wait (meals, hotel, ground "
+                            "transport); 7 = what chat automation will not do."
+                        ),
+                    },
+                },
+                "required": ["section"],
+            },
+        },
 ]   # ✏️ Build 2, step 2.1: schemas for the tools you add
+
+
+FARE_RULES_PATH = Path(__file__).parent / "data" / "americas" / "fare_rules_excerpt.md"
+
+
+def fare_rules(section: str) -> Dict[str, Any]:
+    """Slice fare_rules_excerpt.md on its '### N. Title' headings and return the
+    one section asked for, matched by number or by any part of the title."""
+    sections = []
+    for line in FARE_RULES_PATH.read_text(encoding="utf-8").splitlines():
+        heading = re.match(r"^###\s+(\d+)\.\s*(.*)$", line)
+        if heading:
+            sections.append({"number": heading.group(1), "title": heading.group(2), "lines": [line]})
+        elif sections:
+            sections[-1]["lines"].append(line)
+
+    query = re.sub(r"^section\s+", "", (section or "").strip().lower()).rstrip(".")
+    for s in sections:
+        if query and (query == s["number"] or query in s["title"].lower()):
+            return {"section": s["number"], "title": s["title"],
+                    "text": "\n".join(s["lines"]).strip()}
+    return {"error": "No section matches %r." % section,
+            "available_sections": ["%s. %s" % (s["number"], s["title"]) for s in sections]}
+
+
 LOCAL_TOOLS: Dict[str, Any] = {
     # "next_available_day": next_available_day,
+    "fare_rules": fare_rules,
 }         # ✏️ Build 2, step 2.1: the functions behind them
 
 
