@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Participant Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  --cream:#faf9f5; --ink:#141413; --rust:#d97757; --rust-deep:#c4602e; --kraft:#d4a27f; --sand:#e8e6dc;
+  --panel:#ffffff; --node:#fbfaf7;
+  --blue:#6a9bcc; --blue-deep:#3f6d9b; --green:#788c5d; --green-deep:#5f7049;
+  --purple:#7c5cbf; --purple-deep:#6248a3; --maroon:#9c3f52; --maroon-deep:#9c3f52;
+  --amber:#b8860b; --amber-deep:#966d09;
+  --rust-tint:rgba(217,119,87,.15); --blue-tint:rgba(106,155,204,.15); --green-tint:rgba(120,140,93,.15);
+  --purple-tint:rgba(124,92,191,.15); --maroon-tint:rgba(156,63,82,.15); --amber-tint:rgba(184,134,11,.15);
+  --kraft-tint:rgba(212,162,127,.18);
+  --text-support:rgba(20,20,19,.6); --text-chrome:rgba(20,20,19,.65); --text-emphasis:#111111;
+  --hairline:rgba(20,20,19,.35); --diagram-stroke:rgba(20,20,19,.42);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"DM Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono","SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.page{max-width:900px;margin:0 auto;padding:56px 32px 72px}
+/* type roles */
+.meta{font:700 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.pill{display:inline-block;font:700 12px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;border-radius:9999px;padding:6px 13px;background:var(--kraft-tint);color:var(--ink)}
+.pill.s1{background:var(--blue-tint);color:var(--blue-deep)} .pill.s2{background:var(--green-tint);color:var(--green-deep)}
+.pill.between{background:var(--kraft-tint);color:#8a6a52} .pill.appx{background:var(--sand);color:var(--text-support)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1 strong,h2 strong,h3 strong{font-weight:600;color:var(--text-emphasis)}
+h1{font-size:52px;line-height:1.04;margin:14px 0 14px}
+h2{font-size:34px;line-height:1.1;margin:10px 0 12px}
+h3{font-size:24px;line-height:1.15}
+.sub{font-family:var(--serif);font-size:20px;line-height:1.35;color:var(--text-support);max-width:60ch;margin:0 0 22px}
+.lead{font-size:17px;line-height:1.5;color:var(--text-support);max-width:64ch;margin:0 0 18px}
+.closer{font:600 17px/1.5 var(--sans);color:var(--ink);max-width:64ch;
+  border-left:5px solid var(--kraft);padding:2px 0 2px 16px;margin:26px 0 0}
+p{max-width:66ch;margin:0 0 12px}
+ul,ol{max-width:66ch;margin:0 0 12px;padding-left:22px}
+li{margin:4px 0}
+li::marker{color:var(--text-support)}
+code{font-family:var(--mono);font-size:.88em;background:var(--node);border:1px solid var(--sand);padding:0 5px;border-radius:5px}
+pre code{background:none;border:0;padding:0}
+strong{font-weight:700}
+/* cover */
+.cover{margin-bottom:34px}
+.cover .meta{color:#8a6a52}
+.intro p{max-width:66ch}
+/* lane: how the two sessions are laid out, widths are the real minutes (A15 / D4) */
+.lane{background:var(--panel);border:1.5px solid var(--sand);border-radius:14px;padding:20px 22px 18px;margin:26px 0 30px}
+.lane .meta{color:var(--text-support);margin-bottom:12px}
+.lane-row{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;margin:10px 0}
+.lane-row .lbl{font:700 13px/1.2 var(--sans);color:var(--ink)}
+.lane-track{display:flex;gap:4px;height:58px}
+.seg{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 8px;border-radius:8px;background:var(--sand);color:var(--text-support);min-width:0;overflow:hidden;text-decoration:none;position:relative}
+.seg .t{font:700 12.5px/1.1 var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.seg .m{font:500 11px/1 var(--mono);margin-top:5px;opacity:.85}
+.seg.build{background:var(--rust-tint);color:var(--rust-deep);border-top:4px solid var(--rust)}
+.seg.build .t{color:var(--rust-deep)}
+.seg.guide{background:var(--panel);border:1.5px solid var(--sand);color:var(--ink)}
+.seg.break{background:var(--node);border:1.5px dashed var(--sand);color:var(--text-support)}
+.seg.room{align-items:center;justify-content:center;padding:0 4px}
+.seg.gap{background:transparent;border:1.5px dashed var(--sand);color:var(--text-support);justify-content:center;align-items:center}
+.seg.gap .t{font-weight:500}
+a.seg:hover .t{text-decoration:underline}
+.lane .key{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap}
+.lane .key span{font:500 12px/1 var(--sans);color:var(--text-support);display:inline-flex;align-items:center;gap:7px}
+.lane .key i{display:inline-block;width:14px;height:10px;border-radius:3px}
+.lane .key i.b{background:var(--rust-tint);border-top:3px solid var(--rust)} .lane .key i.g{background:var(--panel);border:1.5px solid var(--sand)} .lane .key i.r{background:var(--sand)}
+/* toc */
+nav.toc{margin:0 0 44px}
+nav.toc ol{margin:0;padding:0;list-style:none;columns:2;column-gap:30px;max-width:none}
+nav.toc li{margin:0;padding:6px 0;border-bottom:1px solid var(--sand);break-inside:avoid;font-size:15px}
+nav.toc li.sec{font-weight:700;padding-top:12px}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover{color:var(--rust-deep)}
+nav.toc .id{font:700 12.5px/1 var(--mono);color:var(--rust-deep);margin-right:9px;letter-spacing:0}
+/* chapters */
+section.chapter{margin-top:64px;padding-top:22px;border-top:2px solid var(--ink)}
+section.chapter .pill{margin-bottom:8px}
+.walkout{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--panel);border:1.5px solid var(--sand);border-left:5px solid var(--green);border-radius:0 14px 14px 0;padding:14px 18px;max-width:66ch;margin:0 0 22px}
+.walkout .meta{color:var(--green-deep);padding-top:3px}
+.walkout p{margin:0}
+/* prose blocks and tables */
+.pb{margin:0 0 20px}
+.pb h4{font:700 17px/1.3 var(--sans);margin:18px 0 8px}
+.tbl{overflow-x:auto;margin:12px 0 18px;background:var(--panel);border:1.5px solid var(--sand);border-radius:14px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th{text-align:left;font:700 11.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-support);padding:12px 14px 10px;border-bottom:1.5px solid var(--sand)}
+td{padding:10px 14px;border-bottom:1px solid var(--sand);vertical-align:top;line-height:1.45}
+tr:last-child td{border-bottom:0}
+/* a place to write, under each row of a table flagged "answers" in steps.py.
+   The site puts a saving textarea here; on paper it is three ruled lines with
+   the same label, so a team that works off the print ends up with the same
+   three answers. */
+.ansrow td{background:var(--node);padding:12px 14px 14px}
+.ansrow .al{display:block;font:700 11.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-support);margin:0 0 10px}
+.rules i{display:block;height:24px;border-bottom:1px solid var(--hairline)}
+/* a block that carries its own clock on the site prints the rule here */
+.rule{margin:0 0 12px}
+.rule .meta{color:var(--rust-deep)}
+/* where an answers block's writing goes, under the ruled lines */
+.whereto{font-size:14px;color:var(--text-support);margin:-6px 0 16px}
+.whereto .meta{color:var(--text-support);margin-right:8px}
+/* code: the ink panel */
+pre{background:var(--ink);color:var(--cream);padding:14px 16px;border-radius:14px;overflow-x:auto;font:13px/1.6 var(--mono);margin:10px 0 14px;white-space:pre-wrap;word-break:break-word}
+pre .p{color:var(--kraft);user-select:none}
+pre .c{color:rgba(250,249,245,.55)}
+pre .ok{color:var(--green);font-weight:700}
+pre .no{color:var(--rust);font-weight:700}
+pre .hint{color:rgba(250,249,245,.72)}
+pre .head{color:var(--kraft)}
+/* step: a header, then one row per block, one accent per row */
+article.step{margin:34px 0 0;break-inside:avoid-page}
+article.step header{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline;padding:0 0 12px}
+article.step header .id{font:700 26px/1 var(--mono);color:var(--rust-deep);letter-spacing:-.02em}
+.row{background:var(--panel);border:1.5px solid var(--sand);border-left-width:5px;border-radius:0 14px 14px 0;padding:16px 20px 14px;margin:0 0 10px}
+.row .k{display:block;margin:0 0 8px}
+.row.building{border-left-color:var(--blue)} .row.building .k{color:var(--blue-deep)}
+.row.do{border-left-color:var(--rust)} .row.do .k{color:var(--rust-deep)}
+.row.done{border-left-color:var(--green)} .row.done .k{color:var(--green-deep)}
+.row.ifnot{border-left-color:var(--maroon)} .row.ifnot .k{color:var(--maroon-deep)}
+.row.claude{border-left-color:var(--purple)} .row.claude .k{color:var(--purple-deep)}
+.row.ahead{border-left-color:var(--amber)} .row.ahead .k{color:var(--amber-deep)}
+.row.next{border-left-color:var(--kraft)} .row.next .k{color:#8a6a52}
+.row p:last-child,.row ol:last-child,.row .tbl:last-child,.row pre:last-child{margin-bottom:0}
+.row.building p{font-size:17px;line-height:1.45}
+.row.do ol{padding-left:22px;margin:0;max-width:none}
+.row.do li{margin:7px 0}
+.row.do li::marker{font:700 13px var(--mono);color:var(--rust-deep)}
+.row.do li pre{margin:8px 0 4px}
+.row.done pre{border-left:0}
+.row.ifnot .tbl{border:0;background:transparent;border-radius:0;margin:0}
+.row.ifnot th{padding-left:0;padding-top:4px} .row.ifnot td{padding-left:0}
+.row.ifnot td:first-child{width:38%;font-weight:700;color:var(--maroon-deep)}
+.row.next p{margin:0;font-weight:700;font-size:16px}
+.row.ahead .k::after{content:"  ·  after the gate, never instead of it";letter-spacing:0;text-transform:none;font:500 12px var(--sans);color:var(--text-support)}
+/* diagram (D1 flow): one rust node */
+.diagram{background:var(--panel);border:1.5px solid var(--sand);border-radius:14px;padding:12px 16px;margin:12px 0 4px}
+.diagram svg{width:100%;height:auto;display:block}
+/* footer chrome */
+footer.chrome{margin-top:64px;padding-top:16px;border-top:1px solid var(--sand);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline}
+footer.chrome .lockup{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--text-chrome)}
+footer.chrome .notice{font:500 12px/1.4 var(--sans);color:var(--text-chrome);max-width:70ch}
+@media (max-width:640px){h1{font-size:40px} .lane-row{grid-template-columns:1fr} nav.toc ol{columns:1}}
+@media print{
+  @page{size:A4;margin:14mm 14mm 16mm}
+  body{font-size:11pt;background:var(--cream)}
+  .page{max-width:none;padding:0}
+  .lane{break-inside:avoid}
+  nav.toc{break-after:page}
+  section.chapter{break-before:page;border-top:none;margin-top:0;padding-top:0}
+  article.step{break-inside:auto}
+  article.step header,.row{break-inside:avoid}
+  pre{white-space:pre-wrap;word-break:break-word}
+  a{color:inherit;text-decoration:none}
+  a.seg{color:inherit}
+}
+</style></head>
+<body><div class="page">
+<div class="cover">
+<div class="meta">Partner Basecamp Virtual · the agent build</div>
+<h1>Participant <strong>Guide</strong></h1>
+<p class="sub">You are building Larkspur's chat agent for customers whose flights are disrupted, over two sessions, in a repo your team owns. This guide is the path: what to do, and how you will know it worked.</p>
+<div class="intro"><p>You are the team Larkspur Airlines brought in. Session one has two builds: you fix the agent you are given, then give it a tool of your own. Session two has two more: you build the proof of what the agent does, then move one number on purpose and prove it moved.</p><p>Every build step follows the same pattern. Read the block labeled "You will know it worked when" first.</p><p><code>agent.py</code> is the file you edit. Everything under <code>support/</code> already works, and you never edit it. <code>verify.py</code> is the check you run at the end of every step, and it decides whether the step is done. It never looks at how you wrote your code, only at what your agent sent to Claude and what came back, so everyone in your team can write different code and all of them can pass.</p><p>Nothing in here hands you an answer. The trace is your debugger. Run it, read what came back, change one thing, run it again.</p><p>The same steps live on the build site, which your team opens together in the room. The site adds the build clock, a checklist per step, and a code that unlocks each build. This document is the same path on paper.</p></div>
+</div>
+<div class="lane"><div class="meta">How the two sessions are laid out. Widths are the real minutes.</div>
+<div class="lane-row"><div class="lbl">Session one<br><span class="meta" style="font-size:10.5px;color:var(--text-support)">230 min</span></div><div class="lane-track"><a class="seg guide" href="#welcome" style="flex:50 1 0"><span class="t">Open, setup</span><span class="m">50 min</span></a><div class="seg room" style="flex:20 1 0"><span class="m" style="margin:0">20 min</span></div><a class="seg build" href="#build-1" style="flex:45 1 0"><span class="t">Build 1</span><span class="m">45 min</span></a><div class="seg break" style="flex:20 1 0"><span class="t">Break</span><span class="m">20 min</span></div><div class="seg room" style="flex:20 1 0"><span class="m" style="margin:0">20 min</span></div><a class="seg build" href="#build-2" style="flex:45 1 0"><span class="t">Build 2</span><span class="m">45 min</span></a><a class="seg guide" href="#ship" style="flex:30 1 0"><span class="t">Ship</span><span class="m">30 min</span></a></div></div>
+<div class="lane-row"><div class="lbl">Session two<br><span class="meta" style="font-size:10.5px;color:var(--text-support)">225 min</span></div><div class="lane-track"><a class="seg guide" href="#between" style="flex:30 1 0"><span class="t">Open</span><span class="m">30 min</span></a><div class="seg room" style="flex:25 1 0"><span class="m" style="margin:0">25 min</span></div><a class="seg build" href="#build-3" style="flex:55 1 0"><span class="t">Build 3</span><span class="m">55 min</span></a><div class="seg break" style="flex:20 1 0"><span class="t">Break</span><span class="m">20 min</span></div><div class="seg room" style="flex:10 1 0"><span class="m" style="margin:0">10 min</span></div><a class="seg build" href="#build-4" style="flex:45 1 0"><span class="t">Build 4</span><span class="m">45 min</span></a><a class="seg guide" href="#pitch" style="flex:25 1 0"><span class="t">Present</span><span class="m">25 min</span></a><a class="seg guide" href="#pitch" style="flex:15 1 0"><span class="t">Close</span><span class="m">15 min</span></a></div></div>
+<div class="key"><span><i class="b"></i>Build, in this guide</span><span><i class="g"></i>Also in this guide</span><span><i class="r"></i>In the room, from the decks</span></div></div>
+<nav class="toc"><ol><li class="sec"><a href="#welcome">Welcome to your build.</a></li><li class="sec"><a href="#questions">Three questions.</a></li><li class="sec"><a href="#setup">Get set up.</a></li><li class="sec"><a href="#build-1">Build 1 · First pass at the agent</a></li><li><a href="#step-1.1"><span class="id">1.1</span>Read the trace, find the four faults</a></li><li><a href="#step-1.2"><span class="id">1.2</span>Make the loop keep going</a></li><li><a href="#step-1.3"><span class="id">1.3</span>Make the tools route</a></li><li><a href="#step-1.4"><span class="id">1.4</span>All five ticket types, numbers written down</a></li><li class="sec"><a href="#build-2">Build 2 · Your own tools</a></li><li><a href="#step-2.1"><span class="id">2.1</span>Your own tool, chosen unprompted</a></li><li><a href="#step-2.2"><span class="id">2.2</span>The same tool, over MCP</a></li><li class="sec"><a href="#ship">Ship it to the client</a></li><li class="sec"><a href="#between">Welcome back.</a></li><li class="sec"><a href="#build-3">Build 3 · Build the proof</a></li><li><a href="#step-3.1"><span class="id">3.1</span>Build the proof</a></li><li class="sec"><a href="#build-4">Build 4 · Make it scale</a></li><li><a href="#step-4.1"><span class="id">4.1</span>Make the change, measure it</a></li><li class="sec"><a href="#pitch">The value conversation</a></li><li class="sec"><a href="#appendix-a">A · Working in one repo</a></li><li class="sec"><a href="#appendix-b">B · The five tickets</a></li><li class="sec"><a href="#appendix-c">C · The words of the build</a></li><li class="sec"><a href="#appendix-d">D · What this agent cannot do, and what stops it</a></li></ol></nav>
+<section class="chapter" id="welcome">
+<span class="pill between">Start</span>
+<h2>Welcome to <strong>your build</strong>.</h2>
+<p class="lead">Welcome. You're the team Larkspur Airlines brought in, and this page is where the two sessions run from. Do three things before the room comes back together, in this order.</p>
+<div class="pb">
+<ul><li>Read the case study below.</li><li>Answer the three questions.</li><li>Get set up.</li></ul>
+</div>
+<div class="pb">
+<h4>The client's issue</h4>
+<ul><li>Larkspur is a US carrier with about 19 million passengers a year and 1,150 people in the contact center.</li><li>Larkspur gets about 4.2 million contacts a year. Disruption is 31% of them and 52% of contact-center cost.</li><li>Chat is 41% of contacts, so this agent's pool is about 530,000 disruption chats a year.</li><li>A human-handled contact costs them $6.90.</li></ul>
+</div>
+<div class="pb">
+<h4>The client's ask</h4>
+<p>Priya Raghavan, their project manager, said this in the first meeting.</p>
+<pre class="out">We want a GenAI chatbot that can handle rebooking so customers don't wait 40 minutes.</pre>
+</div>
+<div class="pb">
+<p>Three hard gates came out of it, signed in week 1. Hard means one failure blocks the release, never an average.</p>
+<div class="tbl"><table>
+<tr><th>The gate</th><th>What has to be true</th></tr>
+<tr><td>No invention</td><td>0 invented flight facts</td></tr>
+<tr><td>Every reply</td><td>100% tone safety</td></tr>
+<tr><td>Gated</td><td>0 irreversible actions without the customer's click</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Your contacts at Larkspur</h4>
+<div class="tbl"><table>
+<tr><th>Who</th><th>What they ask you</th></tr>
+<tr><td>Priya Raghavan · project manager</td><td>She wants it to work. She asks which model you should be on, and how you will prove it.</td></tr>
+<tr><td>Marcus Whitfield · head of ops</td><td>He asks what a year of this costs, and whose name is on it.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>The five tickets</h4>
+<p>These five bookings are five ticket types, and the repo calls them Stage 1. A PNR is the six-character booking reference. The third column is what a good answer looks like, not an answer key, so five wordings can all be right.</p>
+<p>Names, numbers, PNRs and policy live in <code>data/americas/</code>, and the record is the authority.</p>
+<div class="tbl"><table>
+<tr><th>PNR</th><th>Ticket type</th><th>What good looks like</th></tr>
+<tr><td><code>K7PQ2M</code></td><td>Clean cancellation</td><td>Holds a seat, then waits for the customer's click</td></tr>
+<tr><td><code>M3XR8T</code></td><td>Delay under threshold</td><td>Refuses the waiver and names the policy row it came from</td></tr>
+<tr><td><code>T9WN4C</code></td><td>Ambiguous missed connection</td><td>Asks a clarifying question before it does anything</td></tr>
+<tr><td><code>G2HL9V</code></td><td>Out of scope, a group of 12</td><td>Escalates. It hands the customer to a person, and that is the pass</td></tr>
+<tr><td><code>R8KD3F</code></td><td>Abuse plus a legal threat</td><td>Comes back calm and helpful. There is no tone gate yet</td></tr>
+</table></div>
+</div>
+<p class="closer">Read the case study? Now answer the three questions.</p>
+</section>
+<section class="chapter" id="questions">
+<span class="pill between">As a team</span>
+<h2>Three <strong>questions</strong>.</h2>
+<p class="lead">Spend ten minutes on the three questions, out loud, before anyone types. You bring the answers back to the room; nobody answers them from the front.</p>
+<div class="pb">
+<div class="tbl"><table>
+<tr><th></th><th>The question</th><th>What it is really asking</th></tr>
+<tr><td>Scope</td><td>What is this agent allowed to do?</td><td>Where does it act on its own, where does it ask, and where does it hand the customer to a person?</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Scope</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+<tr><td>Evidence</td><td>If it answers wrong, what would we look for?</td><td>It asks for the one place you would open first: the trace, a tool result, the policy row.</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Evidence</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+<tr><td>Decision</td><td>What do we change?</td><td>It asks for the choice that needs judgment. Your team makes it together, and it is the one the room wants to hear.</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Decision</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+</table></div>
+</div>
+<div class="pb">
+<p>Write one answer per question, agreed by the whole team, not one answer from each person.</p>
+</div>
+<p class="closer">Are your answers written down? Get set up.</p>
+</section>
+<section class="chapter" id="setup">
+<span class="pill between">Before you come back</span>
+<h2>Get <strong>set up</strong>.</h2>
+<p class="lead">Your team needs one repo that everyone can reach, and READY on every laptop before Build 1 starts.</p>
+<div class="pb">
+<ul><li>All team members open GitHub.</li><li>One person creates the team repo from the template at <code>https://github.com/victorsteeb/larkspur-exercise</code>. That person clicks <strong>Use this template</strong>, sets the owner to their own account, and makes the repo <strong>Public</strong>.</li><li>That same person opens <strong>Settings</strong>, then <strong>Collaborators</strong>, then <strong>Add people</strong>, and invites every teammate by GitHub username, plus <code>victorsteeb</code> and the room lead's handle from the chat. Do this before the URL goes anywhere: a public repo can be read by anyone, but only a collaborator can push to it, so an uninvited teammate cannot publish the canon, the one <code>agent.py</code> the team agrees is theirs, and an uninvited reviewer cannot leave the overnight review in your repo.</li><li>Only then does that person post the repo URL in the team thread, with the line <code>invites sent</code>.</li><li>Everyone accepts the invitation, then clones it. You can read the repo without accepting; you cannot push to it.</li><li>Whoever created the repo types the team's name on the first line of <code>TEAM.md</code> (<code># Team: kestrel</code>) and one name per line under it, then commits it once.</li><li>Everyone opens the site and types your breakout room into <strong>Your breakout room</strong> in the left column, the same way (<code>room 1</code>, <code>room 2</code>). That is what puts the whole team together on the site, and what the room lead's console groups you by.</li></ul>
+<pre class="cmd"><span class="p">$ </span>git clone &lt;your team repo URL&gt;</pre>
+</div>
+<div class="pb">
+<p><strong>A locked-down company GitHub account.</strong> If your company GitHub account cannot accept an invite to a personal repo, and managed enterprise accounts often cannot, use a personal GitHub account for the two sessions. Whoever owns the repo does the same.</p>
+</div>
+<div class="pb">
+<h4>Open it your way</h4>
+<p>Three surfaces use the same repo and the same commands: a terminal and any editor, VS Code with the Claude Code extension, and the Claude desktop app's Code tab. Pick the one you already work in and stay in it for both sessions.</p>
+<div class="tbl"><table>
+<tr><th></th><th>Terminal and any editor</th><th>VS Code with the Claude Code extension</th><th>Claude desktop app, Code tab</th></tr>
+<tr><td>Where you type</td><td>You type in your own terminal, and edit <code>agent.py</code> in any editor.</td><td>You type in the terminal inside VS Code.</td><td>You type in the chat in the Code tab. Claude runs the commands.</td></tr>
+<tr><td>Open the folder</td><td><code>cd</code> into the folder git made.</td><td>Choose <strong>File</strong>, then <strong>Open Folder</strong>, then open a new terminal.</td><td>Start a session in the folder git made.</td></tr>
+<tr><td>Start Claude Code</td><td>Type <code>claude</code> there. Say yes to the trust prompt.</td><td>Click the Claude icon in the left sidebar. Say yes to the trust prompt.</td><td>You are already in it. Say yes to the trust prompt.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Run setup</h4>
+<ul><li>Run <code>python3 setup.py</code> until the last line reads READY.</li><li>Add <code>--fix</code> when setup tells you to. It builds the environment and installs what is missing.</li></ul>
+<pre class="cmd"><span class="p">$ </span>python3 setup.py
+<span class="p">$ </span>python3 setup.py --fix</pre>
+</div>
+<div class="pb">
+<h4>If setup will not reach READY</h4>
+<ul><li>Ask Claude Code to fix it. Paste the failing line in and let it work.</li><li>If you are truly stuck, get the room lead.</li></ul>
+</div>
+<div class="pb">
+<h4>What READY checks</h4>
+<div class="tbl"><table>
+<tr><th>Check</th><th>What has to be true</th></tr>
+<tr><td>Python</td><td>This laptop has 3.9 or higher. 3.11 is preferred, 3.9 works.</td></tr>
+<tr><td>Anthropic SDK</td><td>The SDK imports, with a version it can print.</td></tr>
+<tr><td>Isolated environment</td><td>You have a <code>.venv</code> here, a conda env, or system Python with the SDK on it.</td></tr>
+<tr><td><code>.workshop/</code> writable</td><td>It holds the evidence codes your gates print, and your bench numbers.</td></tr>
+<tr><td>git and your identity</td><td>git is installed, with a name and an email set.</td></tr>
+<tr><td><code>.env</code></td><td>It is gitignored, and never committed. Your key never goes into the team repo.</td></tr>
+<tr><td>The team repo</td><td>git can reach the remote from here.</td></tr>
+<tr><td>Claude Code</td><td>It is installed and on your path.</td></tr>
+<tr><td>A credential</td><td>You have one the SDK can read. An unset key does not mean you have none.</td></tr>
+<tr><td>One live call</td><td>A real request to Claude comes back with text.</td></tr>
+</table></div>
+</div>
+<p class="closer">Has every laptop reached READY? Come back to the room.</p>
+</section>
+<section class="chapter" id="build-1">
+<span class="pill s1">Session one</span>
+<h2>Build 1 · <strong>First pass</strong> at the agent</h2>
+<p class="lead">The agent in front of you runs. It does not work. Four things are wrong with it, two in the loop and two in what Claude is told about the tools, and every one of them says so on the wire before it says anything about the code. The wire is the requests your code sent to Claude and the replies that came back. Find them in the order you would fix them, then fix them in that order.</p>
+<div class="walkout"><span class="meta">You walk out with</span><p>an agent that resolves all five Stage 1 ticket types, and two baseline numbers written down in your own notes.</p></div>
+<article class="step" id="step-1.1">
+<header><span class="id">1.1</span><h3>Read the trace, <strong>find the four faults</strong></h3></header>
+<div class="row building"><span class="k meta">What you are building</span><p>By the end of this step you have read the trace and written a list of what you found. You build nothing yet.</p><p>The habit is to sort them by what you would fix first. Run the agent, read the wire, name what is wrong in that order. On a client's codebase this is all you get.</p></div>
+<div class="row do"><span class="k meta">Do</span><ol><li>Start the demo server in its own terminal tab and leave it running there. It does not return; that is what running looks like.<pre class="cmd"><span class="p">$ </span>python3 demo/serve.py</pre></li><li>In a second tab, or a browser, open the demo and send <code>K7PQ2M</code> one message. Every step from here ends by sending the same message again.<pre class="cmd"><span class="p">$ </span>open http://localhost:4390</pre></li><li>Run one ticket with the trace on and read it top to bottom. Read every TURN line, in order.<pre class="cmd"><span class="p">$ </span>python3 run.py K7PQ2M --trace</pre></li><li>Ask the trace two questions. Where does the run stop, and did it stop because Claude was finished or because something broke?</li><li>Read the error line above the trace to its last word if a turn came back as an error. The sentence naming what the API would not accept is usually the second one.</li><li>Read the answer <code>run.py</code> prints above the trace, not only the turns. A run that ended properly and said nothing is still a failure.</li><li>Read what each tool ANSWERED on the <code>↩</code> line under each <code>⚙</code> line. <code>-v</code> prints up to 500 characters of each reply.<pre class="cmd"><span class="p">$ </span>python3 run.py K7PQ2M --trace -v</pre></li><li>Read what Claude receives about each tool: the descriptions and the fields inside each input schema.<pre class="cmd"><span class="p">$ </span>python3 run.py --show-tools</pre></li><li>Find the two entries of the nine that are wrong. One description is thin where it should be a sentence, and one field tells Claude the wrong thing about what to send.</li><li>Write what you found in two columns: SEEN, what the trace and what Claude receives about each tool showed you and which function owns each one, and PREDICTED, one line on what is hiding behind the thing that stopped the run. Compare both columns with a teammate.</li></ol></div>
+<div class="row done"><span class="k meta">You will know it worked when</span><p>Your list has symptoms, not fixes, and a prediction. Your first run cannot show you all four: while one thing stops the run, whatever is downstream of it has no way to appear, and that ordering is the work of this step. So the deliverable is what you saw plus what you expect, and step 1.2 is where you find out whether the prediction held. This list is yours, so here is the layout rather than the content.</p><pre class="cmd"><span class="p">$ </span>python3 run.py K7PQ2M --trace</pre><pre class="out">SEEN       1. &lt;what the trace shows&gt;            -&gt; &lt;which function&gt;
+           2. &lt;what --show-tools shows&gt;         -&gt; &lt;which function&gt;
+           3. &lt;what --show-tools shows&gt;         -&gt; &lt;which function&gt;
+
+PREDICTED  &lt;what you think is hiding behind the one that stopped the run,
+            and which function you expect owns it&gt;</pre></div>
+<div class="row ifnot"><span class="k meta">If not</span><div class="tbl"><table><tr><th>You see</th><th>Where to look</th></tr><tr><td>The demo says the server is not running</td><td>Start it again in its own terminal tab with <code>python3 demo/serve.py</code>, then reload the page. The browser tab staying open does not keep the server up.</td></tr><tr><td>The demo answers with a card instead of a reply</td><td>Read the card; it carries the API's own sentence whole. Then run the same ticket in the terminal with <code>--trace</code>.</td></tr><tr><td>You only see one turn and then an error</td><td>Read the error verbatim, then read the message list the function handed the model.</td></tr><tr><td>Everything looks fine to you</td><td>Run it twice more, and read the final answer rather than the turns. Then run <code>--show-tools</code> and read the shortest entry out loud to somebody.</td></tr><tr><td>You have fewer lines than a teammate</td><td>Compare where each of you found your lines. The trace and <code>--show-tools</code> are the two that carry symptoms.</td></tr></table></div></div>
+<div class="row claude"><span class="k meta">In Claude Code</span><p>Type <code>claude</code> in the repo folder, then <code>/build</code>. Do this now, especially if you do not read Python fluently. Reading it with Claude Code still counts as reading.</p><pre class="out">Read this trace with me, and ask me what I think each turn shows before you say anything. Make me name the symptom before you name a cause. Do not propose fixes, do not tell me which function is wrong, and do not touch agent.py or anything under support/.</pre></div>
+<div class="row next"><span class="k meta">Next</span><p>Step 1.2. Fix them in the order you just wrote down, and the loop comes first: you cannot see a routing fault until the loop keeps going. Keep your PREDICTED line where you can see it.</p></div>
+</article>
+<article class="step" id="step-1.2">
+<header><span class="id">1.2</span><h3>Make the loop <strong>keep going</strong></h3></header>
+<div class="row building"><span class="k meta">What you are building</span><p>The loop is the agent. Everything else is a description Claude reads or a function it calls.</p><p><code>stop_reason</code> is the one field that says whether Claude is done or waiting on a tool. It is the control flow, not a status message, and your loop is a decision on it.</p><div class="diagram"><svg viewBox="0 0 760 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The agent loop. The agent is the model, your tools and the loop between them, drawn as one dashed box. A request goes in; on tool_use the tools answer and the turn goes round again; on end_turn the answer comes out">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="rgba(20,20,19,0.42)"/></marker>
+  <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3f6d9b"/></marker></defs>
+  <rect x="246" y="36" width="182" height="178" rx="16" fill="none" stroke="#d4a27f" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <text x="258" y="51" font-family="JetBrains Mono, SF Mono, Menlo, monospace" font-size="11" font-weight="700" letter-spacing="1.6" fill="#8a6a52">THE AGENT</text>
+  <g font-family="DM Sans, Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700" fill="#141413">
+    <rect x="12" y="62" width="150" height="62" rx="12" fill="#fbfaf7" stroke="rgba(20,20,19,0.42)" stroke-width="1.5"/>
+    <text x="87" y="99" text-anchor="middle">Your request</text>
+    <rect x="262" y="62" width="150" height="62" rx="12" fill="#d97757" stroke="#d97757" stroke-width="1.5"/>
+    <text x="337" y="99" text-anchor="middle" fill="#faf9f5">The model</text>
+    <rect x="598" y="62" width="150" height="62" rx="12" fill="#fbfaf7" stroke="rgba(20,20,19,0.42)" stroke-width="1.5"/>
+    <text x="673" y="99" text-anchor="middle">Its answer</text>
+    <rect x="262" y="146" width="150" height="54" rx="12" fill="#fbfaf7" stroke="#3f6d9b" stroke-width="1.5"/>
+    <text x="337" y="179" text-anchor="middle" fill="#3f6d9b">Your tools run</text>
+  </g>
+  <g fill="none" stroke="rgba(20,20,19,0.42)" stroke-width="2" marker-end="url(#ah)">
+    <path d="M162,93 L262,93"/>
+    <path d="M412,93 L598,93"/>
+  </g>
+  <g fill="none" stroke="#3f6d9b" stroke-width="2" stroke-dasharray="7 9">
+    <path d="M300,124 L300,146" marker-end="url(#ahr)"/>
+    <path d="M374,146 L374,124" marker-end="url(#ahr)"/>
+  </g>
+  <g font-family="JetBrains Mono, SF Mono, Menlo, monospace" font-size="11" font-weight="700" letter-spacing="1.6" fill="rgba(20,20,19,0.6)">
+    <text x="505" y="66" text-anchor="middle">STOP_REASON</text>
+    <text x="505" y="82" text-anchor="middle">= END_TURN</text>
+    <text x="12" y="148" text-anchor="start">ONE TURN = REQUEST + REPLY</text>
+    <text x="440" y="180" text-anchor="start" fill="#3f6d9b">STOP_REASON = TOOL_USE</text>
+    <text x="440" y="196" text-anchor="start" fill="#3f6d9b">THE RESULTS GO BACK. ROUND AGAIN.</text>
+  </g>
+</svg></div></div>
+<div class="row do"><span class="k meta">Do</span><ol><li>Run it and read turn 2. That is where the first fault lives.<pre class="cmd"><span class="p">$ </span>python3 run.py K7PQ2M --trace</pre></li><li>Open <code>agent.py</code> and print the six places you edit. The loop sits at the top under three empty slots, and the nine tool schemas are below the ruled line.<pre class="cmd"><span class="p">$ </span>grep -n '✏️' agent.py</pre></li><li>Change one thing in <code>run_agent()</code>, then run it again. Never make two changes at once.</li><li>Keep going until the same run ends on <code>stop_reason=end_turn</code> and prints a non-empty answer above the trace.</li><li>Then run the gate. A gate here is a verify.py check.<pre class="cmd"><span class="p">$ </span>python3 verify.py 1.2</pre></li><li>Back in the demo, send <code>K7PQ2M</code> the same message as before and watch a full answer come back where the card was.</li></ol></div>
+<div class="row done"><span class="k meta">You will know it worked when</span><p>The gate reads the wire, not your code: turns, tool order, and whether the run stayed inside the ceiling. Any loop that produces a real multi-turn trace passes, and there is no single implementation it wants. Before you run the gate, go and check your prediction from 1.1. With the loop running, whatever was hiding behind the run-stopper is now on the screen. Right or wrong, say which out loud, because that is the habit this step builds. The counts below come from one reference run, and the evidence code is per person, so read the check lines rather than the digits.</p><pre class="cmd"><span class="p">$ </span>python3 verify.py 1.2</pre><pre class="out"><span class="head">Step 1.2: Build 1 · Make the loop keep going</span>
+
+  <span class="ok">✓</span> 5 API turns (need &gt;= 2)
+  <span class="ok">✓</span> 4 tool calls (need &gt;= 2)
+  <span class="ok">✓</span> lookup_booking called before check_policy
+  <span class="ok">✓</span> loop stayed within the cap (5 API turns, ceiling 8)
+  <span class="ok">✓</span> the loop ran out of tool calls, not out of turns (last stop_reason=end_turn)
+  <span class="ok">✓</span> returned a non-empty string
+
+<span class="head">All checks passed. Evidence code: 5CD-A01   (saved for "Alice Example")</span>
+That code is your receipt for step 1.2. Paste it into the build site to save it. Nothing to upload.
+https://anthropicpartnerbasecamp.bts.com/</pre></div>
+<div class="row ifnot"><span class="k meta">If not</span><div class="tbl"><table><tr><th>You see</th><th>Where to look</th></tr><tr><td>Turn 2 comes back as an error about tool ids</td><td>Read what you sent back as the assistant's turn, and check it still contains what Claude asked for.</td></tr><tr><td>The trace finishes clean and the answer is empty</td><td>Read which response the function returns. Check whether the string came from the turn that ended the conversation.</td></tr><tr><td>It never stops</td><td>Read what <code>MAX_TOOL_CALLS</code> is counting before you raise it.</td></tr></table></div></div>
+<div class="row claude"><span class="k meta">In Claude Code</span><p>Type <code>claude</code> in the repo folder, then <code>/build</code>. Do this when you have read the trace twice and the loop still will not close.</p><pre class="out">I am working on the loop in run_agent(). Ask me what turn 2 shows and what I think went back to the model, and make me say my plan out loud before you respond to it. Point me at my own trace instead of at the fix. Do not write the loop for me, and do not touch verify.py or anything under support/.</pre></div>
+<div class="row next"><span class="k meta">Next</span><p>Step 1.3. Now that the loop keeps going, the two faults in what Claude is told about the tools can appear on the wire. Check your prediction against what the trace does now, then go on.</p></div>
+</article>
+<article class="step" id="step-1.3">
+<header><span class="id">1.3</span><h3>Make the tools <strong>route</strong></h3></header>
+<div class="row building"><span class="k meta">What you are building</span><p>The description is the whole briefing. Claude cannot open <code>support/tools.py</code> and cannot ask you what a function really does.</p><p>The field descriptions inside <code>input_schema</code> steer the arguments, so a field described wrong reads as a routing failure.</p></div>
+<div class="row do"><span class="k meta">Do</span><ol><li>Print what Claude receives about each tool: the description, then the fields inside the input schema.<pre class="cmd"><span class="p">$ </span>python3 run.py --show-tools</pre></li><li>Fix both faulty entries in <code>build_tools()</code>, the block below the ruled line in <code>agent.py</code>. One description is thin, and one field says the wrong thing about what to send.</li><li>Run a ticket with the trace on and read what each tool RETURNED on the <code>↩</code> line, not only which tools were called.<pre class="cmd"><span class="p">$ </span>python3 run.py K7PQ2M --trace</pre></li><li>Then run the gate. It runs the conversation up to three times, so one refusal is not a verdict.<pre class="cmd"><span class="p">$ </span>python3 verify.py 1.3</pre></li></ol></div>
+<div class="row done"><span class="k meta">You will know it worked when</span><p>All nine tools are still there, you renamed none of them, every description is a real sentence, and no tool answers with a refusal or with no record at all. The character counts in the quote are one reference build's descriptions, not a target: yours are your own words, so expect different numbers above the floor.</p><pre class="cmd"><span class="p">$ </span>python3 verify.py 1.3</pre><pre class="out"><span class="head">Step 1.3: Build 1 · Make the tools route</span>
+
+  <span class="ok">✓</span> all 9 tools present, none renamed
+  <span class="ok">✓</span> lookup_booking: description is substantive (284 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> get_flight_status: description is substantive (219 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> search_alternatives: description is substantive (331 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> check_policy: description is substantive (446 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> hold_seat: description is substantive (74 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> confirm_rebooking: description is substantive (217 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> issue_voucher: description is substantive (228 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> escalate_to_human: description is substantive (221 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> send_confirmation: description is substantive (71 chars, floor is 40), routing is proven at gate 2.1
+  <span class="ok">✓</span> get_flight_status answered with data, not a refusal (0 of 1 call(s) refused, attempt 1 of 3)
+
+<span class="head">All checks passed. Evidence code: D42-B53   (saved for "Alice Example")</span>
+That code is your receipt for step 1.3. Paste it into the build site to save it. Nothing to upload.
+https://anthropicpartnerbasecamp.bts.com/</pre></div>
+<div class="row ifnot"><span class="k meta">If not</span><div class="tbl"><table><tr><th>You see</th><th>Where to look</th></tr><tr><td>A tool comes back with an error about one of its arguments</td><td>Read that field's description, then read what the trace shows Claude sent.</td></tr><tr><td>The gate says a tool answered with no record</td><td>Read what the booking said the segment was, then read what the call asked about.</td></tr><tr><td>A tool is never picked at all</td><td>Read your description and check whether it says WHEN to reach for the tool, not only what the function is called.</td></tr></table></div></div>
+<div class="row claude"><span class="k meta">In Claude Code</span><p>Type <code>claude</code> in the repo folder, then <code>/build</code>. Do this before you rewrite a description, not after.</p><pre class="out">I am about to rewrite a tool description in build_tools(). Before anything else, ask me what I think it has to say and what has to already be true before the tool is worth calling. Challenge the gaps in my answer. Do not write it for me until I have said my plan out loud, and when I am stuck point at my trace instead of at the fix.</pre></div>
+<div class="row next"><span class="k meta">Next</span><p>Step 1.4. You run all five ticket types, not only one.</p></div>
+</article>
+<article class="step" id="step-1.4">
+<header><span class="id">1.4</span><h3><strong>All five ticket types</strong>, numbers written down</h3></header>
+<div class="row building"><span class="k meta">What you are building</span><p>One clean ticket passing is not the same claim as "it works".</p><p>Two numbers from the totals footer are the baseline the next build has to move. They cannot be rebuilt later.</p></div>
+<div class="row do"><span class="k meta">Do</span><ol><li>Run all five Stage 1 ticket types with the trace on.<pre class="cmd"><span class="p">$ </span>python3 run.py --all --trace</pre></li><li>Read anything that failed on its own PNR, fix the one thing that trace shows, then run all five again.</li><li>Leave two of the five alone: the group of twelve escalating is a pass, and the abusive ticket has no tone gate until a later build.</li><li>Read the totals footer at the end of the run. The numbers below are a reference; yours will differ.<pre class="out">  pnr      ticket type                    turns tools        in       out  stop_reason
+  K7PQ2M   Clean cancellation                 4     3    13,144       628  end_turn
+  M3XR8T   Delay under threshold              4     3    13,043       643  end_turn
+  T9WN4C   Ambiguous missed connection        4     3    13,033       674  end_turn
+  G2HL9V   Out-of-scope group                 3     2     9,439       701  end_turn
+  R8KD3F   Abusive message                    4     3    13,047       701  end_turn
+  ----------------------------------------------------------------
+<span class="head">  TOTAL    5 ticket types                    19    14    61,706     3,347  5/5 returned text</span></pre></li><li>Write down the two numbers, total turns and total tokens in. This is your baseline.</li><li>Then run the gate.<pre class="cmd"><span class="p">$ </span>python3 verify.py 1.4</pre></li><li>Back in the demo, switch the picker to <code>G2HL9V</code> and send it, then switch to <code>R8KD3F</code> and send that.</li><li>One person pushes the canon at the end of the build. Agree who before the clock runs out.<pre class="cmd"><span class="p">$ </span>python3 readout.py
+<span class="p">$ </span>python3 pod_sync.py --push-canon</pre></li><li>Everyone else takes it.<pre class="cmd"><span class="p">$ </span>python3 pod_sync.py --take-canon</pre></li></ol></div>
+<div class="row done"><span class="k meta">You will know it worked when</span><p>All five ticket types generalized. Resolved is the gate's narrow word: the loop terminated and called at least one tool. It says nothing about whether the answer was any good. The last line is a note rather than a check, which is why it carries a dot instead of a tick.</p><pre class="cmd"><span class="p">$ </span>python3 verify.py 1.4</pre><pre class="out"><span class="head">Step 1.4: Build 1 · All five ticket types</span>
+
+  <span class="ok">✓</span> K7PQ2M (Clean cancellation) resolved with at least one tool call
+  <span class="ok">✓</span> M3XR8T (Delay under threshold) resolved with at least one tool call
+  <span class="ok">✓</span> T9WN4C (Ambiguous missed connection) resolved with at least one tool call
+  <span class="ok">✓</span> G2HL9V (Out-of-scope group) resolved with at least one tool call
+  <span class="ok">✓</span> R8KD3F (Abusive message) resolved with at least one tool call
+  <span class="ok">✓</span> 5/5 Stage 1 ticket types generalized
+  · (R8KD3F, the abusive-message ticket, comes back calm and helpful with no gate on tone at all. That is Build 4's work, not a bug to fix here. Fixing it now hides the gap this run exists to show you.)
+
+<span class="head">All checks passed. Evidence code: 46C-403   (saved for "Alice Example")</span>
+That code is your receipt for step 1.4. Paste it into the build site to save it. Nothing to upload.
+https://anthropicpartnerbasecamp.bts.com/</pre></div>
+<div class="row ifnot"><span class="k meta">If not</span><div class="tbl"><table><tr><th>You see</th><th>Where to look</th></tr><tr><td>One fails and four pass</td><td>Read that one with the trace on its own PNR and ask what is different about that ticket type.</td></tr><tr><td>The group booking reads as a failure</td><td>Read what the check asks. Escalation is the correct outcome for a group of twelve.</td></tr></table></div></div>
+<div class="row ahead"><span class="k meta">If you are ahead</span><p><strong>Find where the context went.</strong> Open the readout you just pushed, the one page your repo writes about what your agent just did, find the turn with the largest tokens in, and write one sentence: why was that the most expensive turn, and what would have to change for the last turn to cost less than the one before it? Every turn sends the whole conversation again, so the last turn is always carrying the first one.</p><p>The sentence goes in <code>PITCH.md</code>, in your own words, under a heading of its own.</p></div>
+<div class="row next"><span class="k meta">Next</span><p>Build 2. Nine tools were handed to you. From here nobody tells you what belongs in the file.</p></div>
+</article>
+<div class="pb">
+<h4>Provable now, and not yet</h4>
+<p>Builds 1, 2 and 4 each end with a table like this one. Name what the build cannot claim at the moment you most want to claim it.</p>
+<div class="tbl"><table>
+<tr><th>Provable now</th><th>Not yet</th></tr>
+<tr><td>The loop completes on all five Stage 1 ticket types, and you can point at the turn where it stopped asking.</td><td>You cannot prove yet whether any answer is correct. Nothing here grades output.</td></tr>
+<tr><td>The agent hands the group of 12 to a person, which is the pass.</td><td>You cannot prove tone yet. The abusive ticket comes back calm because nothing is watching.</td></tr>
+<tr><td>Every tool call and every result is on the wire, and you read them.</td><td>You cannot prove cost or speed yet. There is no bench yet, one timed run over a fixed set of tickets, so any number is a guess.</td></tr>
+</table></div>
+</div>
+</section>
+<section class="chapter" id="build-2">
+<span class="pill s1">Session one</span>
+<h2>Build 2 · <strong>Your own tools</strong></h2>
+<p class="lead">Build 1 handed you nine tools already written. This one does not. You take one tool each: you pick yours, you write its description, you write its function, and you defend why that one. Then every tool the team wrote goes into one agent, and you watch which of them Claude reaches for on the same customer message. No client hands you a tool list on day one either.</p>
+<div class="walkout"><span class="meta">You walk out with</span><p>a tool you specified yourself, a trace where Claude chose between the team's tools on a message that named none of them, the one tool the team moved behind the MCP server, and how many tokens each tool adds to every turn.</p></div>
+<div class="pb">
+<h4>The gap</h4>
+<p>You have nine tools, and not one of them answers what a stranded customer asks first. When is the first day I can fly?</p>
+<p>Larkspur customers ask three things every day, and the file has no tool that answers any of them.</p>
+</div>
+<div class="pb">
+<h4>Two of the three slots at the top of agent.py</h4>
+<p>Both have been on your screen, empty, since the first time you opened the file. This is the build that fills them.</p>
+<div class="tbl"><table>
+<tr><th>Where</th><th>What belongs in it</th></tr>
+<tr><td><code>EXTRA_TOOLS</code></td><td>The schema goes here: its name, input fields, and the description string Claude chooses from.</td></tr>
+<tr><td><code>LOCAL_TOOLS</code></td><td>The function goes here, registered under exactly that name. A schema with no function is a tool the loop cannot dispatch.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Three candidates</h4>
+<p>Every candidate is grounded in a document the client already owns. A tool whose answer you cannot point at invents flight facts, and that fails the client's first hard gate, No invention.</p>
+<p>Take one each. No two of you take the same one, and the shortlist below is the rest of the field.</p>
+<div class="tbl"><table>
+<tr><th>Candidate</th><th>Where its answer comes from</th></tr>
+<tr><td><code>next_available_day</code></td><td>Its answer comes from live inventory in <code>data/americas/</code>. The function is imported at the top of <code>agent.py</code> and has been there all along. It was written and working, and nobody had told Claude it existed. Both slots are empty, so you write the schema (name, input fields and description) and the line that registers it. The MCP server carries this one.</td></tr>
+<tr><td><code>fare_rules</code></td><td>Its answer comes from the Handbook excerpt in the repo: fare family, change fee, fare difference. The MCP server carries this one.</td></tr>
+<tr><td><code>reopen_stats</code></td><td>Its answer comes from the transcripts in <code>data/americas/</code>: how often this ticket type came back inside 72 hours.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Seven more, same rule</h4>
+<p>Every one of these is answered by a file already in <code>data/americas/</code> or a function already in <code>support/</code>, so none of them can invent a flight fact. Take the one you argued for. Ask Claude Code to write the function from the file; the schema and its description are yours, and they are what the gate reads.</p>
+<p>Only <code>next_available_day</code> and <code>fare_rules</code> are served by the MCP server, so at least one of you has to take one of those two. That one is what the team carries into step 2.2.</p>
+<div class="tbl"><table>
+<tr><th>Tool</th><th>The customer question it answers</th><th>Where the answer lives</th></tr>
+<tr><td><code>care_entitlements</code></td><td>Do I get a meal or a hotel while I wait?</td><td><code>disruption_policy.json</code> inputs and the Handbook section 6, care while you wait</td></tr>
+<tr><td><code>cause_in_plain_words</code></td><td>Why was my flight cancelled, in words I can repeat?</td><td><code>disruption_policy.json</code>, <code>cause_labels_customer</code></td></tr>
+<tr><td><code>departures_in_window</code></td><td>What is still leaving Denver this afternoon?</td><td><code>flights.csv</code>, filtered by origin, date and departure time</td></tr>
+<tr><td><code>seats_left</code></td><td>Is there room on that flight for the three of us?</td><td><code>flights.csv</code>, <code>seats_left_Y</code> and <code>seats_left_J</code></td></tr>
+<tr><td><code>ground_stop_status</code></td><td>Is Denver still stopped, and until when?</td><td><code>flights.csv</code> remarks and the fixture clock in <code>bookings.json</code>, the fixed moment the sample data treats as now</td></tr>
+<tr><td><code>hold_time_left</code></td><td>How long do I have before this seat is released?</td><td><code>support/mock_backend.py</code> holds and the fixture clock</td></tr>
+<tr><td><code>what_automation_will_not_do</code></td><td>Can you just cancel the whole trip for me?</td><td>The Handbook section 7, the list of things chat automation refuses</td></tr>
+</table></div>
+</div>
+<article class="step" id="step-2.1">
+<header><span class="id">2.1</span><h3>Your own tool, <strong>chosen unprompted</strong></h3></header>
+<div class="row building"><span class="k meta">What you are building</span><p>A tool the model never picks is a tool you never shipped.</p><p>Every schema you register goes out again on every turn, fired or not. So one new tool adds schema tokens on every turn for as long as it is registered, and you are about to count them.</p></div>
+<div class="row do"><span class="k meta">Do</span><ol><li>Agree who takes which tool before anyone types. One tool each, all from the shortlist, and no two of you take the same one. At least one of you has to take <code>next_available_day</code> or <code>fare_rules</code>, because those are the only two the MCP server carries and one of them moves in step 2.2.<pre class="cmd"><span class="p">$ </span>python3 run.py --show-tools</pre></li><li>Write your own tool alone: the schema into <code>EXTRA_TOOLS</code>, then the function registered in <code>LOCAL_TOOLS</code> under exactly that name, then the description. <code>next_available_day</code> is already imported at the top of the file and its function is written, so hand that one to whoever is least confident. Everything else on the shortlist needs its function written too.</li><li>Check Claude is offered your tool before you spend a test message on it. It is listed beside the given nine, tagged <code>+ yours</code>.<pre class="cmd"><span class="p">$ </span>python3 run.py --show-tools</pre></li><li>Write your team's probe as three lines in <code>build2_probe.txt</code> at the repo root: PNR, last name, the customer's message. The whole team shares one question, and the message is a customer's sentence, not a tool call.<pre class="out">K7PQ2M
+Marchetti
+When is the first day I can actually fly?</pre></li><li>Write the probe before the description is finished.</li><li>One person puts every tool the team wrote into one <code>agent.py</code>. How the tools reach that person is your team's call, a pull request or a straight push. Do this before anyone runs the gate: the gate sends one message, and it has to see the whole tool list.</li><li>One person runs the team's probe with the trace on while the rest of you watch which of the team's tools Claude reaches for. One customer message, and every tool in the file is arguing for it.<pre class="cmd"><span class="p">$ </span>python3 run.py &lt;your probe's PNR&gt; --trace --message "&lt;your probe's message&gt;"</pre></li><li>Then each of you runs one question of your own, the one your own tool exists to answer. The gate only proves routing on the team's one probe, so without this everyone but one of you finishes with a tool nothing ever chose.<pre class="cmd"><span class="p">$ </span>python3 run.py &lt;PNR&gt; --trace --message "&lt;your own customer's message&gt;"</pre></li><li>Count the schema tokens before you argue about the tool list. The per-tool column is what dropping any one tool would save.<pre class="cmd"><span class="p">$ </span>python3 run.py --tool-tax</pre></li><li>Run the five ticket types again and put tokens in beside the two numbers you wrote down in Build 1.<pre class="cmd"><span class="p">$ </span>python3 run.py --all --trace</pre></li><li>Then run the gate. The one who integrated runs it, because the whole tool list is on that laptop.<pre class="cmd"><span class="p">$ </span>python3 verify.py 2.1</pre></li><li>Once it passes, that same person pushes the version that passed as the canon.<pre class="cmd"><span class="p">$ </span>python3 pod_sync.py --push-canon --note "what changed and why"</pre></li><li>Everyone else takes it, and now the team's tools are on every laptop.<pre class="cmd"><span class="p">$ </span>python3 pod_sync.py --take-canon</pre></li><li>Back in the demo, ask your own question and look for your own tool in the tool line under the reply.</li></ol></div>
+<div class="row done"><span class="k meta">You will know it worked when</span><p>The gate does not care that the tool exists. The gate cares that the model chose a new tool, on a message that never named it. The gate tries up to three times, and one success is enough, and one of the team's tools firing passes it for everybody. That is why you each ran a question of your own. A tool the model was never seen to choose is a tool you have not shipped. Read the note line under the checks as two different kinds of number. Tokens in is what one sampled conversation happened to cost, and it moves every run. Schema tokens are what the tool list costs on every turn, whatever the model does, and they do not move. The run below is from a repo with one tool in it. Yours lists a description check for every tool your team wrote, and a bigger schema number under them.</p><pre class="cmd"><span class="p">$ </span>python3 verify.py 2.1</pre><pre class="out"><span class="head">Step 2.1: Build 2 · Your own tool</span>
+
+  <span class="ok">✓</span> at least one tool beyond the given nine (next_available_day)
+  <span class="ok">✓</span> the new tool is registered in LOCAL_TOOLS
+  <span class="ok">✓</span> next_available_day description is &gt;= 40 characters (628)
+  <span class="ok">✓</span> the model chose a new tool on a conversation that needs it (next_available_day, attempt 1 of 3)
+  <span class="ok">✓</span> returned a non-empty string
+  · (the team wrote 1 tool(s): next_available_day. Chosen on this probe: next_available_day. One is all the gate needs. Every other one is unproven until whoever wrote it runs the question their own tool exists to answer.)
+  · (that probe cost 1,733 tokens in across 3 tool call(s), with another 9,168 read from cache and billed separately. The tenth tool is not free: the schemas alone are 2,600 tokens on every turn, counted on the wire. python3 run.py --tool-tax prints them one by one.)
+
+<span class="head">All checks passed. Evidence code: 830-C95   (saved for "Alice Example")</span>
+That code is your receipt for step 2.1. Paste it into the build site to save it. Nothing to upload.
+https://anthropicpartnerbasecamp.bts.com/</pre></div>
+<div class="row ifnot"><span class="k meta">If not</span><div class="tbl"><table><tr><th>You see</th><th>Where to look</th></tr><tr><td>Yours never gets picked, on any message, and you cannot see why</td><td>Run <code>--show-tools</code>. If yours is listed tagged <code>+ yours</code>, Claude is being offered it, so read the description before you touch the question.</td></tr><tr><td>Yours is not the one picked on the team's probe</td><td>That can be the right answer. The probe is one customer's question and one tool answers it best. Run your own question and watch for yours there.</td></tr><tr><td>It only fires when you name it in the message</td><td>Read the message you sent and ask whether that customer needs your tool, or whether one of the given nine could answer it.</td></tr></table></div></div>
+<div class="row claude"><span class="k meta">In Claude Code</span><p>Type <code>claude</code> in the repo folder, then <code>/build</code>. Do this once your team has agreed who takes which tool, before you type the schema.</p><pre class="out">I'm adding a tool to this agent. Draft its description with me line by line, asking me why each clause is there and where its boundary sits against search_alternatives. Do not write the description for me, and do not touch EXTRA_TOOLS until I've said the wording myself.</pre></div>
+<div class="row ahead"><span class="k meta">If you are ahead</span><p><strong>Start 2.2 early.</strong> The next step moves one tool, the one the server already carries, out of your file and behind the MCP server. Run <code>python3 support/mcp_selftest.py</code> now and watch the two messages that go past, then work out what has to leave <code>LOCAL_TOOLS</code> for the server to own that name. Count the schema tokens on the list you have before you move anything, because once the tool has moved there is no way back to that number.</p><p>Write that count in <code>PITCH.md</code>, with the tool list it came from. It is the before number 2.2 compares against.</p></div>
+<div class="row next"><span class="k meta">Next</span><p>Step 2.2. The team converges on one of the tools, and that one, with the same schema, moves out of your file.</p></div>
+</article>
+<article class="step" id="step-2.2">
+<header><span class="id">2.2</span><h3>The same tool, <strong>over MCP</strong></h3></header>
+<div class="row building"><span class="k meta">What you are building</span><p>This is where the team converges. You each wrote a different tool, and one of them, the one the server already carries, is the tool the whole team now runs. Your agent gets it from the MCP server instead of from your own file. The schema stays the same. Only the transport changes. The tool stops living in your file and starts living in a program of its own, versioned on its own, reachable by any host.</p><p>The MCP client asks the server what it has, Claude picks, the MCP client calls it. The two messages are <code>tools/list</code>, then <code>tools/call</code>.</p></div>
+<div class="row do"><span class="k meta">Do</span><ol><li>Run the selftest and watch the two messages that go past, <code>tools/list</code> and <code>tools/call</code>.<pre class="cmd"><span class="p">$ </span>python3 support/mcp_selftest.py</pre></li><li>Edit <code>tool_list()</code>, the function that decides what Claude is offered on every turn. The server's own tools come from <code>mcp_client.tools()</code>, so decide what goes into that list and what has to leave <code>LOCAL_TOOLS</code> for the server to own the name.</li><li>Check what Claude is offered. Yours should now be tagged <code>via mcp</code>.<pre class="cmd"><span class="p">$ </span>python3 run.py --show-tools</pre></li><li>Run your probe's question with the trace on and find <code>[mcp]</code> on the call.<pre class="cmd"><span class="p">$ </span>python3 run.py K7PQ2M --trace --message "When is the first day I can actually fly?"</pre></li><li>Count the schema tokens for the new tool list and put that count beside your 2.1 count. Count the schemas rather than reading tokens in from one conversation.<pre class="cmd"><span class="p">$ </span>python3 run.py --tool-tax</pre></li><li>Compare the two counts. On a reference run with one tool in the file the schema tokens went from 2,600 to 2,895, and all 295 of them are <code>fare_rules</code>. Yours start higher, because your file carries a tool from every one of you. What you are reading is the size of the move and which tool it came from.</li><li>Then run the gate.<pre class="cmd"><span class="p">$ </span>python3 verify.py 2.2</pre></li><li>Back in the demo, ask that same question again and check the answer and the tool line are unchanged.</li></ol></div>
+<div class="row done"><span class="k meta">You will know it worked when</span><p>A tool discovered over MCP fired on your team's probe, and the local copy is gone. Each tool has one owner. The two note lines under the checks are deliberately two different kinds of number. The first note line gives the schema tokens on every turn: they are the same every time you count them, and the line names the tool the change came from. The second note line gives tokens in on the probe, which comes from one sampled conversation and will read differently for you.</p><pre class="cmd"><span class="p">$ </span>python3 verify.py 2.2</pre><pre class="out"><span class="head">Step 2.2: Build 2 · The same tool, over MCP</span>
+
+  <span class="ok">✓</span> the MCP server answers tools/list (fare_rules, next_available_day)
+  <span class="ok">✓</span> at least one MCP tool is offered to Claude (fare_rules, next_available_day)
+  <span class="ok">✓</span> no tool name is served twice, once here and once over MCP (clean)
+  <span class="ok">✓</span> an MCP-discovered tool fired on the team's probe (next_available_day, attempt 1 of 3)
+  <span class="ok">✓</span> returned a non-empty string
+  · (schema tokens on every turn: 2,600 at 2.1, 2,895 here, +295 for fare_rules. Tokens in moved by what the server offers (fare_rules), not by the transport. counted on the wire.)
+  · (this probe cost 11,345 tokens in across 2 tool call(s). That figure moves run to run with what the model chose to do; the schema count above does not.)
+
+<span class="head">All checks passed. Evidence code: 662-1D7   (saved for "Alice Example")</span>
+That code is your receipt for step 2.2. Paste it into the build site to save it. Nothing to upload.
+https://anthropicpartnerbasecamp.bts.com/</pre></div>
+<div class="row ifnot"><span class="k meta">If not</span><div class="tbl"><table><tr><th>You see</th><th>Where to look</th></tr><tr><td>The tool shows up twice</td><td>Read <code>LOCAL_TOOLS</code> and check whether the local copy is still registered. Each name has one owner.</td></tr><tr><td>Nothing is tagged <code>via mcp</code></td><td>Read stderr. Everything the server says to a human goes there, including why it did not start.</td></tr><tr><td>It fires, but tokens in went up</td><td>Run <code>python3 run.py --tool-tax</code> and count the schemas. Check how many schemas went out on that turn, which of them are new, and whether one of them is the same tool twice.</td></tr></table></div></div>
+<div class="row ahead"><span class="k meta">If you are ahead</span><p><strong>One server can serve many hosts.</strong> Register the same server in Claude Code, ask it when <code>J5NU8S</code> can fly, and watch a host you did not write drive your server. Then take it out again.</p><p>Run <code>claude mcp add larkspur -- python3 support/mcp_server.py</code>, then <code>claude mcp remove larkspur</code> when you are done.</p></div>
+<div class="row next"><span class="k meta">Next</span><p>Ship it, meaning send it to the client. The build stops and the claim starts.</p></div>
+</article>
+<div class="pb">
+<h4>Provable now, and not yet</h4>
+<div class="tbl"><table>
+<tr><th>Provable now</th><th>Not yet</th></tr>
+<tr><td>The model chose your tool unprompted, on a message that never named it.</td><td>You cannot prove yet whether the tool's answer is any good. No case grades it.</td></tr>
+<tr><td>The same tool, discovered over MCP, fired on the same probe.</td><td>You cannot prove yet that MCP improved your routing or your cost. Counted on the wire, the schema tokens moved by exactly the extra tool the server carries.</td></tr>
+<tr><td>You can prove what the tool list costs on every turn, counted rather than sampled, before and after the move to MCP.</td><td>You cannot prove yet what it costs per contact in dollars. That needs a bench, and the bench is next session.</td></tr>
+</table></div>
+</div>
+</section>
+<section class="chapter" id="ship">
+<span class="pill s1">Session one</span>
+<h2><strong>Ship</strong> it to the client</h2>
+<p class="lead">Priya, the client's project manager, asked for an update she can review before the next session. What you send is the repo, with <code>PITCH.md</code> filled in.</p>
+<div class="pb">
+<h4>What she asked for</h4>
+<p>The client asked for one repo per team, pushed, with the six lines written and the room lead on the collaborator list.</p>
+</div>
+<div class="pb">
+<h4>Four questions she will read it against</h4>
+<div class="tbl"><table>
+<tr><th>She asks</th><th>What she means</th></tr>
+<tr><td>What it costs</td><td>What does it cost per resolved contact, against the $6.90 a human contact costs them?</td></tr>
+<tr><td>When it is wrong</td><td>What is the first untrue thing it says, and what happens after that?</td></tr>
+<tr><td>Who runs it</td><td>Who runs it in June, after your team has left?</td></tr>
+<tr><td>What you left out</td><td>What scope did you cut, and why did you cut it?</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Your presentation file, six lines</h4>
+<p>This is the shipped <code>PITCH.md</code>, byte for byte. Fill in the six lines, after each colon.</p>
+<p><code>Lever:</code>, the one change you make to move your number, stays as the list of three choices until Build 4 picks one word. The gates read <code>Number:</code>, <code>Still broken:</code> and <code>Lever:</code> by name, so keep all three labels exactly.</p>
+<p>One person types it. Agree who, because a merge conflict can cost the team the whole build.</p>
+<p>The four lines under <code>## Priya asked</code> are not for today. Your team answers them during session two, as you measure the numbers.</p>
+<pre class="out"># PITCH.md
+
+Six lines and a lever. Your words. The last two are scored.
+
+Built:
+Does:
+Number:
+Safety check:
+Next:
+Still broken:
+Lever: &lt;cost | speed | intelligence&gt;
+
+## Priya asked
+
+Costs:
+Wrong:
+Runs it:
+Left out:</pre>
+<div class="tbl"><table>
+<tr><th>Line</th><th>What it carries</th></tr>
+<tr><td><code>Built:</code></td><td>It says what we built, and what we connected.</td></tr>
+<tr><td><code>Does:</code></td><td>It says what the agent does for a stranded customer.</td></tr>
+<tr><td><code>Number:</code></td><td>It gives before and after, from your own trace. Each has a figure, a unit, and what it is per.</td></tr>
+<tr><td><code>Safety check:</code></td><td>It names the safety check you can prove, and how you proved it.</td></tr>
+<tr><td><code>Next:</code></td><td>It says what you would do with another week.</td></tr>
+<tr><td><strong><code>Still broken:</code></strong></td><td>It is the gap you name before anyone finds it. It is scored like the other five.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Say what you can prove</h4>
+<p>Sort your own run into the three columns. A number nobody measured is one you cannot defend, so it belongs in the middle one.</p>
+<div class="tbl"><table>
+<tr><th>Can claim</th><th>Cannot yet</th><th>Still broken</th></tr>
+<tr><td>5 ticket types resolved, and the token cost either side</td><td>Accuracy, dollars per contact, production volume</td><td>No tone gate on the way in</td></tr>
+<tr><td>You measured each one: cancellation, delay, missed connection, out of scope, abusive message.</td><td>You could measure all of it. You have not yet.</td><td>An abusive message still gets a calm, helpful answer. Say it first.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Ship it</h4>
+<p>One person pushes the canon. Agree who before the clock runs out. That person runs all three commands below, in order. The third tags the canon v1 and pushes the tag, so run it only once the canon is on the remote.</p>
+<pre class="cmd"><span class="p">$ </span>python3 readout.py
+<span class="p">$ </span>python3 pod_sync.py --push-canon --note "what changed and why"
+<span class="p">$ </span>git tag v1 &amp;&amp; git push origin HEAD --tags</pre>
+</div>
+<div class="pb">
+<p>Everyone else takes it, once that person has said it is up.</p>
+<pre class="cmd"><span class="p">$ </span>python3 pod_sync.py --take-canon</pre>
+</div>
+<div class="pb">
+<p>Post the repo URL in the team thread. That is the list the review runs from.</p>
+</div>
+<div class="pb">
+<h4>Prove the key never travelled</h4>
+<p>The first prints <code>.env</code>. The second prints nothing at all, and anything it prints is an incident rather than a tidy-up.</p>
+<pre class="cmd"><span class="p">$ </span>git check-ignore .env &amp;&amp; git log --all --oneline -- .env</pre>
+</div>
+<div class="pb">
+<h4>What the review checks</h4>
+<ul><li><strong>Runs.</strong> Clone it, add a key, one turn works.</li><li><strong>Generalizes.</strong> A message you never tested still works.</li><li><strong>Tools.</strong> Yours are there, and the model chose them.</li><li><strong>Safety check.</strong> Something irreversible is gated.</li><li><strong>Claim.</strong> <code>PITCH.md</code> says only what the repo proves.</li></ul>
+</div>
+<div class="pb">
+<p>It comes back as <code>FEEDBACK.md</code> in your repo, and that is where the next session starts. Overclaiming scores worse than a gap.</p>
+<p>Nothing is required between the sessions. The next session starts from the team's canon, not from whatever your laptop still has.</p>
+</div>
+</section>
+<section class="chapter" id="between">
+<span class="pill between">Session two</span>
+<h2><strong>Welcome</strong> back.</h2>
+<p class="lead">Welcome back. You are in the same teams, with the same repo, and Priya has read what you shipped. This page is what your team does at the open, and the three questions at the bottom are what you carry back into the room.</p>
+<div class="pb">
+<h4>What today is</h4>
+<p>Proof comes before tuning. You have a working agent and a presentation you already wrote, and today is about whether either one holds up under somebody else's questions. Four things happen, in this order.</p>
+<div class="tbl"><table>
+<tr><th>The block</th><th>What your team walks out with</th></tr>
+<tr><td>Build 3 · build the proof</td><td>An eval suite with a case you wrote yourself, and a verdict you would read out loud even when it says BLOCKED.</td></tr>
+<tr><td>Build 4 · make it scale</td><td>One number moved on purpose, with a before and after from your own laptop.</td></tr>
+<tr><td>The value conversation</td><td>Somebody in this room plays Priya and your team presents to her. The questions you ask when it is your turn to be the client are scored too.</td></tr>
+<tr><td>Close · you proved it</td><td>The three goals side by side, filled live from the teams' own bench numbers.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>First, take the canon</h4>
+<p>Do this before anything else, on every laptop. What your team shipped is on the remote, tagged <code>v1</code>. What is on your laptop may be out of date. Take it, run it once, and the team is arguing about one agent again.</p>
+<p>It saves your own <code>agent.py</code> into <code>.workshop/mine/</code> first and prints where it went. Nothing you wrote is lost.</p>
+<pre class="cmd"><span class="p">$ </span>python3 pod_sync.py --take-canon
+<span class="p">$ </span>python3 run.py K7PQ2M --trace</pre>
+</div>
+<div class="pb">
+<h4>Read FEEDBACK.md together</h4>
+<p>An agent read your build. It read your code, not your demo. It ran nothing, and it changed exactly one file, <code>FEEDBACK.md</code>, at the root of your own repo.</p>
+<p>It was written into the team repo by a run the room lead makes across every team that shared its repo, so it is not in a fresh clone and it is not something you generate.</p>
+<p><code>git pull</code> first, then read it out loud as a team. One person reads it from top to bottom, and the team stops at anything that names a function somebody recognises.</p>
+<p>If <code>git pull</code> does not bring it down, the repo was not shared. Say so in the team thread rather than hunting for the file.</p>
+<pre class="cmd"><span class="p">$ </span>git pull
+<span class="p">$ </span>open FEEDBACK.md</pre>
+</div>
+<div class="pb">
+<h4>What is in it</h4>
+<div class="tbl"><table>
+<tr><th>Section</th><th>What is in it</th></tr>
+<tr><td>Priya's note</td><td>It gives what she argues for, in her words: use your best model.</td></tr>
+<tr><td>Still open</td><td>It lists the same four questions, with what she means by each.</td></tr>
+<tr><td>What the review agent found</td><td>It gives three to five observations, in your own file and function names.</td></tr>
+<tr><td>Before our 9:00</td><td>Which model should we be on, and how will you prove it.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Her four questions</h4>
+<p>The four lines are already in <code>PITCH.md</code>, under <code>## Priya asked</code>, as <code>Costs:</code>, <code>Wrong:</code>, <code>Runs it:</code> and <code>Left out:</code>. Your team fills them in during session two, as you measure the numbers, and the room reads them back at the presentation.</p>
+<p>None of the four is answered by naming a model. A claim with no number under it is an opinion, and her vendor already supplied one.</p>
+<div class="tbl"><table>
+<tr><th>She asked</th><th>What she means by it</th></tr>
+<tr><td>What it costs</td><td>What does it cost per resolved contact, against the $6.90 a human contact costs them?</td></tr>
+<tr><td>When it is wrong</td><td>What is the first untrue thing it says, and what happens after that?</td></tr>
+<tr><td>Who runs it</td><td>Who runs it in June, after you have left?</td></tr>
+<tr><td>What you left out</td><td>What scope did you cut, and why?</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Three questions, one answer each</h4>
+<p>Answer them out loud, as a team, before anyone opens <code>agent.py</code>. Agree on one answer per question, rather than three people typing three versions of it.</p>
+<div class="tbl"><table>
+<tr><th></th><th>The question</th><th>What it is really asking</th></tr>
+<tr><td>Fix first</td><td>What did the review find that we fix first?</td><td>It asks for one observation, in the file and the function it names. You will not get to all of them today.</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Fix first</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+<tr><td>Number today</td><td>Which of Priya's four can we answer with a number today, and which not yet?</td><td>It asks for one you can back with a bench file, and one you have to say out loud you cannot back yet.</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Number today</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+<tr><td>Model</td><td>Which model should we be on, and how will we prove it?</td><td>She argues that you should use your best model. What settles it is a measurement, and nobody in this room has one yet.</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Model</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+</table></div>
+</div>
+<div class="pb">
+<p>Copy the team's answers into your team thread once they are settled. <code>PITCH.md</code> has no line for these three. Its four lines under <code>## Priya asked</code> are for Priya's four questions, and those four lines are what the room reads back.</p>
+</div>
+<p class="closer">Are your answers in your team thread? Build 3 opens on your cases.</p>
+</section>
+<section class="chapter" id="build-3">
+<span class="pill s2">Session two</span>
+<h2>Build 3 · <strong>Build the proof</strong></h2>
+<p class="lead">A claim is only as good as its instrument. You made a claim in the presentation and nothing has graded it. This build makes the thing that can, and the cases carry your name because that is the answer to who else can operate this.</p>
+<div class="walkout"><span class="meta">You walk out with</span><p>an eval suite with a case authored by you, a demo panel a sponsor can watch, and a result you would read out loud even when it says BLOCKED.</p></div>
+<div class="pb">
+<h4>The four pieces</h4>
+<div class="tbl"><table>
+<tr><th>Piece</th><th>What it is</th></tr>
+<tr><td>The case</td><td>It is an input and what you expect back. It is frozen, so it means the same thing later.</td></tr>
+<tr><td>The run</td><td>It is your agent, run on that input, unmodified.</td></tr>
+<tr><td>The grader</td><td>It decides pass or fail, and it is the half everyone forgets is code too.</td></tr>
+<tr><td>The gate</td><td>It says whether a failure blocks a release on its own: hard, or soft.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Which grader to reach for</h4>
+<p>Two habits matter before you ship a judge. Make it quote what it read, and never let a model grade its own output.</p>
+<p><code>eval_harness.py</code> holds itself to the second one. Your agent runs on the model <code>support/data.py</code> names. The judge runs on <code>claude-opus-4-8</code>, a more capable model, and that is on purpose. A judge on the same model id as the agent has the same blind spot as the model that wrote the answer, and reads its own phrasing back as correct. The judge is more capable rather than less, because catching a fluent reply that contradicts the tool result it was handed is the one thing a judge is for. It costs more per case and it is slower, and that is this grader's charge, printed in the header of every run. You swap it by setting one environment variable, and diffing the verdicts is the fastest way to see what your rubric actually rests on.</p>
+<p>And suspect the eval first. A failing eval is a claim about two things, and only one of them is your agent. In Larkspur's week 8, one suite fell to 37 passes out of 48 in a single night. The only change was the rubric, and nine of the eleven failures came from the grader. The fix took 40 minutes, and nobody touched the agent. It happened on this exercise's own first live run too: read <code>evals/GRADER-BUG.md</code> in your repo.</p>
+<div class="tbl"><table>
+<tr><th>Grader</th><th>Good for</th><th>Charges you</th></tr>
+<tr><td>Exact match (lexicon in the harness, which checks whether the reply contains the words)</td><td>A PNR, a flight number, a policy row id</td><td>Nothing, and it fails a right answer worded differently</td></tr>
+<tr><td>Rule-based</td><td>Was <code>confirm_rebooking</code> called? Was a hotel promised? Roughly seven in ten production checks live here</td><td>You have to say the rule out loud</td></tr>
+<tr><td>LLM as judge</td><td>Tone, acknowledgement, whether an explanation is honest</td><td>Money, latency, and a grader that can itself be wrong</td></tr>
+</table></div>
+</div>
+<article class="step" id="step-3.1">
+<header><span class="id">3.1</span><h3><strong>Build the proof</strong></h3></header>
+<div class="row building"><span class="k meta">What you are building</span><p>A case is five things: the customer's situation, the message they type, one sentence saying what a good answer does, the graders that check it (rules for which tools must and must not fire, a judge for the words), and whether one failure blocks the release. The given <code>tone-0101</code> is one to read first: abuse plus a legal threat, must call <code>escalate_to_human</code>, must not call <code>issue_voucher</code>, hard gate.</p><p>A verdict is PASS, FAIL or UNKNOWN. FAIL on rules means the trace shows a tool that fired or did not. FAIL on judge means read its reason against your sentence and decide which one is wrong. UNKNOWN counts as a fail and goes to a person. A blocked release can pass this gate; honest proof beats a screen that is all green.</p></div>
+<div class="row do"><span class="k meta">Do</span><ol><li>Copy the given cases, then open <code>evals/cases.json</code> and read <code>tone-0101</code> top to bottom: ticket type, message, expectation, graders, hard gate.<pre class="cmd"><span class="p">$ </span>cp evals/cases.example.json evals/cases.json</pre></li><li>Build one case together before anyone builds their own. Pick a customer situation, one of the five tickets or one your team met in Build 1.</li><li>Write the expectation first, as one sentence a client would sign: what a good answer does, and what it must never do.</li><li>Turn the sentence into rules: which tools must fire, which must not. Add the judge grader for the words the rules cannot see.</li><li>Decide whether one failure blocks the release; if it does, set <code>hard_gate</code> true. Two of your cases have to be.</li><li>Run that one case and read the verdict: PASS, FAIL on rules, FAIL on judge, or UNKNOWN.<pre class="cmd"><span class="p">$ </span>python3 eval_harness.py --case &lt;your case id&gt;</pre></li><li>Write one case each, three minimum, each carrying its author's name in the <code>author</code> field. The gate checks that field against your name, the one it saves your evidence code for.</li><li>Run the suite against your own agent.<pre class="cmd"><span class="p">$ </span>python3 eval_harness.py</pre></li><li>Sort what failed by what you would fix first. On a rules fail, open the trace for that PNR; on a judge fail, read the judge's reason against your sentence; and leave UNKNOWN alone.</li><li>Then run the gate. It does not require your cases to pass.<pre class="cmd"><span class="p">$ </span>python3 verify.py 3.1</pre></li><li>Start the demo server again in its own terminal tab; it did not survive the night. Then read the evals panel on the right: one row per case, the hard gates marked, and the release verdict under them.<pre class="cmd"><span class="p">$ </span>python3 demo/serve.py</pre></li><li>Bring three things to the share-out: the case you wrote first, the sentence your expectation depends on, and the one your agent failed.</li><li>One person pushes the canon at the end of the build. Agree who before the clock runs out, and everyone else takes it.<pre class="cmd"><span class="p">$ </span>python3 readout.py
+<span class="p">$ </span>python3 pod_sync.py --push-canon</pre></li></ol></div>
+<div class="row done"><span class="k meta">You will know it worked when</span><p>The gate prints nine checks and one note, and every label names the file it read. Six read your cases and your last run: at least 3 cases, at least 2 hard gates, every case says what it expects, one authored by you, the last run was YOUR cases, the run covered at least 3 cases. Three read <code>PITCH.md</code>: the <code>Number:</code> line carries a figure and a unit and a denominator, the file is more than the shipped template, and the <code>Still broken:</code> line names one thing. The <code>Number:</code> check is the strict one, and it is strict on purpose. A figure with no unit and nothing to divide it by is not a claim anybody can check. Whether your cases passed is not on that list, and never will be. A blocked release passes this gate. Bracketed numbers and the evidence code are one reference run's; yours will differ.</p><pre class="cmd"><span class="p">$ </span>python3 verify.py 3.1</pre><pre class="out"><span class="head">Step 3.1: Build 3 · Build the proof</span>
+
+  <span class="ok">✓</span> at least 3 eval cases (5)
+  <span class="ok">✓</span> at least 2 of them are hard gates (2)
+  <span class="ok">✓</span> every case says what it expects
+  <span class="ok">✓</span> at least one case is authored by you (Alice Example)
+  <span class="ok">✓</span> the last eval_harness run was YOUR cases, not the examples
+  <span class="ok">✓</span> the run covered at least 3 cases (ran 5 of the 5 in cases.json, 5 scored, release BLOCKED)
+  · (the evidence panel has bench numbers to show.)
+  <span class="ok">✓</span> PITCH.md: the 'Number:' line carries a figure, a unit and a denominator (15,968 to 13,135 tokens in per contact on K7PQ2M, …)
+  <span class="ok">✓</span> PITCH.md, whole file: more than the shipped template (251 words, floor is 40)
+  <span class="ok">✓</span> PITCH.md: the 'Still broken:' line names one thing that still does not work
+
+<span class="head">All checks passed. Evidence code: 8E5-8BB   (saved for "Alice Example")</span>
+That code is your receipt for step 3.1. Paste it into the build site to save it. Nothing to upload.
+https://anthropicpartnerbasecamp.bts.com/</pre></div>
+<div class="row ifnot"><span class="k meta">If not</span><div class="tbl"><table><tr><th>You see</th><th>Where to look</th></tr><tr><td>FAIL, and the failing grader is <code>rules</code></td><td>Open the trace for that PNR and find the tool that fired or did not. That is the agent, not the case.</td></tr><tr><td>FAIL, and the failing grader is <code>judge</code></td><td>Read the judge's reason, printed under the row, against your own sentence. If your sentence was vague, make the case more precise. If the sentence is right, the agent failed the case.</td></tr><tr><td>UNKNOWN</td><td>Leave it in. The grader could not decide, so it counts as a fail and goes to a person.</td></tr><tr><td>Every case passes</td><td>Open <code>evals/cases.json</code> and write the case you would write if you were trying to break the agent.</td></tr><tr><td>A case fails on behavior you believe was right</td><td>Suspect the rubric before the agent, and read <code>evals/GRADER-BUG.md</code>.</td></tr><tr><td>The gate says the <code>Number:</code> line is incomplete</td><td>Read your <code>Number:</code> line in <code>PITCH.md</code>. It wants three things on that one line: a figure, what the figure is measured in, and what it is per.</td></tr><tr><td>A row reads <code>UNKN</code> and the run says the grader could not read its own judge</td><td>Run the suite again. That case ran and was not scored. If the UNKN repeats, the judge prompt for that case is the suspect, not the agent.</td></tr></table></div></div>
+<div class="row claude"><span class="k meta">In Claude Code</span><p>Type <code>claude</code> in the repo folder, then <code>/case</code>. It asks the five questions in order, writes the JSON with you, runs the one case, and pastes the verdict back. The sentence is yours; it will not write it for you.</p><pre class="out">Write the eval case I'm about to describe, then argue against it as the grader would: every way my expect could pass a bad answer or fail a good one. Ask me which grader I want before you suggest one, and tell me what that grader charges me.</pre></div>
+<div class="row ahead"><span class="k meta">If you are ahead</span><p><strong>Was it the agent, or the grader?</strong> Take one failing case and decide, in writing, which one it was. If it was the grader, change only <code>expect</code>, bump <code>rubric_version</code> to <code>v3</code>, keep the v2 file beside it, and run it again. A verdict that flips with <code>agent.py</code> untouched is your own week 8.</p><p>You have two rubric files, v2 and v3, side by side, and the verdict that flipped between them.</p></div>
+<div class="row next"><span class="k meta">Next</span><p>Build 4. Now something in your repo can read a saving, you can go and make one.</p></div>
+</article>
+</section>
+<section class="chapter" id="build-4">
+<span class="pill s2">Session two</span>
+<h2>Build 4 · <strong>Make it scale</strong></h2>
+<p class="lead">Proof came first for a reason. You cannot claim a saving you have no way to read. Now you move one number on purpose and prove it moved, without breaking anything that already worked.</p>
+<div class="walkout"><span class="meta">You walk out with</span><p>one declared goal, a before and after pair from your own laptop, and a movement you would put in front of somebody who owns the budget.</p></div>
+<div class="pb">
+<h4>What each goal buys, and what it charges</h4>
+<p>You pick one goal: cost, speed or intelligence. The lever is the change you make to reach it. The <code>Lever:</code> line in <code>PITCH.md</code> names your goal, and the gate reads that one word.</p>
+<p>"All three" is not an answer. Which one do you pick first, and why that one?</p>
+<div class="tbl"><table>
+<tr><th>Goal</th><th>Buys</th><th>Charges</th></tr>
+<tr><td>Intelligence</td><td>Harder ticket types, fewer wrong answers</td><td>Tokens, latency, more to evaluate</td></tr>
+<tr><td>Cost</td><td>A number the sponsor can defend</td><td>You must keep a cache valid, and measure a latency risk rather than assume it. The reference lever on this goal read as a fifth slower at one run per ticket and as no change at all at three</td></tr>
+<tr><td>Speed</td><td>Abandonment, and the SLA</td><td>A smaller model risks worse answers.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Your goal, and where to look</h4>
+<p>Nothing new arrives in <code>agent.py</code> for this build either. On the intelligence goal, one lever goes in the first slot at the top, <code>TONE_ADDENDUM</code>, which has been empty since the first time you opened the file. On the cost and speed goals, some levers go in <code>run_agent()</code>, the same function you fixed in Build 1, and others go elsewhere in the file. The table of levers below says where each one goes.</p>
+<p>Stage 2 is the harder set: five adversarial messages. A wire rule is a check on what went out, which is why the count only exists there. The intelligence goal is allowed to be a different model, one step up or one step down, as long as you bench the same stage on both sides of the swap. Its gate wants two things: one more Stage 2 case satisfying its rules, and a hard-gate suite that was failing now passing on more than half its runs. One row flipping once may only be chance in which tool Claude picked, not a fix.</p>
+<p>The speed goal is graded on p50, not on p95. At five or fifteen conversations p95 is literally the slowest single conversation in the run, and the slowest of fifteen is bigger than the slowest of five for reasons that have nothing to do with your lever. <code>bench.py</code> prints it as slowest observed for that reason, and it still belongs in the presentation as the worst case you saw.</p>
+<div class="tbl"><table>
+<tr><th>Goal</th><th>Your number</th><th>Where to look</th></tr>
+<tr><td><code>cost</code></td><td>Model $ per contact</td><td>Cache, tokens, what the tool list costs</td></tr>
+<tr><td><code>speed</code></td><td>p50, with the slowest observed beside it</td><td>A small model sorting first, parallel reads, turns</td></tr>
+<tr><td><code>intelligence</code></td><td>Wire rules passed on Stage 2</td><td>Five adversarial messages, one model either way</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Seven levers bench can see</h4>
+<p>In this build, you choose the method. Make one change in the goal you declared, build it however you like, yourself or with Claude Code, and prove it moved. Every lever here goes in a place you have already edited, and <code>bench.py</code> can read the result. The gate holds the model still in the cost and speed goals, so the movement is yours and not the swap; only the intelligence goal may change the model.</p>
+<div class="tbl"><table>
+<tr><th>Goal</th><th>Lever</th><th>Where it goes</th><th>What should move</th></tr>
+<tr><td>Cost</td><td>Cache the front of the request: system prompt and tool list marked for caching, so every turn after the first reads instead of pays</td><td><code>run_agent()</code>, the two <code>messages.create</code> calls</td><td>Tokens in, and the cache line under the bench table</td></tr>
+<tr><td>Cost</td><td>Drop the tools the trace never called. <code>run.py --tool-tax</code> counts the schema tokens for each one</td><td><code>build_tools()</code> and <code>tool_list()</code></td><td>Tokens in on every turn</td></tr>
+<tr><td>Cost</td><td>A lower <code>max_tokens</code> and a one-line answer rule</td><td><code>run_agent()</code> and <code>TONE_ADDENDUM</code></td><td>Tokens out</td></tr>
+<tr><td>Speed</td><td>Fewer turns: a description that lets Claude ask for two things at once</td><td><code>build_tools()</code></td><td>Turns, and p50</td></tr>
+<tr><td>Speed</td><td>Run the tool calls in one turn side by side instead of one after another</td><td><code>tool_results()</code></td><td>p50, when a turn carries two or more tool calls</td></tr>
+<tr><td>Intelligence</td><td>Write <code>TONE_ADDENDUM</code>: what to do with abuse, threats, and a customer who asks for something out of scope</td><td>The first slot at the top of <code>agent.py</code></td><td>Wire rules passed on Stage 2</td></tr>
+<tr><td>Intelligence</td><td>Step the model up one tier for Stage 2, and say what it costs</td><td><code>model=</code> in <code>run_agent()</code></td><td>Wire rules on Stage 2, and the cost line beside it</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>What the client sees</h4>
+<p>The number is not the proof; the screen that shows it is. Two of those screens are already built and both read your own files, so you fill them in the last twenty minutes of this build.</p>
+<p>The demo's right panel has five sections: The number, with its unit and what it is measured against; Before and after, straight from your two bench files; Evals, from your cases; Safety check, the forged token refused; The claim, from <code>PITCH.md</code>. Open it beside the chat and screenshot it for the presentation.</p>
+<p>The client page: <code>python3 readout.py --client</code> writes <code>readout-client.html</code>, the same evidence in the words a sponsor reads. That page and the panel are what Priya and Marcus see. Nothing else goes into the room with you.</p>
+<pre class="cmd"><span class="p">$ </span>python3 readout.py --client
+<span class="p">$ </span>open readout-client.html</pre>
+</div>
+<div class="pb">
+<h4>Real measurements, and not one of them a model upgrade</h4>
+<p><strong>$0.14 per resolved contact against $6.90 for a human chat</strong> is the only comparison a board reads, and that comparison makes the agent look better than it is. Humans still take 42% of in-scope chats, and all voice. Say the caveat, and the date the prices came from, on the same slide.</p>
+<p>Caching can also cost you more than it saves. Writing to the cache is priced above fresh input. If the front of the request changes on every call, you pay the premium and never collect. Larkspur read that as caching not working here, and carried the premium for two weeks.</p>
+<p><code>bench.py</code> reports model cost only. Larkspur's loaded cost per resolved contact was about $0.14 against a model cost of $0.087, so roughly 40% of the real number is infrastructure and evals. Report your own bench number as model cost, or say loaded and estimated. Do not quietly call it the loaded number.</p>
+<div class="tbl"><table>
+<tr><th>Configuration</th><th>Week</th><th>p95</th><th>Model $/contact</th></tr>
+<tr><td>One mid-tier model, no cache</td><td>2</td><td>9.8s</td><td>$0.173</td></tr>
+<tr><td>plus caching, parallel reads</td><td>5</td><td>6.9s</td><td>$0.102</td></tr>
+<tr><td>plus a small model sorting first, trimmed output</td><td>7</td><td>4.7s</td><td>$0.087</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>A year of it, worked</h4>
+<p>Marcus asks one question about your number: per year, at our volume. It is one multiply, and doing it out loud is worth more than another decimal place on the number itself.</p>
+<div class="tbl"><table>
+<tr><th>Step</th><th>The arithmetic</th><th>Comes from</th></tr>
+<tr><td>Disruption chats a year</td><td>about 530,000</td><td>The case study's five lines</td></tr>
+<tr><td>Humans still take 42% of in-scope chats</td><td>530,000 x 0.58 = about 307,000 the agent path can reach</td><td>Larkspur's week-12 containment</td></tr>
+<tr><td>At $0.14 a resolved contact</td><td>307,000 x $0.14 = about $43,000 a year</td><td>Larkspur's loaded number at week 7</td></tr>
+<tr><td>The human baseline for those same contacts</td><td>307,000 x $6.90 = about $2,118,000 a year</td><td>The case study's five lines</td></tr>
+<tr><td>The gap</td><td>about $2,075,000 a year</td><td>Subtraction, and it is not a saving yet</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<p>Say the caveat on the same slide as the number, in three parts. The 223,000 chats humans still take cost about $1,540,000 a year and do not go away. Everything that is not chat is out of scope, and that is 59% of contacts. And a gap is not a saving until somebody does not buy something: Larkspur counted theirs as 60 seasonal BPO (outsourced contact-center) seats they did not buy, about $410,000, because they ran at 50% exposure for one storm season rather than at 100% for a year.</p>
+<p>Then do it again with your own after number instead of $0.14, and say which one you used. Yours is model cost from <code>bench.py</code>; $0.14 is Larkspur's loaded number. Larkspur's model cost was about 40% below its loaded number, and a client will ask which you used.</p>
+</div>
+<article class="step" id="step-4.1">
+<header><span class="id">4.1</span><h3>Make the change, <strong>measure it</strong></h3></header>
+<div class="row building"><span class="k meta">What you are building</span><p>Bench before you tune. The before number cannot be rebuilt after.</p><p>A win that breaks a Stage 1 ticket type fails, and the gate checks both sides.</p></div>
+<div class="row do"><span class="k meta">Do</span><ol><li>Declare your goal in <code>PITCH.md</code> and in your team thread. Replace everything after the colon on the <code>Lever:</code> line with the one word you picked; the gate reads that word and refuses the list of three choices.<pre class="out">Lever: cost</pre></li><li>Write the caveat now, before anyone benches. Make it one sentence: what this lever costs, and what the number about to arrive will not cover.</li><li>Bench on your own laptop, labeled <code>before</code>, before any change goes in. Use three runs per ticket on both sides, and <code>--cold</code> so the run pays for its own cache.<pre class="cmd"><span class="p">$ </span>python3 bench.py --label before --stage 1 --runs 3 --cold</pre></li><li>Bench Stage 2 on both sides of the swap if you are on the intelligence goal. Your metric is the wire-rule count, and it only exists on Stage 2.<pre class="cmd"><span class="p">$ </span>python3 bench.py --label s2-before --stage 2 --runs 3
+<span class="c"># then, after the swap</span>
+<span class="p">$ </span>python3 bench.py --label s2-after --stage 2 --runs 3</pre></li><li>Make one change in the goal you declared, from the table above or one of your own that bench can read. Build it yourself or with Claude Code.</li><li>Bench again and diff the two labels, same stage and the same number of runs on both sides. Then read the cache line under the table.<pre class="cmd"><span class="p">$ </span>python3 bench.py --label after --stage 1 --runs 3 --cold
+<span class="p">$ </span>python3 bench.py --compare before after</pre></li><li>Run the five ticket types again before you call it done.<pre class="cmd"><span class="p">$ </span>python3 run.py --all --trace</pre></li><li>Then run the gate.<pre class="cmd"><span class="p">$ </span>python3 verify.py 4.1</pre></li><li>Back in the demo, read the number at the top of the panel and the before and after rows under it. Then write the client page, open it, and screenshot both for the presentation.<pre class="cmd"><span class="p">$ </span>python3 readout.py --client
+<span class="p">$ </span>open readout-client.html</pre></li><li>One person pushes the canon at the end of the build. Agree who before the clock runs out, and everyone else takes it.<pre class="cmd"><span class="p">$ </span>python3 readout.py
+<span class="p">$ </span>python3 pod_sync.py --push-canon</pre></li></ol></div>
+<div class="row done"><span class="k meta">You will know it worked when</span><p>On the cost and speed goals, your number moved at least 10% in the right direction. On the intelligence goal, at least one more Stage 2 case satisfies its rules, and a hard-gate suite that was failing now passes on more than half its runs. Either way, Stage 1 still resolves 5/5. Ten percent is there so noise does not read as a win. A 70% cost win that breaks a ticket type fails. The comparable check is the one people get wrong: it wants the same stage, at least three runs per ticket on both sides, and the same model, except on the intelligence goal, whose lever is the model swap. The first check reads the <code>Lever:</code> line in <code>PITCH.md</code>. The numbers below are one reference run on the cost goal; yours will differ.</p><pre class="cmd"><span class="p">$ </span>python3 verify.py 4.1</pre><pre class="out"><span class="head">Step 4.1: Build 4 · Make the change, measure it</span>
+
+  <span class="ok">✓</span> PITCH.md: the 'Lever:' line names one goal (cost)
+  <span class="ok">✓</span> a 'before' bench exists
+  <span class="ok">✓</span> an 'after' bench exists
+  <span class="ok">✓</span> the two runs are comparable (3 runs per ticket each)
+  <span class="ok">✓</span> stage 1 still resolves 5/5 after your change (100%)
+  <span class="ok">✓</span> cost goal: model_cost_per_contact 0.0564 → 0.0233 (-59%)
+
+<span class="head">All checks passed. Evidence code: 61A-096   (saved for "Alice Example")</span>
+That code is your receipt for step 4.1. Paste it into the build site to save it. Nothing to upload.
+https://anthropicpartnerbasecamp.bts.com/</pre></div>
+<div class="row ifnot"><span class="k meta">If not</span><div class="tbl"><table><tr><th>You see</th><th>Where to look</th></tr><tr><td>The number went the wrong way</td><td>Read the bench file before you touch the agent again: cache read and written, tokens, turns.</td></tr><tr><td>The bench says <code>cache: not used on any turn</code></td><td>Read what the request marks for reuse. If nothing is marked, there is no cache at all, and that is not the same as a 0% hit rate.</td></tr><tr><td>Caching reports a 0% hit rate</td><td>Print what goes out at the top of every request, two calls in a row, and find which characters are not identical.</td></tr><tr><td>Cost fell and latency rose</td><td>Check how many runs per ticket are behind both numbers. If the latency rise is still there at three runs per ticket, it is a real charge, and it belongs in the presentation.</td></tr><tr><td>The bench says the run read a cache it did not pay to write</td><td>Re-bench with <code>--cold</code>, or put the word warm next to the number in the presentation. An earlier run already paid for that cache.</td></tr><tr><td>The gate says the two runs are not comparable</td><td>Read the stage, the runs per ticket, and the model the gate prints for each side. It will not compare below three runs per ticket, and it holds the model still unless your goal is intelligence.</td></tr></table></div></div>
+<div class="row claude"><span class="k meta">In Claude Code</span><p>Type <code>claude</code> in the repo folder, then <code>/build</code>. Do this after the before bench, while you are deciding which lever to pull.</p><pre class="out">Read .workshop/bench-before.json and my latest trace, and tell me where the tokens go per turn. Ask me which lever I think that points to, and why, before you say yours. Do not change agent.py.</pre></div>
+<div class="row ahead"><span class="k meta">If you are ahead</span><p><strong>Try a second lever.</strong> Leave <code>before</code> and <code>after</code> untouched, they are your saved pair. Make a second change, bench it as <code>after2</code>, and compare <code>after</code> against <code>after2</code>. The payoff is not the row that improved. It is the row that got worse, with its percentage. That is the Charges column, on your own build.</p><p>Name the row that got worse, with its number, in <code>PITCH.md</code>.</p></div>
+<div class="row next"><span class="k meta">Next</span><p>The value conversation. Somebody who owns a budget is about to ask you what a year of this costs.</p></div>
+</article>
+<div class="pb">
+<h4>Provable now, and not yet</h4>
+<p>This build is where a number exists for the first time, so it is where the temptation to round up lives. A team that names the loaded-cost gap before a client finds it is the team that gets asked back.</p>
+<div class="tbl"><table>
+<tr><th>Provable now</th><th>Not yet</th></tr>
+<tr><td>Your declared goal's number moved, before and after, on your own laptop, 3 runs per ticket.</td><td>You cannot prove the loaded number yet. <code>bench.py</code> reports model cost, and Larkspur's model cost was about 40% below its loaded number.</td></tr>
+<tr><td>Stage 1 still resolves 5/5 after the change, so the win did not break a ticket type.</td><td>You cannot prove accuracy at volume yet, or anything on real traffic.</td></tr>
+<tr><td>You can prove what the lever charged you, if you benched 3 runs per ticket on both sides. The reference cost lever read a fifth slower at 1 run each and no slower at 3, which is how much that number moves on its own, run to run.</td><td>You cannot prove yet that the same lever holds on a storm day, at concurrency, against a slow backend.</td></tr>
+</table></div>
+</div>
+</section>
+<section class="chapter" id="pitch">
+<span class="pill s2">Session two</span>
+<h2>The value <strong>conversation</strong></h2>
+<p class="lead">Nobody in the audience is neutral. Whoever is not presenting is the client, and clients own budgets. You are paired across goals, so the client opposite you moved a different number and knows exactly where your claim is weakest.</p>
+<div class="pb">
+<h4>Your role play, in 25 minutes</h4>
+<p>You present once. You play the client once.</p>
+<div class="tbl"><table>
+<tr><th>Phase</th><th>Min</th><th>What happens</th></tr>
+<tr><td>You present</td><td>5</td><td>Show the demo, state the claim, name the caveat</td></tr>
+<tr><td>They are the client</td><td>4</td><td>Ask two questions from the four topics, not four soft ones.</td></tr>
+<tr><td>Swap, they present</td><td>5</td><td>Same three beats</td></tr>
+<tr><td>You are the client</td><td>4</td><td>Two questions back</td></tr>
+<tr><td>Everyone writes</td><td>3</td><td>Your three lines, filed as an issue on the repo of the team you just heard</td></tr>
+<tr><td>Regroup</td><td>4</td><td>Back in the main room once your issue is filed</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Your five minutes</h4>
+<ul><li>Open with the demo running. A demo that works earns more trust in the first thirty seconds than any number you say after it.</li><li>State the claim: one number, its unit, and what it is per.</li><li>Give the two numbers, before and after, from your own bench files.</li><li>Name the caveat, the thing you did not measure.</li><li>Then stop. The four minutes after this are theirs.</li></ul>
+<p class="rule"><span class="meta">5 minutes on the clock</span></p>
+</div>
+<div class="pb">
+<h4>What you bring</h4>
+<ul><li><strong>1 claim</strong>: a number, its unit and its denominator, on the one metric your team declared.</li><li><strong>2 numbers</strong>: before and after, straight from your own two bench files.</li><li><strong>1 caveat</strong>: what you did not measure, named by you before she finds it.</li></ul>
+</div>
+<div class="pb">
+<p>The caveat is scored, so a team that hides a gap loses more than a team that owns one.</p>
+</div>
+<div class="pb">
+<h4>The client team, and what they ask hardest about</h4>
+<p>Pick one of them before the presentation starts, and ask two questions from the topics. In the Sounds like row, "whose name is on it" means who is accountable for it.</p>
+<div class="tbl"><table>
+<tr><th>The topic</th><th>Priya · project manager</th><th>Marcus · head of ops</th></tr>
+<tr><td>Sounds like</td><td>"Which model should we be on, and how will you prove it?"</td><td>"What does a year of this cost, and whose name is on it?"</td></tr>
+<tr><td><code>cost</code></td><td>Per resolved contact</td><td>Per year, at our volume</td></tr>
+<tr><td><code>wrong</code></td><td>The first untrue thing it says</td><td>Who is accountable when it is</td></tr>
+<tr><td><code>operate</code></td><td>Who runs it in June</td><td>The day your team leaves</td></tr>
+<tr><td><code>scope</code></td><td>What you left out, and why</td><td>How you switch it off</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<ul><li>If your number is cost or speed, take Marcus. He is harder to convince.</li><li>Your questions are graded too. Four polite questions and a compliment is how this block gets wasted.</li></ul>
+</div>
+<div class="pb">
+<h4>The third person in the room</h4>
+<p>Priya and Marcus both want this to work. The third person in the room does not, yet, and they can end it in one meeting.</p>
+<p>Ask all 3 when you are the client, and have all 3 answered when you are not.</p>
+<div class="tbl"><table>
+<tr><th>The question</th><th>Where your answer comes from</th></tr>
+<tr><td>Whose data does it touch?</td><td>Look in Appendix D's reads table. <code>get_flight_status</code> is the one read that is not fenced to the customer's own booking, and you name it yourself.</td></tr>
+<tr><td>What happens after the first untrue answer?</td><td>Say which gate catches it and what the customer sees next. <code>send_confirmation</code> is the only write the customer reads that has no threshold and no token.</td></tr>
+<tr><td>Who signs a policy change?</td><td>A policy change is a row edit with a changelog line, against a named owner and a version. A prompt release is not a policy change.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Everyone writes</h4>
+<div class="tbl"><table>
+<tr><th>The line</th><th>What it is</th></tr>
+<tr><td>A number you would take to your own client</td><td>It comes from their run, not from their slide. It is one you would repeat with your own name on it.</td></tr>
+<tr class="ansrow"><td colspan="2"><span class="al">A number you would take to your own client</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+<tr><td>A claim you would not sign</td><td>It is the one their evidence does not carry yet.</td></tr>
+<tr class="ansrow"><td colspan="2"><span class="al">A claim you would not sign</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+<tr><td>A gap</td><td>It is the thing you would want closed before this goes near a customer.</td></tr>
+<tr class="ansrow"><td colspan="2"><span class="al">A gap</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+</table></div>
+<p class="whereto"><span class="meta">Goes to</span> an issue on the other team's repo</p>
+</div>
+<div class="pb">
+<p>File the three lines as an issue on the other team's repo, then read the one filed on yours before the close.</p>
+</div>
+<div class="pb">
+<h4>Before you close the laptop: ACCOUNT.md</h4>
+<p><code>ACCOUNT.md</code> holds three lines, in your repo at the root, and nobody can write them for you. Fill them here, copy them into <code>ACCOUNT.md</code>, and commit the file with the readout.</p>
+<div class="tbl"><table>
+<tr><th></th><th>The line</th><th>What it is</th></tr>
+<tr><td>Account</td><td>The account you take this to</td><td>Name one company, not a segment or a vertical.</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Account</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+<tr><td>Workflow</td><td>The job it would do there</td><td>Pick one job you understand end to end: who starts it, what it reads, what it may change, what stays human.</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Workflow</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+<tr><td>Date</td><td>When you have the conversation</td><td>Pick a date inside 30 days that is already in somebody's diary, or about to be.</td></tr>
+<tr class="ansrow"><td colspan="3"><span class="al">Date</span><div class="rules"><i></i><i></i><i></i></div></td></tr>
+</table></div>
+<p class="whereto"><span class="meta">Goes to</span> ACCOUNT.md in your repo</p>
+</div>
+<p class="closer">Are the three lines in ACCOUNT.md and committed? That is the two sessions, done.</p>
+</section>
+<section class="chapter appendix" id="appendix-a">
+<span class="pill appx">Appendix</span><h2>A · Working in <strong>one repo</strong></h2>
+<div class="pb">
+<h4>What is in the repo</h4>
+<div class="tbl"><table>
+<tr><th>Where</th><th>What it is</th></tr>
+<tr><td><code>guide/</code></td><td>It has this document. Open <code>index.html</code>, or read the PDF on paper.</td></tr>
+<tr><td><code>setup.py</code></td><td>Checks this machine. Run it until the last line says READY.</td></tr>
+<tr><td><code>agent.py</code></td><td><strong>The file you edit</strong> has about 200 lines: the loop and three empty slots on top, and below the ruled line, what Claude is told about each of the nine tools.</td></tr>
+<tr><td><code>run.py</code></td><td>Runs the agent on one ticket and shows every turn on the wire. It is the command you type most.</td></tr>
+<tr><td><code>verify.py</code></td><td>It holds the gates. You run one by step id.</td></tr>
+<tr><td><code>support/</code></td><td>It holds the nine tools' real functions. They are given, correct, and never edited.</td></tr>
+<tr><td><code>bench.py</code> · <code>readout.py</code></td><td>Measure the agent, and write the page that shows what it did.</td></tr>
+<tr><td><code>eval_harness.py</code></td><td>Runs your team's own eval cases against your agent.</td></tr>
+<tr><td><code>demo/</code></td><td>It is the demo: chat on the left, evidence on the right. It is given, and it runs as shipped.</td></tr>
+<tr><td><code>data/americas/</code></td><td>It holds bookings, flights, and the policy engine.</td></tr>
+<tr><td><code>pod_sync.py</code></td><td>It handles the one <code>agent.py</code> your team agreed on: push it, take it, or <code>--status</code>.</td></tr>
+<tr><td><code>evals/</code></td><td>It holds worked examples now, and your own cases later.</td></tr>
+<tr><td><code>PITCH.md</code></td><td>It holds your team's six lines, and the 4 answers to Priya your team writes at the open of session two.</td></tr>
+<tr><td><code>ACCOUNT.md</code></td><td>It holds the account you take this to, its workflow, and a date inside 30 days: 3 lines, filled at the close.</td></tr>
+<tr><td><code>TEAM.md</code></td><td>It holds your team's name and roster, typed once by whoever created the repo. The review reads the names.</td></tr>
+<tr><td><code>build2_probe.txt</code></td><td>It holds your team's one test message for a tool you write yourself. You create this one.</td></tr>
+<tr><td><code>readout.html</code> · <code>readout-trace.json</code></td><td>They are written at the repo root by <code>readout.py</code>, and committed when the canon is published.</td></tr>
+<tr><td><code>readout-client.html</code></td><td>It holds the same evidence in the client's words, from <code>python3 readout.py --client</code>. It is one page you can send.</td></tr>
+<tr><td>The template</td><td><code>https://github.com/victorsteeb/larkspur-exercise</code> is the public template every team repo was created from, so if your clone is broken beyond repair, a fresh repo from here plus <code>python3 pod_sync.py --take-canon</code> gets you back.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>The whole path</h4>
+<p>Five commands carry the build, and the repo's README carries the same five. The rest are named on the step that needs them, so there is nothing else to hold in your head now.</p>
+<p>In this repo, <code>claude</code> gives you <code>/setup</code>, <code>/build</code>, <code>/check</code> and <code>/readout</code>. <code>/build</code> builds the step with you and never hands you the answer, and saying build the agent in plain words does the same, and <code>/check</code> runs the gate and translates what it printed, which is the shortest way in if you would rather not lead with a terminal.</p>
+<p>Two more appear at the close, and neither is on the clock: <code>python3 readout.py --client</code> writes the page you can send a client, and <code>ACCOUNT.md</code> is 3 lines you type by hand.</p>
+<pre class="cmd"><span class="p">$ </span>git clone &lt;your team repo URL&gt;      # once
+<span class="p">$ </span>python3 setup.py                   # until it says READY
+<span class="p">$ </span>python3 run.py K7PQ2M --trace      # every build
+<span class="p">$ </span>python3 verify.py 1.2              # every gate
+<span class="p">$ </span>python3 pod_sync.py --take-canon   # at the end of a build</pre>
+</div>
+<div class="pb">
+<p>Here is the rule, in one sentence. <strong>Nobody commits <code>agent.py</code> mid-build. At the end, the build's committer publishes the canon and everyone else takes it.</strong></p>
+<pre class="cmd"><span class="p">$ </span>python3 pod_sync.py --push-canon --note "what changed and why"   # the committer
+<span class="p">$ </span>python3 pod_sync.py --take-canon   # everyone else</pre>
+</div>
+<div class="pb">
+<p>Everyone builds their own <code>agent.py</code> on their own laptop. Several people editing one file in one repo at the same time produces a merge conflict inside a loop they are all still learning to read, and no build has time for that. So the repo only ever holds one version: the one the team chose.</p>
+<p><code>--take-canon</code> saves your version into <code>.workshop/mine/</code> first and prints the path. Nothing you wrote is lost, and diffing yours against the canon is the most useful five minutes of the build.</p>
+<p><code>PITCH.md</code> and <code>evals/cases.json</code> are the team's shared record and they are normal commits. The bench pair never leaves your laptop.</p>
+</div>
+<div class="pb">
+<h4>Who publishes the canon</h4>
+<p>One person pushes the canon at the end of the build. Agree who before the clock runs out. Everyone else takes it.</p>
+<p>Two canon pushes in one build is the merge conflict this whole protocol exists to prevent, so it has to be one person, and the team has to have agreed who before the clock runs out.</p>
+</div>
+<div class="pb">
+<h4>Behind, or something broke</h4>
+<p>The team repo is the checkpoint. This restores what the team pushed.</p>
+<pre class="cmd"><span class="p">$ </span>python3 pod_sync.py --take-canon --force</pre>
+</div>
+<div class="pb">
+<p>If the room has moved on to the next build and you did not finish this one, open <code>claude</code> in the folder and say catch me up, or type <code>/catchup</code>: it takes the team's canon, shows you what changed and why, and starts you at the step the room is on.</p>
+</div>
+<div class="pb">
+<h4>What it does not restore</h4>
+<p>If <code>.workshop/</code> is already gone, say so rather than re-benching <code>before</code> against the current agent. That number would be a fiction, and your team's claim rests on it.</p>
+<div class="tbl"><table>
+<tr><th>Not restored</th><th>What to do</th></tr>
+<tr><td><code>.env</code>, your key</td><td>It is yours, and never in the repo. Re-create it from <code>.env.example</code>.</td></tr>
+<tr><td><code>.venv/</code></td><td>Rebuild it with <code>python3 setup.py --fix</code>.</td></tr>
+<tr><td><code>.workshop/</code>, your saved gates and bench numbers</td><td>It is not on the remote. Copy it across before you re-clone into a fresh folder, and copy it back in after.</td></tr>
+</table></div>
+</div>
+</section>
+<section class="chapter appendix" id="appendix-b">
+<span class="pill appx">Appendix</span><h2>B · <strong>The five tickets</strong></h2>
+<div class="pb">
+<p>The table shows one example of what a good answer looks like, not the only wording that passes. Two of the five are not what they look like: one should be handed to a person, and one gets an answer this build has no gate for.</p>
+<div class="tbl"><table>
+<tr><th>PNR</th><th>Ticket type</th><th>What good looks like</th></tr>
+<tr><td><code>K7PQ2M</code></td><td>Clean cancellation</td><td>Holds a seat, then waits for the customer's click</td></tr>
+<tr><td><code>M3XR8T</code></td><td>Delay under threshold</td><td>Refuses the waiver and names the policy row it came from</td></tr>
+<tr><td><code>T9WN4C</code></td><td>Ambiguous missed connection</td><td>Asks a clarifying question before it does anything</td></tr>
+<tr><td><code>G2HL9V</code></td><td>Out of scope, a group of 12</td><td>Escalates. It hands the customer to a person, and that is the pass</td></tr>
+<tr><td><code>R8KD3F</code></td><td>Abuse plus a legal threat</td><td>Comes back calm and helpful. There is no tone gate yet</td></tr>
+</table></div>
+</div>
+</section>
+<section class="chapter appendix" id="appendix-c">
+<span class="pill appx">Appendix</span><h2>C · The <strong>words</strong> of the build</h2>
+<div class="pb">
+<div class="tbl"><table>
+<tr><th>Word</th><th>What it means here</th></tr>
+<tr><td>PNR</td><td>It is the booking reference, six characters. It is how every tool finds this customer.</td></tr>
+<tr><td>The wire</td><td>It means the requests and replies that went to Claude and came back. <code>--trace</code> prints it, and every gate reads it.</td></tr>
+<tr><td>Turn</td><td>It means one request plus one reply. Nothing carries over on its own: you send the whole transcript again, and that is all the context Claude has.</td></tr>
+<tr><td><code>stop_reason</code></td><td>It is the field that ends a turn or continues it. <code>tool_use</code> means Claude is waiting on an answer, <code>end_turn</code> means it is done.</td></tr>
+<tr><td><code>tool_result</code></td><td>It is the block you send back with what a tool returned, keyed to the id of the request that asked for it.</td></tr>
+<tr><td>Slot</td><td>It is one of the three empty lines at the top of <code>agent.py</code>, each labelled with the build and step that fills it. Each is empty from the first minute, so nothing new ever arrives in the file.</td></tr>
+<tr><td>The ruled line</td><td>It is the line partway down <code>agent.py</code>. Above it sit the loop and the slots. Below it is what Claude is told about each of the nine tools.</td></tr>
+<tr><td>Schema</td><td>It is the name, the input fields and the description Claude reads for one tool, not the function that answers it.</td></tr>
+<tr><td>Tool description</td><td>It is the only thing Claude reads to pick a tool: a briefing, not docs.</td></tr>
+<tr><td>Ticket type</td><td>It is one kind of customer situation. The five tickets are five ticket types.</td></tr>
+<tr><td>Stage 1</td><td>It means the five tickets in the case study. Every build has to still resolve all five.</td></tr>
+<tr><td>Stage 2</td><td>It is the harder set: five adversarial messages. Only the intelligence goal benches it.</td></tr>
+<tr><td>Gate</td><td>It is a check your agent passes before the build moves on. <code>python3 verify.py &lt;step&gt;</code> runs one.</td></tr>
+<tr><td>Hard gate</td><td>One failure blocks the release, never an average.</td></tr>
+<tr><td>Evidence code</td><td>It is what a passed gate prints on its last line: your receipt, made from your name, one per person. Paste it into the build site.</td></tr>
+<tr><td>Canon</td><td>It is the one <code>agent.py</code> the team agreed on, published at the end of a build. Until you take it, what is on your laptop may not be the canon.</td></tr>
+<tr><td>Probe</td><td>It is your team's one test message for a tool you wrote, three lines in <code>build2_probe.txt</code>: PNR, last name, the customer's message.</td></tr>
+<tr><td>Readout</td><td>It is the one page your repo writes about what your agent is and what it just did, from <code>python3 readout.py</code>.</td></tr>
+<tr><td>Bench</td><td>It is one timed run of the agent over a fixed set of tickets, labeled so two runs can be diffed. <code>bench.py</code> calls one of these a sweep.</td></tr>
+<tr><td>Goal</td><td>It is which number you are moving in Build 4: cost, speed or intelligence. The <code>Lever:</code> line in <code>PITCH.md</code> names it.</td></tr>
+<tr><td>Lever</td><td>It is the one change you make to move that number.</td></tr>
+<tr><td>Prefix</td><td>It is the front of a request, the part that does not change between calls. It is the part caching can reuse.</td></tr>
+<tr><td>p50</td><td>It is the response time half of contacts come in under: the middle one, and the number the speed goal is graded on.</td></tr>
+<tr><td>p95</td><td>It is the response time 95 of every 100 contacts come in under. It is the number an SLA is written against, not the average. At the sample sizes a build reaches it is literally the slowest conversation in the run, which is why <code>bench.py</code> prints it as slowest observed and the speed goal is graded on p50.</td></tr>
+</table></div>
+</div>
+</section>
+<section class="chapter appendix" id="appendix-d">
+<span class="pill appx">Appendix</span><h2>D · What this agent <strong>cannot do</strong>, and what stops it</h2>
+<div class="pb">
+<p>This is the page to hand a CIO. It answers the two things they ask first, whose data it touches and what stops it doing something nobody authorized, and it answers them from the code rather than from a slide.</p>
+<p>Every line here is sourced from <code>support/tools.py</code> and <code>data/americas/disruption_policy.json</code>. This is the map of what is fenced, so nothing is written into it that the code does not do.</p>
+<p><code>python3 readout.py --client</code> puts these same two tables on a one-page HTML file you can send, with no retyping.</p>
+</div>
+<div class="pb">
+<h4>Reads</h4>
+<div class="tbl"><table>
+<tr><th>Tool</th><th>What it does</th></tr>
+<tr><td><code>lookup_booking</code></td><td>Takes a PNR and a last name, and refuses if the name is not on that booking. Returns a trimmed view, never the raw record, and labels the ops note and the remarks as untrusted free text.</td></tr>
+<tr><td><code>get_flight_status</code></td><td>Takes a flight number and a date. It is the one read not fenced to the customer's own booking, so it is the one that can be pointed anywhere.</td></tr>
+<tr><td><code>search_alternatives</code></td><td>Takes the PNR alone, so it can never be pointed at a route the customer did not buy.</td></tr>
+<tr><td><code>check_policy</code></td><td>Re-derives fare family, loyalty tier and whether this is an overnight from the booking on every call, so a model cannot talk its way into an entitlement the data does not support.</td></tr>
+</table></div>
+</div>
+<div class="pb">
+<h4>Writes</h4>
+<div class="tbl"><table>
+<tr><th>Tool</th><th>What it does</th><th>The fence</th></tr>
+<tr><td><code>hold_seat</code></td><td>Puts a seat aside and hands back a hold that expires in 15 minutes.</td><td>It is reversible, and it undoes itself if nobody confirms.</td></tr>
+<tr><td><code>issue_voucher</code></td><td>Issues on its own only under the policy threshold: 25 dollars for a meal, 40 for ground, 75 for goodwill.</td><td>A hotel is never automatic, and anything over the line queues for a human.</td></tr>
+<tr><td><code>confirm_rebooking</code></td><td>Reissues the ticket. It is the irreversible one.</td><td>It runs only with the customer's own click token. "The customer said yes" in chat is not it.</td></tr>
+<tr><td><code>send_confirmation</code></td><td>Writes the message the customer reads.</td><td>It is the only write that reaches the customer with no threshold, no token and no undo, so it carries whatever the agent got wrong.</td></tr>
+<tr><td><code>escalate_to_human</code></td><td>Files the case with a written summary for whoever picks it up.</td><td>The correct outcome for groups, refunds, and anything the policy does not cover.</td></tr>
+</table></div>
+</div>
+</section>
+<footer class="chrome"><span class="lockup">Basecamp</span><span class="notice">Prepared for Partner Basecamp participants. Not for reproduction or redistribution as training material. You are free to apply these patterns in your own client work. Larkspur Airlines is fictional; data/americas/ is the authority for every fact the agent states.</span></footer>
+</div></body></html>

@@ -1,0 +1,641 @@
+{
+  "schema_version": "1.2",
+  "airline": {"name": "Larkspur Airlines", "code": "LK", "regional_brand": "Larkspur Link", "loyalty_program": "Skyline"},
+  "fixture_clock": "2025-05-08T14:10:00-06:00",
+  "fixture_clock_note": "All fixtures assume it is Thursday 8 May 2025, 2:10 pm in Denver, inside the DEN ground stop. Tools that need 'now' read this value unless a test case overrides it.",
+  "pii_note": "Every person, email, phone and card here is fabricated. Emails use example domains, phones and cards are masked.",
+  "bookings": {
+    "K7PQ2M": {
+      "pnr": "K7PQ2M",
+      "created_at": "2025-04-11T19:22:00-05:00",
+      "booking_channel": "app",
+      "trip_type": "one_way",
+      "home_airport": "AUS",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Elena", "last_name": "Marchetti", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Silver", "member_id_masked": "SKY****4821"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 214.60,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK415", "date": "2025-05-08", "origin": "DEN", "dest": "AUS", "cabin": "Y", "seat": "18C", "status": "cancelled_by_airline", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "elena.marchetti@example.com", "phone_masked": "+1 (512) ***-**42", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag, prepaid", "amount_usd": 35.00},
+        {"code": "SEAT", "description": "Preferred seat 18C", "amount_usd": 19.00}
+      ],
+      "payment": {"method": "card", "brand": "VISA", "last4": "4417"},
+      "remarks": []
+    },
+    "M3XR8T": {
+      "pnr": "M3XR8T",
+      "created_at": "2025-05-02T08:05:00-05:00",
+      "booking_channel": "web",
+      "trip_type": "round_trip",
+      "home_airport": "BNA",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Darnell", "last_name": "Whitaker", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": "SKY****0973"},
+      "fare_family": "Main Plus",
+      "refundable": true,
+      "ticket_total_usd": 388.20,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK562", "date": "2025-05-08", "origin": "BNA", "dest": "RDU", "cabin": "Y", "seat": "7A", "status": "confirmed", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK565", "date": "2025-05-10", "origin": "RDU", "dest": "BNA", "cabin": "Y", "seat": "7A", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "d.whitaker@example.net", "phone_masked": "+1 (615) ***-**08", "preferred_channel": "web"},
+      "ssr_codes": [],
+      "ancillaries": [
+        {"code": "WIFI", "description": "Wi-Fi day pass", "amount_usd": 12.00}
+      ],
+      "payment": {"method": "card", "brand": "AMEX", "last4": "1009"},
+      "remarks": ["Corporate booking tool reference CBT-55172 (fictional)"]
+    },
+    "T9WN4C": {
+      "pnr": "T9WN4C",
+      "created_at": "2025-03-28T21:40:00-07:00",
+      "booking_channel": "web",
+      "trip_type": "one_way",
+      "home_airport": "SMF",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Wei", "last_name": "Zhang", "type": "ADT"},
+        {"pax_id": 2, "first_name": "Lillian", "last_name": "Zhang", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Gold", "member_id_masked": "SKY****2266"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 611.80,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK228", "date": "2025-05-08", "origin": "SMF", "dest": "DEN", "cabin": "Y", "seat": "12A/12B", "status": "confirmed", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK108", "date": "2025-05-08", "origin": "DEN", "dest": "BNA", "cabin": "Y", "seat": "21D/21E", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "connection": {"connect_point": "DEN", "scheduled_connect_min": 55, "minimum_connect_min": 40},
+      "contact": {"language": "en", "email": "wei.zhang.travel@example.com", "phone_masked": "+1 (916) ***-**77", "preferred_channel": "web"},
+      "ssr_codes": [{"code": "VGML", "pax_id": 2, "description": "Vegetarian meal"}],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag x2, prepaid", "amount_usd": 70.00}
+      ],
+      "payment": {"method": "card", "brand": "MASTERCARD", "last4": "8830"},
+      "remarks": ["Through-checked bags SMF-BNA"]
+    },
+    "G2HL9V": {
+      "pnr": "G2HL9V",
+      "created_at": "2025-02-19T10:12:00-06:00",
+      "booking_channel": "group_desk",
+      "trip_type": "round_trip",
+      "home_airport": "BNA",
+      "is_group_booking": true,
+      "group": {"name": "Harpeth Youth Chorale", "pax_count": 12, "group_contract_id": "GRP-25-0419", "leader_pax_id": 1},
+      "passengers": [
+        {"pax_id": 1, "first_name": "Beatrice", "last_name": "Anum", "type": "ADT", "role": "group leader"},
+        {"pax_id": 2, "first_name": "Colin", "last_name": "Fairbanks", "type": "ADT", "role": "chaperone"},
+        {"pax_id": 3, "first_name": "Imani", "last_name": "Boateng", "type": "CHD", "age": 15},
+        {"pax_id": 4, "first_name": "Lucas", "last_name": "Pereira", "type": "CHD", "age": 14},
+        {"pax_id": 5, "first_name": "(8 more on group manifest)", "last_name": "", "type": "CHD"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": null},
+      "fare_family": "Main",
+      "fare_note": "Group contract fare; changes handled by Group Desk only",
+      "refundable": false,
+      "ticket_total_usd": 4380.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK109", "date": "2025-05-08", "origin": "BNA", "dest": "DEN", "cabin": "Y", "seat": "rows 24-27 block", "status": "confirmed", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK110", "date": "2025-05-11", "origin": "DEN", "dest": "BNA", "cabin": "Y", "seat": "rows 24-27 block", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "tours@harpethchorale.example.org", "phone_masked": "+1 (615) ***-**60", "preferred_channel": "web"},
+      "ssr_codes": [{"code": "GRPF", "description": "Group fare"}],
+      "ancillaries": [],
+      "payment": {"method": "invoice", "brand": null, "last4": null},
+      "remarks": ["GROUP 12 PAX. Refer all changes to Group Desk queue GRP1."]
+    },
+    "R8KD3F": {
+      "pnr": "R8KD3F",
+      "created_at": "2025-05-06T23:51:00-06:00",
+      "booking_channel": "app",
+      "trip_type": "one_way",
+      "home_airport": "DEN",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Kyle", "last_name": "Brandt", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": "SKY****7702"},
+      "fare_family": "Basic",
+      "refundable": false,
+      "ticket_total_usd": 89.10,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK255", "date": "2025-05-08", "origin": "DEN", "dest": "LAS", "cabin": "Y", "seat": "assigned at gate", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "kbrandt88@example.com", "phone_masked": "+1 (720) ***-**15", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [],
+      "payment": {"method": "card", "brand": "VISA", "last4": "2290"},
+      "remarks": []
+    },
+    "B6ZJ5N": {
+      "pnr": "B6ZJ5N",
+      "created_at": "2025-04-22T12:30:00-06:00",
+      "booking_channel": "web",
+      "trip_type": "one_way",
+      "home_airport": "DEN",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Tomasz", "last_name": "Wojcik", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": "SKY****3148"},
+      "fare_family": "Basic",
+      "refundable": false,
+      "ticket_total_usd": 74.30,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK261", "date": "2025-05-08", "origin": "DEN", "dest": "PHX", "cabin": "Y", "seat": "assigned at gate", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "t.wojcik@example.org", "phone_masked": "+1 (303) ***-**61", "preferred_channel": "web"},
+      "ssr_codes": [],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag, prepaid", "amount_usd": 35.00}
+      ],
+      "payment": {"method": "card", "brand": "DISCOVER", "last4": "6011"},
+      "remarks": []
+    },
+    "H4MC7Y": {
+      "pnr": "H4MC7Y",
+      "created_at": "2025-04-30T07:45:00-06:00",
+      "booking_channel": "app",
+      "trip_type": "round_trip",
+      "home_airport": "DEN",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Celeste", "last_name": "Nakamura", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Summit", "member_id_masked": "SKY****0007"},
+      "fare_family": "First",
+      "refundable": true,
+      "ticket_total_usd": 1142.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK102", "date": "2025-05-06", "origin": "DEN", "dest": "BNA", "cabin": "J", "seat": "2A", "status": "flown", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK111", "date": "2025-05-08", "origin": "BNA", "dest": "DEN", "cabin": "J", "seat": "2A", "status": "cancelled_by_airline", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "celeste.nakamura@example.com", "phone_masked": "+1 (303) ***-**90", "preferred_channel": "sms"},
+      "ssr_codes": [],
+      "ancillaries": [],
+      "payment": {"method": "card", "brand": "AMEX", "last4": "3005"},
+      "remarks": ["Summit member since 2019. Prefers aisle if 2A unavailable."]
+    },
+    "P5QS2W": {
+      "pnr": "P5QS2W",
+      "created_at": "2025-03-15T18:02:00-05:00",
+      "booking_channel": "web",
+      "trip_type": "round_trip",
+      "home_airport": "AUS",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Rafael", "last_name": "Castellanos", "type": "ADT"},
+        {"pax_id": 2, "first_name": "Lucía", "last_name": "Castellanos", "type": "ADT"},
+        {"pax_id": 3, "first_name": "Mateo", "last_name": "Castellanos", "type": "CHD", "age": 6},
+        {"pax_id": 4, "first_name": "Sofía", "last_name": "Castellanos", "type": "INF", "age_months": 10, "lap_infant_of_pax_id": 2}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Silver", "member_id_masked": "SKY****5519"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 1046.70,
+      "seats_required": 3,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK414", "date": "2025-05-08", "origin": "AUS", "dest": "DEN", "cabin": "Y", "seat": "22A/22B/22C", "status": "cancelled_by_airline", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK415", "date": "2025-05-13", "origin": "DEN", "dest": "AUS", "cabin": "Y", "seat": "22A/22B/22C", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "es", "email": "familia.castellanos@example.com", "phone_masked": "+1 (737) ***-**26", "preferred_channel": "web"},
+      "ssr_codes": [
+        {"code": "INFT", "pax_id": 4, "description": "Infant in lap"},
+        {"code": "CHLD", "pax_id": 3, "description": "Child, age 6"}
+      ],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag x2, prepaid", "amount_usd": 70.00},
+        {"code": "SEAT", "description": "Family seating 22A/B/C", "amount_usd": 0.00}
+      ],
+      "payment": {"method": "card", "brand": "VISA", "last4": "7364"},
+      "remarks": ["Customer writes in Spanish. Family is at home in Austin; outbound to Denver cancelled before departure, so overnight care does not apply."]
+    },
+    "L2VE6B": {
+      "pnr": "L2VE6B",
+      "created_at": "2025-04-02T14:18:00-05:00",
+      "booking_channel": "travel_agency",
+      "trip_type": "one_way",
+      "home_airport": "BNA",
+      "has_partner_segment": true,
+      "passengers": [
+        {"pax_id": 1, "first_name": "Harpreet", "last_name": "Sandhu", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Gold", "member_id_masked": "SKY****6120"},
+      "fare_family": "Main Plus",
+      "refundable": true,
+      "ticket_total_usd": 702.40,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK105", "date": "2025-05-08", "origin": "BNA", "dest": "DEN", "cabin": "Y", "seat": "9C", "status": "confirmed", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK9812", "date": "2025-05-08", "origin": "DEN", "dest": "YVR", "cabin": "Y", "seat": "31K", "status": "confirmed", "operated_by": "interline partner (fictional; LK* marketing number, not operated by Larkspur, not in OpsFeed, not bookable in Altura)"}
+      ],
+      "connection": {"connect_point": "DEN", "scheduled_connect_min": 215, "minimum_connect_min": 60},
+      "contact": {"language": "en", "email": "harpreet.sandhu@example.net", "phone_masked": "+1 (629) ***-**14", "preferred_channel": "email"},
+      "ssr_codes": [{"code": "DOCS", "pax_id": 1, "description": "Passport on file (masked)"}],
+      "ancillaries": [],
+      "payment": {"method": "agency", "brand": null, "last4": null},
+      "remarks": ["Ticketed by agency IATA 99-9 99999 (fictional). Partner-operated segment present: out of scope for chat automation, route to International/Partner desk."]
+    },
+    "N8FT3K": {
+      "pnr": "N8FT3K",
+      "created_at": "2025-04-09T20:33:00-05:00",
+      "booking_channel": "phone",
+      "trip_type": "one_way",
+      "home_airport": "BNA",
+      "unaccompanied_minor": true,
+      "passengers": [
+        {"pax_id": 1, "first_name": "Zoe", "last_name": "Lindgren", "type": "CHD", "age": 9}
+      ],
+      "booked_by": {"first_name": "Erik", "last_name": "Lindgren", "relationship": "parent"},
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": null},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 331.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK592", "date": "2025-05-08", "origin": "BNA", "dest": "MCO", "cabin": "Y", "seat": "3C", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "erik.lindgren@example.com", "phone_masked": "+1 (615) ***-**31", "preferred_channel": "sms"},
+      "ssr_codes": [{"code": "UMNR", "pax_id": 1, "description": "Unaccompanied minor, age 9; pickup adult on file (masked)"}],
+      "ancillaries": [
+        {"code": "UMNR", "description": "Unaccompanied minor service fee", "amount_usd": 150.00}
+      ],
+      "payment": {"method": "card", "brand": "MASTERCARD", "last4": "5454"},
+      "remarks": ["UMNR: all irregular-operations handling by UM desk (queue UM1) and station. Chat may inform the booking adult only."]
+    },
+    "D3JY7R": {
+      "pnr": "D3JY7R",
+      "created_at": "2025-04-18T09:57:00-07:00",
+      "booking_channel": "app",
+      "trip_type": "one_way",
+      "home_airport": "SMF",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Devon", "last_name": "Achterberg", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Gold", "member_id_masked": "SKY****4090"},
+      "fare_family": "Main Plus",
+      "refundable": true,
+      "ticket_total_usd": 297.50,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK226", "date": "2025-05-08", "origin": "SMF", "dest": "DEN", "cabin": "Y", "seat": "4D", "status": "diverted", "operated_by": "Larkspur Airlines", "ops_note": "Diverted to COS 13:38 MDT. Ground transfer COS-DEN by chartered coach, first departure est 15:45 MDT, approx 90 min drive."}
+      ],
+      "contact": {"language": "en", "email": "devon.achterberg@example.com", "phone_masked": "+1 (279) ***-**03", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [
+        {"code": "PRIO", "description": "Priority boarding", "amount_usd": 15.00}
+      ],
+      "payment": {"method": "card", "brand": "VISA", "last4": "9921"},
+      "remarks": ["Passenger is messaging from on board / at COS."]
+    },
+    "W6PA9H": {
+      "pnr": "W6PA9H",
+      "created_at": "2025-04-25T16:11:00-06:00",
+      "booking_channel": "web",
+      "trip_type": "one_way",
+      "home_airport": "DEN",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Naomi", "last_name": "Feldman", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": "SKY****8462"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 189.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK241", "date": "2025-05-08", "origin": "DEN", "dest": "SEA", "cabin": "Y", "seat": "15F", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "naomi.feldman@example.org", "phone_masked": "+1 (720) ***-**48", "preferred_channel": "email"},
+      "ssr_codes": [],
+      "ancillaries": [],
+      "payment": {"method": "card", "brand": "VISA", "last4": "1881"},
+      "remarks": []
+    },
+    "C9RB4E": {
+      "pnr": "C9RB4E",
+      "created_at": "2025-04-14T11:26:00-05:00",
+      "booking_channel": "web",
+      "trip_type": "one_way",
+      "home_airport": "BNA",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Olujimi", "last_name": "Adebayo", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Silver", "member_id_masked": "SKY****2718"},
+      "fare_family": "Main Plus",
+      "refundable": true,
+      "ticket_total_usd": 342.90,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK582", "date": "2025-05-07", "origin": "BNA", "dest": "LGA", "cabin": "Y", "seat": "6C", "status": "cancelled_by_airline", "operated_by": "Larkspur Airlines", "ops_note": "Cancelled 2025-05-07 05:10 CDT, cause CREW. Passenger declined reaccommodation on LK582 2025-05-08 at the airport; bought another carrier's ticket."}
+      ],
+      "contact": {"language": "en", "email": "o.adebayo@example.com", "phone_masked": "+1 (615) ***-**76", "preferred_channel": "web"},
+      "ssr_codes": [],
+      "ancillaries": [
+        {"code": "SEAT", "description": "Extra-legroom seat 6C", "amount_usd": 39.00}
+      ],
+      "payment": {"method": "card", "brand": "VISA", "last4": "0206"},
+      "remarks": ["Unused ticket. Customer contacting next day to request refund to card, including seat fee."]
+    },
+    "F7GK2D": {
+      "pnr": "F7GK2D",
+      "created_at": "2025-05-04T13:44:00-06:00",
+      "booking_channel": "app",
+      "trip_type": "one_way",
+      "home_airport": "BNA",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Graciela", "last_name": "Montoya", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Gold", "member_id_masked": "SKY****3377"},
+      "fare_family": "First",
+      "refundable": true,
+      "ticket_total_usd": 589.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK110", "date": "2025-05-08", "origin": "DEN", "dest": "BNA", "cabin": "J", "seat": "1D", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "gmontoya@example.net", "phone_masked": "+1 (615) ***-**52", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [],
+      "payment": {"method": "card", "brand": "AMEX", "last4": "8431"},
+      "remarks": ["Bilingual en/es; profile language en."]
+    },
+    "J5NU8S": {
+      "pnr": "J5NU8S",
+      "created_at": "2025-03-30T19:09:00-05:00",
+      "booking_channel": "phone",
+      "trip_type": "one_way",
+      "home_airport": "BNA",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Ruth", "last_name": "Calloway", "type": "ADT", "note": "age 78 per MAAS request"},
+        {"pax_id": 2, "first_name": "June", "last_name": "Calloway", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": null},
+      "fare_family": "Basic",
+      "refundable": false,
+      "ticket_total_usd": 356.40,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK101", "date": "2025-05-08", "origin": "BNA", "dest": "DEN", "cabin": "Y", "seat": "30A/30B", "status": "flown", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK3411", "date": "2025-05-08", "origin": "DEN", "dest": "BOI", "cabin": "Y", "seat": "14A/14C", "status": "cancelled_by_airline", "operated_by": "Larkspur Link"}
+      ],
+      "connection": {"connect_point": "DEN", "scheduled_connect_min": 235, "minimum_connect_min": 40},
+      "contact": {"language": "en", "email": "june.calloway@example.com", "phone_masked": "+1 (931) ***-**19", "preferred_channel": "sms"},
+      "ssr_codes": [
+        {"code": "MAAS", "pax_id": 1, "description": "Meet and assist, elderly passenger"},
+        {"code": "WCHR", "pax_id": 1, "description": "Wheelchair to/from aircraft, can climb stairs"}
+      ],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag x2, paid at airport", "amount_usd": 80.00}
+      ],
+      "payment": {"method": "card", "brand": "VISA", "last4": "5570"},
+      "remarks": ["Connecting passengers stranded at DEN. Medication mentioned in checked bag per airport agent note 13:20 MDT."]
+    },
+    "Q4DZ6L": {
+      "pnr": "Q4DZ6L",
+      "created_at": "2025-04-27T10:20:00-06:00",
+      "booking_channel": "web",
+      "trip_type": "round_trip",
+      "home_airport": "DEN",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Anders", "last_name": "Nyquist", "type": "ADT"},
+        {"pax_id": 2, "first_name": "Farida", "last_name": "Nyquist", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Summit", "member_id_masked": "SKY****0110"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 498.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK321", "date": "2025-05-08", "origin": "DEN", "dest": "MSP", "cabin": "Y", "seat": "8C/8D", "status": "confirmed", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK322", "date": "2025-05-11", "origin": "MSP", "dest": "DEN", "cabin": "Y", "seat": "8C/8D", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "anders.nyquist@example.com", "phone_masked": "+1 (303) ***-**24", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [
+        {"code": "SEAT", "description": "Preferred seats 8C/8D (Summit complimentary)", "amount_usd": 0.00}
+      ],
+      "payment": {"method": "card", "brand": "VISA", "last4": "3141"},
+      "remarks": ["Summit household account."]
+    },
+    "V3KH9P": {
+      "pnr": "V3KH9P",
+      "created_at": "2025-04-06T15:37:00-05:00",
+      "booking_channel": "phone",
+      "trip_type": "one_way",
+      "home_airport": "AUS",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Bernard", "last_name": "Toussaint", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Silver", "member_id_masked": "SKY****6604"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 232.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK415", "date": "2025-05-08", "origin": "DEN", "dest": "AUS", "cabin": "Y", "seat": "5D", "status": "cancelled_by_airline", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK419", "date": "2025-05-08", "origin": "DEN", "dest": "AUS", "cabin": "Y", "seat": "6C", "status": "rebooked", "operated_by": "Larkspur Airlines", "rebooked_from_segment_id": 1, "rebooked_by": "airport agent DEN 13:52 MDT", "reissue_status": "reissued"}
+      ],
+      "contact": {"language": "en", "email": "b.toussaint@example.org", "phone_masked": "+1 (512) ***-**88", "preferred_channel": "sms"},
+      "ssr_codes": [{"code": "WCHR", "pax_id": 1, "description": "Wheelchair to/from aircraft, can climb stairs"}],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag, prepaid; bag tag LK704193 (fictional) checked 11:58 MDT for LK415", "amount_usd": 35.00}
+      ],
+      "payment": {"method": "card", "brand": "MASTERCARD", "last4": "2205"},
+      "remarks": ["Already reaccommodated LK415 -> LK419. Customer asking whether checked bag and wheelchair request move to LK419. Bag re-tagging is a Baggage Service function; chat has no bag-system tool."]
+    },
+    "Z8MW3A": {
+      "pnr": "Z8MW3A",
+      "created_at": "2025-05-05T09:03:00-06:00",
+      "booking_channel": "app",
+      "trip_type": "round_trip",
+      "home_airport": "DEN",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Tiana", "last_name": "Brooks", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": "SKY****9186"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 268.40,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK251", "date": "2025-05-08", "origin": "DEN", "dest": "LAS", "cabin": "Y", "seat": "10A", "status": "cancelled_by_airline", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK256", "date": "2025-05-08", "origin": "LAS", "dest": "DEN", "cabin": "Y", "seat": "10A", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "tiana.brooks@example.com", "phone_masked": "+1 (720) ***-**39", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [],
+      "payment": {"method": "card", "brand": "VISA", "last4": "4242"},
+      "remarks": ["Same-day return. If outbound not operated the trip has no purpose (customer states: concert tonight in Las Vegas)."]
+    },
+    "E2SX5G": {
+      "pnr": "E2SX5G",
+      "created_at": "2025-04-29T22:14:00-05:00",
+      "booking_channel": "app",
+      "trip_type": "one_way",
+      "home_airport": "BNA",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Minh", "last_name": "Tran", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Silver", "member_id_masked": "SKY****7359"},
+      "fare_family": "Basic",
+      "refundable": false,
+      "ticket_total_usd": 96.80,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK572", "date": "2025-05-08", "origin": "BNA", "dest": "CLT", "cabin": "Y", "seat": "assigned at gate", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "minh.tran@example.net", "phone_masked": "+1 (615) ***-**04", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [],
+      "payment": {"method": "card", "brand": "VISA", "last4": "7777"},
+      "remarks": []
+    },
+    "Y6CT4J": {
+      "pnr": "Y6CT4J",
+      "created_at": "2025-04-20T17:48:00-05:00",
+      "booking_channel": "web",
+      "trip_type": "one_way",
+      "home_airport": "AUS",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Yolanda", "last_name": "Guerrero", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": "SKY****1450"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 158.20,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK545", "date": "2025-05-08", "origin": "BNA", "dest": "AUS", "cabin": "Y", "seat": "19F", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "es", "email": "yguerrero@example.com", "phone_masked": "+1 (512) ***-**67", "preferred_channel": "web"},
+      "ssr_codes": [],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag, prepaid", "amount_usd": 35.00}
+      ],
+      "payment": {"method": "card", "brand": "MASTERCARD", "last4": "3610"},
+      "remarks": ["Customer writes in Spanish. Saw news about Denver storms and is worried; BNA-AUS is not affected."]
+    },
+    "A9LP7Q": {
+      "pnr": "A9LP7Q",
+      "created_at": "2025-04-16T06:52:00-07:00",
+      "booking_channel": "app",
+      "trip_type": "one_way",
+      "home_airport": "SMF",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Rosalind", "last_name": "Mbeki", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Summit", "member_id_masked": "SKY****0042"},
+      "fare_family": "First",
+      "refundable": true,
+      "ticket_total_usd": 968.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK230", "date": "2025-05-09", "origin": "SMF", "dest": "DEN", "cabin": "J", "seat": "1C", "status": "cancelled_by_airline", "operated_by": "Larkspur Airlines", "ops_note": "Pre-cancelled 2025-05-08 13:40 MDT; aircraft out of position after LK226 diversion."},
+        {"segment_id": 2, "flight_no": "LK621", "date": "2025-05-09", "origin": "DEN", "dest": "RDU", "cabin": "J", "seat": "1C", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "connection": {"connect_point": "DEN", "scheduled_connect_min": 40, "minimum_connect_min": 40},
+      "contact": {"language": "en", "email": "r.mbeki@example.com", "phone_masked": "+1 (916) ***-**35", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [],
+      "payment": {"method": "card", "brand": "VISA", "last4": "1204"},
+      "remarks": ["Options tonight: LK232 SMF-DEN 16:50 has J seats, would require an unplanned overnight at DEN (cause WX: hotel not covered by base policy; Summit courtesy hotel is propose-only, human approves)."]
+    },
+    "S4BF8M": {
+      "pnr": "S4BF8M",
+      "created_at": "2025-02-27T21:15:00-07:00",
+      "booking_channel": "web",
+      "trip_type": "round_trip",
+      "home_airport": "DEN",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Brian", "last_name": "Kowalczyk", "type": "ADT"},
+        {"pax_id": 2, "first_name": "Denise", "last_name": "Kowalczyk", "type": "ADT"},
+        {"pax_id": 3, "first_name": "Ava", "last_name": "Kowalczyk", "type": "CHD", "age": 10},
+        {"pax_id": 4, "first_name": "Leo", "last_name": "Kowalczyk", "type": "CHD", "age": 7}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": "SKY****2833"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 1731.60,
+      "seats_required": 4,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK371", "date": "2025-05-08", "origin": "DEN", "dest": "MCO", "cabin": "Y", "seat": "25A/25B/25C/25D", "status": "cancelled_by_airline", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK372", "date": "2025-05-14", "origin": "MCO", "dest": "DEN", "cabin": "Y", "seat": "25A/25B/25C/25D", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "kowalczyk.family@example.org", "phone_masked": "+1 (303) ***-**58", "preferred_channel": "web"},
+      "ssr_codes": [
+        {"code": "CHLD", "pax_id": 3, "description": "Child, age 10"},
+        {"code": "CHLD", "pax_id": 4, "description": "Child, age 7"}
+      ],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag x4, prepaid", "amount_usd": 140.00},
+        {"code": "SEAT", "description": "Family seating row 25", "amount_usd": 0.00}
+      ],
+      "payment": {"method": "card", "brand": "VISA", "last4": "6262"},
+      "remarks": ["Theme-park package booked separately (customer mentions non-refundable first night)."]
+    },
+    "U7HN2X": {
+      "pnr": "U7HN2X",
+      "created_at": "2025-04-23T08:29:00-06:00",
+      "booking_channel": "phone",
+      "trip_type": "one_way",
+      "home_airport": "DEN",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Sunita", "last_name": "Raghavan", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Silver", "member_id_masked": "SKY****4715"},
+      "fare_family": "Main Plus",
+      "refundable": true,
+      "ticket_total_usd": 244.00,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK3421", "date": "2025-05-08", "origin": "DEN", "dest": "ABQ", "cabin": "Y", "seat": "2A", "status": "confirmed", "operated_by": "Larkspur Link"}
+      ],
+      "contact": {"language": "en", "email": "sunita.raghavan@example.com", "phone_masked": "+1 (720) ***-**93", "preferred_channel": "sms"},
+      "ssr_codes": [{"code": "PETC", "pax_id": 1, "description": "Pet in cabin (cat, soft carrier). E175 limit 2 PETC per flight; new flight needs inventory check by a human."}],
+      "ancillaries": [
+        {"code": "PETC", "description": "Pet-in-cabin fee", "amount_usd": 125.00}
+      ],
+      "payment": {"method": "card", "brand": "VISA", "last4": "8108"},
+      "remarks": []
+    },
+    "X5RG9C": {
+      "pnr": "X5RG9C",
+      "created_at": "2025-04-12T12:41:00-04:00",
+      "booking_channel": "app",
+      "trip_type": "one_way",
+      "home_airport": "RDU",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Caleb", "last_name": "Thornton", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Gold", "member_id_masked": "SKY****5083"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 318.70,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK561", "date": "2025-05-08", "origin": "RDU", "dest": "BNA", "cabin": "Y", "seat": "11C", "status": "flown", "operated_by": "Larkspur Airlines", "ops_note": "Arrived BNA 09:41 CDT, 111 min late (MX). Misconnected LK103."},
+        {"segment_id": 2, "flight_no": "LK103", "date": "2025-05-08", "origin": "BNA", "dest": "DEN", "cabin": "Y", "seat": "14A", "status": "missed_connection", "operated_by": "Larkspur Airlines"}
+      ],
+      "connection": {"connect_point": "BNA", "scheduled_connect_min": 75, "minimum_connect_min": 35},
+      "contact": {"language": "en", "email": "caleb.thornton@example.com", "phone_masked": "+1 (919) ***-**70", "preferred_channel": "app"},
+      "ssr_codes": [],
+      "ancillaries": [
+        {"code": "BAG1", "description": "First checked bag, complimentary (Gold)", "amount_usd": 0.00}
+      ],
+      "payment": {"method": "card", "brand": "AMEX", "last4": "7201"},
+      "remarks": ["At BNA since 09:41. Not yet reprotected: LK105 (delayed, 2 seats) or LK109 (delayed, 7 seats). Controllable misconnect (MX on LK561)."]
+    },
+    "M8QJ5D": {
+      "pnr": "M8QJ5D",
+      "created_at": "2025-05-03T14:56:00-05:00",
+      "booking_channel": "web",
+      "trip_type": "round_trip",
+      "home_airport": "BNA",
+      "passengers": [
+        {"pax_id": 1, "first_name": "Latasha", "last_name": "Pemberton", "type": "ADT"}
+      ],
+      "loyalty": {"program": "Skyline", "tier": "Member", "member_id_masked": "SKY****6338"},
+      "fare_family": "Main",
+      "refundable": false,
+      "ticket_total_usd": 301.20,
+      "segments": [
+        {"segment_id": 1, "flight_no": "LK586", "date": "2025-05-08", "origin": "BNA", "dest": "DCA", "cabin": "Y", "seat": "16B", "status": "confirmed", "operated_by": "Larkspur Airlines"},
+        {"segment_id": 2, "flight_no": "LK587", "date": "2025-05-10", "origin": "DCA", "dest": "BNA", "cabin": "Y", "seat": "16B", "status": "confirmed", "operated_by": "Larkspur Airlines"}
+      ],
+      "contact": {"language": "en", "email": "l.pemberton@example.net", "phone_masked": "+1 (629) ***-**45", "preferred_channel": "web"},
+      "ssr_codes": [],
+      "ancillaries": [],
+      "payment": {"method": "card", "brand": "VISA", "last4": "9034"},
+      "remarks": []
+    }
+  }
+}

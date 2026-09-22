@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.1",
+  "read_by_tool": "search_alternatives",
+  "purpose": "Precomputed, trimmed search results so search_alternatives is deterministic in class. Mirrors what Altura availability returned on the storm afternoon after server-side trimming to the fields the agent is allowed to show.",
+  "as_of": "2025-05-08T14:08:30-06:00",
+  "key_format": "{origin}-{dest}|{original_travel_date}|{cabin}",
+  "lookup_rules": [
+    "1. Build the key from the disrupted segment's origin, dest, date and cabin (Y or J). pax_count is NOT part of the key.",
+    "2. If the key exists, take entries[key].options, drop any option with seats_available < pax_count into excluded[] with reason 'insufficient seats', keep rank order, return at most 7.",
+    "3. If the key does not exist, fall back to flights.csv: same origin and dest, date between original date - 1 day and original date + waiver window (3 days uncontrollable, 7 controllable, bounded by the data horizon 2025-05-09), status not CANCELLED or DIVERTED, estimated departure after as_of, seats in requested cabin >= pax_count; rank by estimated arrival; option_id = 'OPT-' + flight_no + '-' + MMDD + '-' + cabin. Nonstops only in fallback mode.",
+    "4. Never return the passenger's currently booked flight as an option; it appears under current_booking_reference when useful.",
+    "5. The agent shows at most 3 options and must copy times and flight numbers from this payload verbatim (grounded_facts suite)."
+  ],
+  "display_fields": ["option_id", "flights", "date", "dep_local", "arr_local", "stops", "cabin", "seats_available", "operated_by"],
+  "meta_fields_note": "rank, sched_*, status, delay_min, arrival_vs_original_min, fare_difference_usd and rationale are for the agent's reasoning and the trace panel; they are not read out unless the customer asks.",
+  "entries": {
+    "DEN-AUS|2025-05-08|Y": {
+      "disrupted_flights": ["LK415"],
+      "fixture_pnrs": ["K7PQ2M", "V3KH9P"],
+      "original_sched_arr_local": "16:55",
+      "context_note": "DEN ground stop 13:02-15:50 MDT. LK415 cancelled 13:31 MDT. Two later nonstops tonight, both filling fast.",
+      "options": [
+        {"option_id": "OPT-LK417-0508-Y", "rank": 1, "flights": ["LK417"], "date": "2025-05-08", "dep_local": "18:55", "arr_local": "22:05", "sched_dep_local": "17:40", "sched_arr_local": "20:50", "status": "DELAYED", "delay_min": 75, "stops": 0, "cabin": "Y", "seats_available": 3, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 310, "fare_difference_usd": 0, "rationale": "Earliest arrival tonight. Running 75 min late on recovery backlog; estimate may move."},
+        {"option_id": "OPT-LK419-0508-Y", "rank": 2, "flights": ["LK419"], "date": "2025-05-08", "dep_local": "20:15", "arr_local": "23:25", "sched_dep_local": "20:15", "sched_arr_local": "23:25", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 11, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 390, "fare_difference_usd": 0, "rationale": "Currently on time; more seats; arrives late evening."},
+        {"option_id": "OPT-LK411-0509-Y", "rank": 3, "flights": ["LK411"], "date": "2025-05-09", "dep_local": "07:00", "arr_local": "10:10", "sched_dep_local": "07:00", "sched_arr_local": "10:10", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 9, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 1035, "fare_difference_usd": 0, "rationale": "First flight tomorrow. Overnight in Denver; K7PQ2M home airport is AUS so overnight=true, cause WX so no hotel under base policy."},
+        {"option_id": "OPT-LK415-0509-Y", "rank": 4, "flights": ["LK415"], "date": "2025-05-09", "dep_local": "13:45", "arr_local": "16:55", "sched_dep_local": "13:45", "sched_arr_local": "16:55", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 23, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 1440, "fare_difference_usd": 0, "rationale": "Same flight next day; wide open."}
+      ],
+      "excluded": []
+    },
+    "DEN-BNA|2025-05-08|Y": {
+      "disrupted_flights": ["LK108 (connection at risk from LK228)"],
+      "fixture_pnrs": ["T9WN4C"],
+      "original_sched_arr_local": "18:10",
+      "current_booking_reference": {"flight_no": "LK108", "date": "2025-05-08", "sched_dep_local": "14:35", "est_dep_local": "17:05", "est_arr_local": "20:40", "status": "DELAYED", "delay_min": 150, "etd_confidence": "low", "etd_note": "Operating crew arrives on LK105, est in 17:00; further slip likely but not published."},
+      "inbound_reference": {"flight_no": "LK228", "date": "2025-05-08", "est_arr_local": "17:05", "status": "DELAYED", "delay_min": 85, "note": "Held at SMF for DEN ground stop; released 14:02 PDT."},
+      "context_note": "DEN minimum connect time 40 min. On published estimates LK228 arrives 17:05 and LK108 departs 17:05: a projected misconnect by 40 min. If LK108 slips 40+ min more (plausible, crew-driven) the connection holds. This is the deliberately ambiguous Stage 1 case: protect on LK110 (3 seats, 2 needed) versus wait.",
+      "options": [
+        {"option_id": "OPT-LK110-0508-Y", "rank": 1, "flights": ["LK110"], "date": "2025-05-08", "dep_local": "18:30", "arr_local": "22:05", "sched_dep_local": "18:30", "sched_arr_local": "22:05", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 3, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 235, "fare_difference_usd": 0, "rationale": "Last DEN-BNA tonight with seats; protected departure slot; only 3 Y seats left."},
+        {"option_id": "OPT-LK102-0509-Y", "rank": 2, "flights": ["LK102"], "date": "2025-05-09", "dep_local": "06:15", "arr_local": "09:50", "sched_dep_local": "06:15", "sched_arr_local": "09:50", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 8, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 940, "fare_difference_usd": 0, "rationale": "First flight tomorrow; overnight in Denver away from home (SMF); cause WX so no hotel under base policy, Gold gets meal bonus only."},
+        {"option_id": "OPT-LK104-0509-Y", "rank": 3, "flights": ["LK104"], "date": "2025-05-09", "dep_local": "09:30", "arr_local": "13:05", "sched_dep_local": "09:30", "sched_arr_local": "13:05", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 17, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 1135, "fare_difference_usd": 0, "rationale": "Later morning tomorrow; plenty of seats."}
+      ],
+      "excluded": [
+        {"flight_no": "LK108", "date": "2025-05-08", "reason": "current booking"}
+      ]
+    },
+    "DEN-MCO|2025-05-08|Y": {
+      "disrupted_flights": ["LK371"],
+      "fixture_pnrs": ["S4BF8M"],
+      "original_sched_arr_local": "18:35",
+      "context_note": "No more DEN-MCO nonstops today. Family of 4 must sit on the same flights (all_passengers_together). Home airport DEN so overnight=false: they go home tonight.",
+      "options": [
+        {"option_id": "OPT-LK375-0509-Y", "rank": 1, "flights": ["LK375"], "date": "2025-05-09", "dep_local": "08:30", "arr_local": "14:10", "sched_dep_local": "08:30", "sched_arr_local": "14:10", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 3, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 1175, "fare_difference_usd": 0, "rationale": "Earliest nonstop tomorrow but only 3 Y seats: the tool must exclude this for pax_count 4."},
+        {"option_id": "OPT-LK102-LK592-0508-Y", "rank": 2, "flights": ["LK102", "LK592"], "date": "2025-05-09", "dep_local": "06:15", "arr_local": "14:15", "sched_dep_local": "06:15", "sched_arr_local": "14:15", "status": "ON_TIME", "delay_min": 0, "stops": 1, "connection": {"point": "BNA", "arr_local": "09:50", "dep_local": "11:30", "connect_min": 100}, "cabin": "Y", "seats_available": 8, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 1180, "fare_difference_usd": 0, "rationale": "Arrives 4h20m earlier than the next nonstop with room for 4, at the cost of a 06:15 departure and a Nashville connection."},
+        {"option_id": "OPT-LK371-0509-Y", "rank": 3, "flights": ["LK371"], "date": "2025-05-09", "dep_local": "12:55", "arr_local": "18:35", "sched_dep_local": "12:55", "sched_arr_local": "18:35", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 6, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 1440, "fare_difference_usd": 0, "rationale": "Same nonstop next day; 6 seats so the family fits together."}
+      ],
+      "excluded": [
+        {"flight_no": "LK110+overnight BNA", "date": "2025-05-08", "reason": "LK110 has 3 Y seats for a party of 4; would also strand the family overnight in BNA"}
+      ]
+    },
+    "BNA-DEN|2025-05-08|J": {
+      "disrupted_flights": ["LK111"],
+      "fixture_pnrs": ["H4MC7Y"],
+      "original_sched_arr_local": "22:00",
+      "context_note": "LK111 pre-cancelled 13:55 CDT (no serviceable spare at BNA). It was the last BNA-DEN of the day. as_of is 15:08 CDT. Passenger is Summit, First, home DEN, currently in Nashville: if nothing tonight, overnight=true and cause MX makes hotel eligible (propose, human one-click).",
+      "options": [
+        {"option_id": "OPT-LK109-0508-J", "rank": 1, "flights": ["LK109"], "date": "2025-05-08", "dep_local": "17:50", "arr_local": "19:35", "sched_dep_local": "16:20", "sched_arr_local": "18:05", "status": "DELAYED", "delay_min": 90, "stops": 0, "cabin": "J", "seats_available": 2, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": -145, "fare_difference_usd": 0, "rationale": "Gets her home tonight, earlier than originally booked. Departs in 2h42m from as_of; confirm she can reach BNA. Delay driven by DEN recovery metering and may extend."},
+        {"option_id": "OPT-LK101-0509-J", "rank": 2, "flights": ["LK101"], "date": "2025-05-09", "dep_local": "07:00", "arr_local": "08:45", "sched_dep_local": "07:00", "sched_arr_local": "08:45", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "J", "seats_available": 3, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 645, "fare_difference_usd": 0, "rationale": "First flight tomorrow in First. Triggers overnight care under CTL-CXL: hotel proposal up to $175 for human approval, $40 ground auto, $25 meal auto, goodwill cap $200 human-approve."}
+      ],
+      "other_cabin_options": [
+        {"option_id": "OPT-LK101-0509-Y", "flights": ["LK101"], "date": "2025-05-09", "dep_local": "07:00", "arr_local": "08:45", "stops": 0, "cabin": "Y", "seats_available": 12, "operated_by": "Larkspur Airlines", "note": "Lower cabin. Only at customer request; cabin-difference refund is a human step (ESC-07)."}
+      ],
+      "excluded": [
+        {"flight_no": "LK105", "date": "2025-05-08", "reason": "est dep 15:15 CDT, inside 30-min cutoff from as_of, and J0"}
+      ]
+    },
+    "DEN-BOI|2025-05-08|Y": {
+      "disrupted_flights": ["LK3411", "LK3415"],
+      "fixture_pnrs": ["J5NU8S"],
+      "original_sched_arr_local": "14:35",
+      "context_note": "Both Larkspur Link DEN-BOI flights today are cancelled (WX; crew and aircraft out of position). Connecting passengers from BNA are at DEN, away from home: overnight=true, cause WX -> UNC-CXL: no hotel under base policy (share distressed rate), $15 meal credit once wait >= 180 min, free rebooking. MAAS/WCHR carry over. Vulnerability cues likely (elderly passenger, medication in checked bag): CONV-04.",
+      "options": [
+        {"option_id": "OPT-LK3411-0509-Y", "rank": 1, "flights": ["LK3411"], "date": "2025-05-09", "dep_local": "12:40", "arr_local": "14:35", "sched_dep_local": "12:40", "sched_arr_local": "14:35", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 5, "operated_by": "Larkspur Link", "arrival_vs_original_min": 1440, "fare_difference_usd": 0, "rationale": "Only bookable LK option inside the data horizon. 5 seats; hold 2 promptly."}
+      ],
+      "excluded": [
+        {"flight_no": "LK3415", "date": "2025-05-08", "reason": "CANCELLED"},
+        {"flight_no": "other airlines via SLC/SEA", "date": "2025-05-08", "reason": "other-airline reaccommodation is a human decision (IRROPS desk); never offered by the agent"}
+      ]
+    },
+    "DEN-PHX|2025-05-08|Y": {
+      "disrupted_flights": ["LK261"],
+      "fixture_pnrs": ["B6ZJ5N"],
+      "original_sched_arr_local": "14:55",
+      "current_booking_reference": {"flight_no": "LK261", "date": "2025-05-08", "sched_dep_local": "14:05", "est_dep_local": "16:15", "est_arr_local": "17:05", "status": "DELAYED", "delay_min": 130, "etd_confidence": "medium"},
+      "context_note": "Basic fare, 130-min WX delay -> UNC-B2: free rebooking within 3 days, no meal (weather meal credit starts at 180), no hotel. Staying on LK261 is the fastest way to PHX; alternatives exist if the customer prefers certainty or tomorrow.",
+      "options": [
+        {"option_id": "OPT-LK265-0508-Y", "rank": 1, "flights": ["LK265"], "date": "2025-05-08", "dep_local": "19:20", "arr_local": "20:10", "sched_dep_local": "18:40", "sched_arr_local": "19:30", "status": "DELAYED", "delay_min": 40, "stops": 0, "cabin": "Y", "seats_available": 14, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 315, "fare_difference_usd": 0, "rationale": "Later tonight, more seats, arrives about 3 hours after the current LK261 estimate."},
+        {"option_id": "OPT-LK261-0509-Y", "rank": 2, "flights": ["LK261"], "date": "2025-05-09", "dep_local": "14:05", "arr_local": "14:55", "sched_dep_local": "14:05", "sched_arr_local": "14:55", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 19, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 1440, "fare_difference_usd": 0, "rationale": "Same flight tomorrow; passenger is at home airport so no overnight care question arises."}
+      ],
+      "excluded": [
+        {"flight_no": "LK261", "date": "2025-05-08", "reason": "current booking"}
+      ]
+    },
+    "AUS-DEN|2025-05-08|Y": {
+      "disrupted_flights": ["LK414"],
+      "fixture_pnrs": ["P5QS2W"],
+      "original_sched_arr_local": "14:50",
+      "context_note": "Spanish-language contact. Party needs 3 seats (2 adults, 1 child) plus a lap infant (INFT, no seat). Family is at home in Austin so overnight=false. Cause WX -> UNC-CXL.",
+      "options": [
+        {"option_id": "OPT-LK416-0508-Y", "rank": 1, "flights": ["LK416"], "date": "2025-05-08", "dep_local": "18:45", "arr_local": "20:05", "sched_dep_local": "17:45", "sched_arr_local": "19:05", "status": "DELAYED", "delay_min": 60, "stops": 0, "cabin": "Y", "seats_available": 5, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 315, "fare_difference_usd": 0, "rationale": "Only AUS-DEN left today; 5 seats covers the 3 needed; running 60 min late on a late inbound aircraft."},
+        {"option_id": "OPT-LK412-0509-Y", "rank": 2, "flights": ["LK412"], "date": "2025-05-09", "dep_local": "11:00", "arr_local": "12:20", "sched_dep_local": "11:00", "sched_arr_local": "12:20", "status": "ON_TIME", "delay_min": 0, "stops": 0, "cabin": "Y", "seats_available": 14, "operated_by": "Larkspur Airlines", "arrival_vs_original_min": 1290, "fare_difference_usd": 0, "rationale": "Tomorrow late morning; calmer option with small children; family sleeps at home."}
+      ],
+      "excluded": []
+    }
+  }
+}

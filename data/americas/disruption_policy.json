@@ -1,0 +1,324 @@
+{
+  "policy_id": "larkspur-irrops-entitlements",
+  "version": "14.3",
+  "source_document": "Customer Commitment & Irregular Operations Handbook v14 (Larkspur Airlines, fictional)",
+  "owner": "Customer Commitment team (Aisha Grant). This table is the source of truth; Handbook v14 sections 4-7 and fare_rules_excerpt.md are generated from it.",
+  "read_by_tool": "check_policy",
+  "fictional_notice": "All amounts, thresholds and rules are invented policy values for training. They are not legal entitlements. Verify anything resembling a regulatory rule with client counsel.",
+  "changelog": [
+    {"version": "14.0", "week": 2, "note": "First machine-readable cut of Handbook v14 with Aisha. delay_hours input, no cause_code (both mistakes; see 14.1)."},
+    {"version": "14.1", "week": 3, "note": "Inputs changed to delay_minutes (integer) and required cause_code enum after the UAT hotel-on-weather incident. Every response now carries policy_row_id."},
+    {"version": "14.2", "week": 5, "note": "Added customer_wording and cause_labels so the agent, Perch and the judge share one vocabulary. Added Summit courtesy overrides."},
+    {"version": "14.3", "week": 10, "note": "Added CTL-DIV and UNC-DIV rows. Before this, status DIVERTED fell through to CTL-CXL and auto-issued goodwill on weather diversions (3 vouchers in live traffic, all <= $25). Gap closed; PDF regenerated from table."}
+  ],
+  "currency": "USD",
+  "amount_semantics": "Care amounts (meal, ground) and goodwill are per passenger per disruption event. Hotel is per room per night, one room per 2 adults on the PNR. Auto-approval thresholds are evaluated per voucher issued.",
+
+  "inputs": {
+    "cause_code": {"type": "enum", "values": ["WX", "ATC", "MX", "CREW", "SEC"], "required": true, "note": "From get_flight_status. Never inferred from customer text."},
+    "delay_minutes": {"type": "integer", "required": true, "note": "Current estimated departure delay of the disrupted LK segment. For a missed connection, pass the projected arrival delay at the final ticketed destination on the best confirmed alternative. Pass 0 with status CANCELLED or DIVERTED.", "examples": [45, 130, 200]},
+    "status": {"type": "enum", "values": ["ON_TIME", "DELAYED", "CANCELLED", "DIVERTED"], "required": true},
+    "fare_family": {"type": "enum", "values": ["Basic", "Main", "Main Plus", "First"], "required": true},
+    "loyalty_tier": {"type": "enum", "values": ["Member", "Silver", "Gold", "Summit"], "required": true, "note": "No Skyline number on the PNR = Member."},
+    "overnight": {"type": "boolean", "required": true, "definition": "True when the earliest confirmable LK alternative departs on a later local calendar date than the disrupted segment AND the passenger is not at their home_airport. Computed by the agent service from search_alternatives + booking, not by the model."},
+    "wait_minutes_for_alternative": {"type": "integer", "required": false, "note": "Minutes between now (or original departure, whichever is later) and the departure of the alternative the customer chose. Used only for meal eligibility on CXL/DIV rows. Omit if no alternative chosen yet; the tool then reports meal as conditional."}
+  },
+
+  "cause_classes": {
+    "MX": "controllable",
+    "CREW": "controllable",
+    "WX": "uncontrollable",
+    "ATC": "uncontrollable",
+    "SEC": "uncontrollable"
+  },
+  "cause_labels_customer": {
+    "WX": {"en": "weather", "es": "condiciones meteorológicas"},
+    "ATC": {"en": "air traffic control restrictions", "es": "restricciones de control de tráfico aéreo"},
+    "MX": {"en": "an aircraft maintenance issue", "es": "un problema de mantenimiento de la aeronave"},
+    "CREW": {"en": "crew availability", "es": "disponibilidad de la tripulación"},
+    "SEC": {"en": "a security-related delay at the airport", "es": "una demora relacionada con seguridad en el aeropuerto"}
+  },
+
+  "delay_bands": [
+    {"band": "B0", "min_minutes": 0, "max_minutes": 59, "applies_to_status": ["ON_TIME", "DELAYED"]},
+    {"band": "B1", "min_minutes": 60, "max_minutes": 119, "applies_to_status": ["DELAYED"]},
+    {"band": "B2", "min_minutes": 120, "max_minutes": 179, "applies_to_status": ["DELAYED"]},
+    {"band": "B3", "min_minutes": 180, "max_minutes": 359, "applies_to_status": ["DELAYED"]},
+    {"band": "B4", "min_minutes": 360, "max_minutes": null, "applies_to_status": ["DELAYED"]},
+    {"band": "CXL", "applies_to_status": ["CANCELLED"]},
+    {"band": "DIV", "applies_to_status": ["DIVERTED"]}
+  ],
+  "significant_delay_minutes": 180,
+  "extended_delay_review_minutes": 720,
+
+  "rebooking_waiver_common": {
+    "carriers": ["Larkspur Airlines", "Larkspur Link"],
+    "other_airline_reaccommodation": "human decision only (station or IRROPS desk); the agent never offers it",
+    "same_origin_destination": true,
+    "co_terminals": [],
+    "cabin": "same cabin; lower cabin only at customer request with cabin-difference refund queued to a human; higher cabin per loyalty_rules.upgrade_if_y_unavailable",
+    "fare_difference_usd": 0,
+    "change_fee_usd": 0,
+    "all_passengers_together": true,
+    "split_party": "human",
+    "window_days_after_original": {"controllable": 7, "uncontrollable": 3},
+    "window_days_before_original": 1,
+    "basic_fare_included": true,
+    "executes_via": "hold_seat (15-min TTL) then confirm_rebooking with a UI-issued confirmation token"
+  },
+
+  "rows": [
+    {
+      "policy_row_id": "CTL-B0", "cause_class": "controllable", "band": "B0",
+      "rebooking": {"waiver": false, "note": "Under 60 min there is no waiver. Voluntary change rules by fare family apply (see fare_family_rules)."},
+      "refund": {"eligible_on_request": "per_fare_rules", "executes": "human"},
+      "care": {"meal_usd": 0, "hotel": {"eligible": false}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0},
+      "escalate_if": [],
+      "explainer_en": "Your flight is running a little behind. Nothing changes with your ticket; here is the latest departure estimate."
+    },
+    {
+      "policy_row_id": "CTL-B1", "cause_class": "controllable", "band": "B1",
+      "rebooking": {"waiver": true, "window": "controllable"},
+      "refund": {"eligible_on_request": "per_fare_rules", "non_refundable_gets": "travel_credit_of_ticket_value", "executes": "human"},
+      "care": {"meal_usd": 0, "hotel": {"eligible": false}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0},
+      "escalate_if": [],
+      "explainer_en": "Because the delay is over an hour, you can move to another Larkspur flight to the same destination within 7 days at no cost, or keep your current flight."
+    },
+    {
+      "policy_row_id": "CTL-B2", "cause_class": "controllable", "band": "B2",
+      "rebooking": {"waiver": true, "window": "controllable"},
+      "refund": {"eligible_on_request": "per_fare_rules", "non_refundable_gets": "travel_credit_of_ticket_value", "executes": "human"},
+      "care": {"meal_usd": 15, "hotel": {"eligible": false}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0},
+      "escalate_if": [],
+      "explainer_en": "You can rebook at no cost within 7 days, and a $15 meal credit is available while you wait."
+    },
+    {
+      "policy_row_id": "CTL-B3", "cause_class": "controllable", "band": "B3",
+      "rebooking": {"waiver": true, "window": "controllable"},
+      "refund": {"eligible_on_request": true, "reason": "significant delay (>= 180 min)", "form": "original form of payment or travel credit, customer's choice", "executes": "human"},
+      "care": {"meal_usd": 25, "hotel": {"eligible": "if_overnight", "nightly_cap_usd": 175, "nights": 1, "approval": "human_one_click"}, "ground_usd": {"if_overnight": 40, "else": 0}},
+      "goodwill": {"eligible": true, "cap_usd": "goodwill_base_by_tier + fare_family_adjustment"},
+      "escalate_if": [],
+      "explainer_en": "This is a long delay caused by something within our control. You can rebook free of charge or, if you prefer not to travel, request a refund. A $25 meal credit is available now."
+    },
+    {
+      "policy_row_id": "CTL-B4", "cause_class": "controllable", "band": "B4",
+      "rebooking": {"waiver": true, "window": "controllable"},
+      "refund": {"eligible_on_request": true, "reason": "significant delay (>= 180 min)", "form": "original form of payment or travel credit, customer's choice", "executes": "human"},
+      "care": {"meal_usd": 25, "hotel": {"eligible": "if_overnight", "nightly_cap_usd": 175, "nights": 1, "approval": "human_one_click"}, "ground_usd": {"if_overnight": 40, "else": 0}},
+      "goodwill": {"eligible": true, "cap_usd": "goodwill_base_by_tier + fare_family_adjustment + 25"},
+      "escalate_if": ["delay_minutes >= 720 -> ESC-08 extended_delay_review"],
+      "explainer_en": "This is a very long delay within our control. Free rebooking or a refund on request; meal credit now; if this runs overnight away from home we will arrange a hotel."
+    },
+    {
+      "policy_row_id": "CTL-CXL", "cause_class": "controllable", "band": "CXL",
+      "rebooking": {"waiver": true, "window": "controllable"},
+      "refund": {"eligible_on_request": true, "reason": "cancellation", "form": "original form of payment or travel credit, customer's choice; unused return on same PNR refundable if trip purpose defeated", "executes": "human"},
+      "care": {"meal_usd": {"if_wait_minutes_for_alternative_gte": 120, "amount": 25, "else": 0}, "hotel": {"eligible": "if_overnight", "nightly_cap_usd": 175, "nights": 1, "approval": "human_one_click"}, "ground_usd": {"if_overnight": 40, "else": 0}},
+      "goodwill": {"eligible": true, "cap_usd": "goodwill_base_by_tier + fare_family_adjustment"},
+      "escalate_if": ["no LK alternative inside waiver window -> ESC-09"],
+      "explainer_en": "Your flight was cancelled for a reason within our control. You can pick another Larkspur flight at no cost, or request a refund if you decide not to travel."
+    },
+    {
+      "policy_row_id": "CTL-DIV", "cause_class": "controllable", "band": "DIV",
+      "rebooking": {"waiver": true, "window": "controllable", "from": "diversion airport or original origin"},
+      "refund": {"eligible_on_request": true, "reason": "diversion; unused portion if customer abandons trip at diversion point", "executes": "human"},
+      "care": {"meal_usd": {"if_wait_minutes_for_alternative_gte": 120, "amount": 25, "else": 0}, "hotel": {"eligible": "if_overnight", "nightly_cap_usd": 175, "nights": 1, "approval": "human_one_click"}, "ground_usd": {"rule": "airline-arranged surface transport when diversion airport is within 150 road miles of destination; individual ground credit 40 only if no airline transport departs within 180 min", "amount": 40}},
+      "goodwill": {"eligible": true, "cap_usd": "goodwill_base_by_tier + fare_family_adjustment"},
+      "escalate_if": ["passenger still on board diverted aircraft -> ESC-12 (inform only; OCC and station own care)"],
+      "explainer_en": "Your flight landed at a different airport for a reason within our control. We will get you to your destination by air or ground at no cost; meal credit applies if the wait is 2 hours or more."
+    },
+    {
+      "policy_row_id": "UNC-B0", "cause_class": "uncontrollable", "band": "B0",
+      "rebooking": {"waiver": false, "note": "Under 60 min there is no waiver. Voluntary change rules by fare family apply."},
+      "refund": {"eligible_on_request": "per_fare_rules", "executes": "human"},
+      "care": {"meal_usd": 0, "hotel": {"eligible": false}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0},
+      "escalate_if": [],
+      "explainer_en": "Your flight is running a little behind because of conditions outside our control. Your ticket is unchanged; here is the latest estimate."
+    },
+    {
+      "policy_row_id": "UNC-B1", "cause_class": "uncontrollable", "band": "B1",
+      "rebooking": {"waiver": true, "window": "uncontrollable"},
+      "refund": {"eligible_on_request": "per_fare_rules", "non_refundable_gets": "travel_credit_of_ticket_value", "executes": "human"},
+      "care": {"meal_usd": 0, "hotel": {"eligible": false}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0},
+      "escalate_if": [],
+      "explainer_en": "Because the delay is over an hour, you can move to another Larkspur flight to the same destination within 3 days at no cost, or keep your current flight."
+    },
+    {
+      "policy_row_id": "UNC-B2", "cause_class": "uncontrollable", "band": "B2",
+      "rebooking": {"waiver": true, "window": "uncontrollable"},
+      "refund": {"eligible_on_request": "per_fare_rules", "non_refundable_gets": "travel_credit_of_ticket_value", "executes": "human"},
+      "care": {"meal_usd": 0, "hotel": {"eligible": false}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0},
+      "escalate_if": [],
+      "explainer_en": "Weather and air traffic delays of this length come with free rebooking within 3 days. Meal credits start at 3 hours for delays outside our control."
+    },
+    {
+      "policy_row_id": "UNC-B3", "cause_class": "uncontrollable", "band": "B3",
+      "rebooking": {"waiver": true, "window": "uncontrollable"},
+      "refund": {"eligible_on_request": true, "reason": "significant delay (>= 180 min)", "form": "original form of payment or travel credit, customer's choice", "executes": "human"},
+      "care": {"meal_usd": 15, "hotel": {"eligible": false, "instead": "distressed-passenger hotel rate link; Summit courtesy override may apply"}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0, "note": "Summit courtesy override may apply"},
+      "escalate_if": [],
+      "explainer_en": "This delay is outside our control, so hotel and transport are not covered, but a $15 meal credit is available and you can rebook free within 3 days or request a refund if you decide not to travel."
+    },
+    {
+      "policy_row_id": "UNC-B4", "cause_class": "uncontrollable", "band": "B4",
+      "rebooking": {"waiver": true, "window": "uncontrollable"},
+      "refund": {"eligible_on_request": true, "reason": "significant delay (>= 180 min)", "form": "original form of payment or travel credit, customer's choice", "executes": "human"},
+      "care": {"meal_usd": 15, "hotel": {"eligible": false, "instead": "distressed-passenger hotel rate link; Summit courtesy override may apply"}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0, "note": "Summit courtesy override may apply"},
+      "escalate_if": ["delay_minutes >= 720 -> ESC-08 extended_delay_review"],
+      "explainer_en": "This is a very long delay outside our control. Free rebooking within 3 days or a refund on request; a $15 meal credit is available."
+    },
+    {
+      "policy_row_id": "UNC-CXL", "cause_class": "uncontrollable", "band": "CXL",
+      "rebooking": {"waiver": true, "window": "uncontrollable"},
+      "refund": {"eligible_on_request": true, "reason": "cancellation", "form": "original form of payment or travel credit, customer's choice; unused return on same PNR refundable if trip purpose defeated", "executes": "human"},
+      "care": {"meal_usd": {"if_wait_minutes_for_alternative_gte": 180, "amount": 15, "else": 0}, "hotel": {"eligible": false, "instead": "distressed-passenger hotel rate link; Summit courtesy override may apply"}, "ground_usd": 0},
+      "goodwill": {"eligible": false, "cap_usd": 0, "note": "Summit courtesy override may apply"},
+      "escalate_if": ["no LK alternative inside waiver window -> ESC-09"],
+      "explainer_en": "Your flight was cancelled because of conditions outside our control. You can pick another Larkspur flight within 3 days at no cost, or request a refund if you decide not to travel. Hotels are not covered for weather, but we can share a discounted rate."
+    },
+    {
+      "policy_row_id": "UNC-DIV", "cause_class": "uncontrollable", "band": "DIV",
+      "rebooking": {"waiver": true, "window": "uncontrollable", "from": "diversion airport or original origin"},
+      "refund": {"eligible_on_request": true, "reason": "diversion; unused portion if customer abandons trip at diversion point", "executes": "human"},
+      "care": {"meal_usd": {"if_wait_minutes_for_alternative_gte": 180, "amount": 15, "else": 0}, "hotel": {"eligible": false, "exception": "if overnight at diversion airport AND no airline transport offered: propose, human approves"}, "ground_usd": {"rule": "airline-arranged surface transport when diversion airport is within 150 road miles of destination; individual ground credit 40 only if no airline transport departs within 180 min", "amount": 40}},
+      "goodwill": {"eligible": false, "cap_usd": 0, "note": "This is the row that was missing before 14.3."},
+      "escalate_if": ["passenger still on board diverted aircraft -> ESC-12 (inform only; OCC and station own care)"],
+      "explainer_en": "Your flight landed at a different airport because of weather or air traffic conditions. We will get you to your destination by air or ground at no cost. Meal credit applies if the wait is 3 hours or more."
+    }
+  ],
+
+  "goodwill_base_by_tier_usd": {"Member": 25, "Silver": 50, "Gold": 100, "Summit": 150},
+  "goodwill_rules": {
+    "instrument": "Larkspur future travel credit issued in CareDesk, type=goodwill, valid 12 months",
+    "fare_family_adjustment_usd": {"Basic": 0, "Main": 0, "Main Plus": 25, "First": 50},
+    "basic_fare_minimum_tier": "Silver",
+    "b4_extra_usd": 25,
+    "offer_guidance": "Offer only after entitlements and rebooking are settled, once per PNR per event, up to the cap. Do not offer proactively on uncontrollable causes.",
+    "not_an_admission": true
+  },
+
+  "fare_family_rules": {
+    "Basic": {"voluntary_change": "not_permitted", "refundable": false, "voluntary_cancel": "no value retained", "same_day_confirmed_change": false, "cabin": "Y", "note": "All disruption waivers (B1 and above, CXL, DIV) apply to Basic exactly as to Main."},
+    "Main": {"voluntary_change": "permitted; fare difference applies; collecting payment is a human step (ESC-11)", "refundable": false, "voluntary_cancel": "travel credit of ticket value, human executes", "same_day_confirmed_change": false, "cabin": "Y"},
+    "Main Plus": {"voluntary_change": "permitted; fare difference applies (human, ESC-11)", "refundable": true, "voluntary_cancel": "refund to original form of payment, human executes", "same_day_confirmed_change": {"allowed": true, "fee_usd": 0, "conditions": "same origin, destination and calendar day; Y seat available; agent may execute via hold_seat + confirm_rebooking with UI token"}, "cabin": "Y"},
+    "First": {"voluntary_change": "permitted; fare difference applies (human, ESC-11)", "refundable": true, "voluntary_cancel": "refund to original form of payment, human executes", "same_day_confirmed_change": {"allowed": true, "fee_usd": 0, "conditions": "same origin, destination and calendar day; J seat available; agent may execute via hold_seat + confirm_rebooking with UI token"}, "cabin": "J", "if_J_unavailable_on_alternative": "customer may accept Y; cabin-difference refund is a human step and triggers ESC-07"}
+  },
+
+  "loyalty_rules": {
+    "Member": {"meal_bonus_usd": 0, "upgrade_if_y_unavailable": false},
+    "Silver": {"meal_bonus_usd": 0, "upgrade_if_y_unavailable": false, "note": "Silver and above make Basic fares goodwill-eligible on controllable rows."},
+    "Gold": {"meal_bonus_usd": 10, "meal_bonus_cap_usd": 25, "upgrade_if_y_unavailable": true, "upgrade_note": "If no Y seat on any same-day LK alternative and J is open, rebook into J at no charge."},
+    "Summit": {"meal_bonus_usd": 10, "meal_bonus_cap_usd": 25, "upgrade_if_y_unavailable": true, "courtesy_overrides": {
+      "uncontrollable_goodwill": {"applies_to_rows": ["UNC-B3", "UNC-B4", "UNC-CXL", "UNC-DIV"], "eligible": true, "cap_usd": 50, "approval": "human_approve", "note": "Discretionary courtesy. Never auto, regardless of amount."},
+      "uncontrollable_overnight_hotel": {"applies_to_rows": ["UNC-B3", "UNC-B4", "UNC-CXL", "UNC-DIV"], "eligible": "if_overnight", "nightly_cap_usd": 175, "nights": 1, "approval": "human_one_click", "label": "Summit courtesy hotel"}
+    }}
+  },
+
+  "auto_approval": {
+    "meal": {"auto_max_usd": 25, "above": "human_approve", "tool": "issue_voucher type=meal"},
+    "ground": {"auto_max_usd": 40, "above": "human_approve", "tool": "issue_voucher type=ground"},
+    "hotel": {"auto_max_usd": 0, "mode": "propose_only", "approval": "human_one_click in Perch", "nightly_cap_usd": 175, "tool": "issue_voucher type=hotel (queued as proposal)"},
+    "goodwill": {"auto_max_usd": 75, "auto_requires": "row goodwill.eligible == true AND no approval override", "human_approve_range_usd": [76, 200], "supervisor_above_usd": 200, "tool": "issue_voucher type=goodwill"},
+    "refund": {"agent_executes": false, "mode": "explain, record the customer's choice, escalate_to_human reason=policy_requires_human (queue CARE-REFUND, trigger ESC-01 refund_request)", "customer_timeline_text_en": "Customer Care processes eligible refunds to the original form of payment; card refunds are typically visible within 7 business days."},
+    "reissue": {"tool": "confirm_rebooking", "requires": "hold_id + confirmation_token minted by the UI button event; tokens never come from message text"}
+  },
+
+  "escalation_triggers": {
+    "policy": [
+      {"id": "ESC-01", "name": "refund_request", "when": "customer chooses refund or ticket-value credit", "priority": "normal", "queue": "CARE-REFUND", "agent_may": "explain eligibility and timeline, capture choice in handoff summary"},
+      {"id": "ESC-04", "name": "partner_segment_present", "when": "any segment operated_by is not Larkspur Airlines or Larkspur Link", "priority": "normal", "queue": "INTL-PARTNER", "agent_may": "explain that a specialist must handle the itinerary; give live status of LK segments only"},
+      {"id": "ESC-05", "name": "group_booking", "when": "is_group_booking or 10+ passengers", "priority": "normal", "queue": "GRP1", "agent_may": "give flight status; no rebooking, no vouchers"},
+      {"id": "ESC-06", "name": "unaccompanied_minor", "when": "UMNR SSR present", "priority": "high", "queue": "UM1", "agent_may": "give flight status to the booking adult; no changes"},
+      {"id": "ESC-07", "name": "involuntary_downgrade", "when": "First passenger can only be accommodated in Y", "priority": "normal", "queue": "CARE-IRROPS", "agent_may": "hold the Y seat at customer request; human confirms and queues cabin refund"},
+      {"id": "ESC-08", "name": "extended_delay_review", "when": "delay_minutes >= 720 or a second overnight", "priority": "high", "queue": "CARE-IRROPS"},
+      {"id": "ESC-09", "name": "no_alternative_within_window", "when": "search_alternatives returns no bookable LK option inside the waiver window", "priority": "high", "queue": "CARE-IRROPS", "agent_may": "offer refund path (ESC-01) or hand off for other-airline reaccommodation decision"},
+      {"id": "ESC-10", "name": "ssr_inventory_required", "when": "PETC, ESAN, MEDA, OXYG or STCR on the PNR and a new flight is chosen", "priority": "normal", "queue": "CARE-SSR", "agent_may": "hold seats; a human confirms SSR inventory before confirm_rebooking. WCHR, MAAS, VGML, CHLD, INFT carry over automatically and do not trigger."},
+      {"id": "ESC-11", "name": "payment_required", "when": "any path that collects or refunds money for fare difference or ancillaries", "priority": "normal", "queue": "CARE-PAY"},
+      {"id": "ESC-12", "name": "diverted_pax_onboard", "when": "status DIVERTED and customer indicates they are on the aircraft or at the diversion airport under station care", "priority": "low", "queue": "none (inform only)", "agent_may": "share the ops_note transport plan and entitlements; do not issue ground credit while airline transport is being arranged"},
+      {"id": "ESC-13", "name": "baggage_tracing", "when": "customer asks about checked-bag location or re-tagging after a rebooking", "priority": "normal", "queue": "BAG1", "agent_may": "explain that bags are re-tagged to the new flight by Baggage Service when both flights are same-day same-airport; otherwise hand off"}
+    ],
+    "conversation": [
+      {"id": "CONV-01", "name": "abuse_or_threatening_language", "action": "one calm boundary message, then escalate priority=high"},
+      {"id": "CONV-02", "name": "legal_or_regulatory_threat", "action": "do not argue entitlements; escalate priority=high with verbatim quote in summary"},
+      {"id": "CONV-03", "name": "safety_or_medical_risk", "action": "escalate priority=urgent"},
+      {"id": "CONV-04", "name": "vulnerability_cue", "examples": ["minor traveling alone", "elderly passenger stranded", "medication in checked bag", "customer says they cannot cope"], "action": "continue helping but escalate priority=high in parallel"},
+      {"id": "CONV-05", "name": "two_failed_tool_calls", "action": "apologize once, escalate with what was attempted"},
+      {"id": "CONV-06", "name": "customer_asks_for_human_twice", "action": "escalate immediately; the 'talk to a person' button is always visible anyway"}
+    ],
+    "conversation_note": "Conversation triggers are enforced by the system prompt (v2 onward, placed above the resolve-first instruction). They are listed here so Perch, the judge rubric and the agent share one list."
+  },
+
+  "customer_wording": {
+    "use": {"meal": "meal credit", "ground": "ground transport credit", "hotel": "hotel voucher (once approved)", "goodwill": "travel credit as a goodwill gesture", "refund": "refund request, processed by Customer Care"},
+    "never_say": ["guarantee", "guaranteed", "compensation is owed", "you are entitled to compensation", "we promise", "I've gone ahead and"],
+    "cause_attribution": "Name the cause only with cause_labels_customer. Do not elaborate on or assign blame to weather services, air traffic control, crews or maintenance teams.",
+    "actions": "Say an action happened only when the tool returned success and an id (hold_id, voucher_id, case id)."
+  },
+
+  "resolution_order": [
+    "1. Map cause_code -> cause_class via cause_classes.",
+    "2. Map status + delay_minutes -> band via delay_bands (CANCELLED -> CXL, DIVERTED -> DIV, else by minutes).",
+    "3. Select the row where cause_class and band match; copy it as the entitlements object and set policy_row_id.",
+    "4. Resolve conditionals: hotel and ground 'if_overnight' using the overnight input; meal 'if_wait_minutes_for_alternative_gte' using wait_minutes_for_alternative (if absent, return meal as {conditional: true, threshold_minutes, amount}).",
+    "5. Apply fare_family_rules: attach voluntary-change and refundability facts; for B0 rows attach same_day_confirmed_change if the fare family has it.",
+    "6. Apply loyalty_rules: add meal_bonus_usd to a non-zero meal amount and cap at meal_bonus_cap_usd; set upgrade_if_y_unavailable; for Summit apply courtesy_overrides on the listed rows (these set goodwill.eligible=true, cap 50, approval=human_approve, and hotel eligible if overnight with approval=human_one_click).",
+    "7. Compute goodwill cap when eligible: goodwill_base_by_tier_usd[tier] + fare_family_adjustment_usd[fare_family] (+ b4_extra_usd on B4 rows). If fare_family is Basic and tier is below basic_fare_minimum_tier, set eligible=false, cap 0.",
+    "8. Attach approval per auto_approval: meal auto if <= 25; ground auto if <= 40; hotel always propose_only; goodwill auto if eligible and cap <= 75 and no override, human_approve if 76-200 or override, supervisor if > 200; refund never executed by agent.",
+    "9. Evaluate escalation_triggers.policy against the booking and search context available to the service (partner segment, group, UMNR, SSR list, downgrade, no alternative, delay >= 720) and return matched trigger ids in escalate[].",
+    "10. Return: {policy_row_id, policy_version, cause_class, band, rebooking, refund, care{meal, hotel, ground}, goodwill{eligible, cap_usd, approval}, escalate[], explainer, wording: customer_wording.never_say}."
+  ],
+
+  "examples": [
+    {
+      "name": "Basic fare, 2h10m weather delay (the week-3 UAT case, correct answer)",
+      "input": {"cause_code": "WX", "delay_minutes": 130, "status": "DELAYED", "fare_family": "Basic", "loyalty_tier": "Member", "overnight": false},
+      "output": {"policy_row_id": "UNC-B2", "cause_class": "uncontrollable", "band": "B2", "rebooking": {"waiver": true, "window_days_after_original": 3}, "refund": {"eligible_on_request": "per_fare_rules", "fare_refundable": false, "non_refundable_gets": "travel_credit_of_ticket_value", "executes": "human"}, "care": {"meal": {"amount_usd": 0}, "hotel": {"eligible": false}, "ground": {"amount_usd": 0}}, "goodwill": {"eligible": false, "cap_usd": 0, "approval": null}, "escalate": []},
+      "fixture_pnr": "B6ZJ5N"
+    },
+    {
+      "name": "Summit, First, last BNA-DEN of the day cancelled for maintenance, away from home",
+      "input": {"cause_code": "MX", "delay_minutes": 0, "status": "CANCELLED", "fare_family": "First", "loyalty_tier": "Summit", "overnight": true, "wait_minutes_for_alternative": 660},
+      "output": {"policy_row_id": "CTL-CXL", "cause_class": "controllable", "band": "CXL", "rebooking": {"waiver": true, "window_days_after_original": 7, "upgrade_if_y_unavailable": true}, "refund": {"eligible_on_request": true, "fare_refundable": true, "executes": "human"}, "care": {"meal": {"amount_usd": 25, "approval": "auto", "note": "25 base + 10 tier bonus capped at 25"}, "hotel": {"eligible": true, "nightly_cap_usd": 175, "nights": 1, "approval": "human_one_click"}, "ground": {"amount_usd": 40, "approval": "auto"}}, "goodwill": {"eligible": true, "cap_usd": 200, "approval": "human_approve", "math": "Summit 150 + First 50"}, "escalate": []},
+      "fixture_pnr": "H4MC7Y"
+    },
+    {
+      "name": "Main, Member, 200-minute maintenance delay at home airport",
+      "input": {"cause_code": "MX", "delay_minutes": 200, "status": "DELAYED", "fare_family": "Main", "loyalty_tier": "Member", "overnight": false},
+      "output": {"policy_row_id": "CTL-B3", "cause_class": "controllable", "band": "B3", "rebooking": {"waiver": true, "window_days_after_original": 7}, "refund": {"eligible_on_request": true, "fare_refundable": false, "form": "original form of payment or travel credit, customer's choice", "executes": "human"}, "care": {"meal": {"amount_usd": 25, "approval": "auto"}, "hotel": {"eligible": false}, "ground": {"amount_usd": 0}}, "goodwill": {"eligible": true, "cap_usd": 25, "approval": "auto", "math": "Member 25 + Main 0"}, "escalate": []},
+      "fixture_pnr": "W6PA9H"
+    },
+    {
+      "name": "Summit couple, 4-hour weather delay",
+      "input": {"cause_code": "WX", "delay_minutes": 240, "status": "DELAYED", "fare_family": "Main", "loyalty_tier": "Summit", "overnight": false},
+      "output": {"policy_row_id": "UNC-B3", "cause_class": "uncontrollable", "band": "B3", "rebooking": {"waiver": true, "window_days_after_original": 3, "upgrade_if_y_unavailable": true}, "refund": {"eligible_on_request": true, "fare_refundable": false, "executes": "human"}, "care": {"meal": {"amount_usd": 25, "approval": "auto", "note": "15 base + 10 tier bonus"}, "hotel": {"eligible": false}, "ground": {"amount_usd": 0}}, "goodwill": {"eligible": true, "cap_usd": 50, "approval": "human_approve", "source": "Summit courtesy override"}, "escalate": []},
+      "fixture_pnr": "Q4DZ6L"
+    },
+    {
+      "name": "Gold, Main Plus, weather diversion to COS with airline coach to DEN",
+      "input": {"cause_code": "WX", "delay_minutes": 0, "status": "DIVERTED", "fare_family": "Main Plus", "loyalty_tier": "Gold", "overnight": false, "wait_minutes_for_alternative": 125},
+      "output": {"policy_row_id": "UNC-DIV", "cause_class": "uncontrollable", "band": "DIV", "rebooking": {"waiver": true, "window_days_after_original": 3}, "refund": {"eligible_on_request": true, "fare_refundable": true, "executes": "human"}, "care": {"meal": {"amount_usd": 0, "note": "wait 125 < 180 threshold; would be 15 + 10 = 25 at 180"}, "hotel": {"eligible": false}, "ground": {"amount_usd": 0, "note": "airline coach COS-DEN arranged within 180 min, so no individual credit"}}, "goodwill": {"eligible": false, "cap_usd": 0, "approval": null}, "escalate": ["ESC-12 if passenger reports being on board or under station care"]},
+      "fixture_pnr": "D3JY7R"
+    },
+    {
+      "name": "Main Plus, Member, 45-minute ATC delay (no waiver, but free same-day change exists)",
+      "input": {"cause_code": "ATC", "delay_minutes": 45, "status": "DELAYED", "fare_family": "Main Plus", "loyalty_tier": "Member", "overnight": false},
+      "output": {"policy_row_id": "UNC-B0", "cause_class": "uncontrollable", "band": "B0", "rebooking": {"waiver": false, "same_day_confirmed_change": {"allowed": true, "fee_usd": 0, "conditions": "same origin, destination and calendar day; Y seat available"}}, "refund": {"eligible_on_request": "per_fare_rules", "fare_refundable": true, "executes": "human"}, "care": {"meal": {"amount_usd": 0}, "hotel": {"eligible": false}, "ground": {"amount_usd": 0}}, "goodwill": {"eligible": false, "cap_usd": 0, "approval": null}, "escalate": []},
+      "fixture_pnr": "M3XR8T"
+    },
+    {
+      "name": "Gold, Main, controllable missed connection at BNA, projected arrival 8h45m late",
+      "input": {"cause_code": "MX", "delay_minutes": 525, "status": "DELAYED", "fare_family": "Main", "loyalty_tier": "Gold", "overnight": false},
+      "output": {"policy_row_id": "CTL-B4", "cause_class": "controllable", "band": "B4", "rebooking": {"waiver": true, "window_days_after_original": 7, "upgrade_if_y_unavailable": true}, "refund": {"eligible_on_request": true, "fare_refundable": false, "executes": "human"}, "care": {"meal": {"amount_usd": 25, "approval": "auto", "note": "25 + 10 capped at 25"}, "hotel": {"eligible": false}, "ground": {"amount_usd": 0}}, "goodwill": {"eligible": true, "cap_usd": 125, "approval": "human_approve", "math": "Gold 100 + Main 0 + B4 25"}, "escalate": []},
+      "fixture_pnr": "X5RG9C"
+    }
+  ]
+}

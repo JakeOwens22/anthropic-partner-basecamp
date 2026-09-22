@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 run.py:*)",
+      "Bash(python3 verify.py:*)",
+      "Bash(python3 readout.py:*)",
+      "Bash(python3 setup.py:*)",
+      "Bash(python3 pod_sync.py:*)",
+      "Bash(python3 bench.py:*)",
+      "Bash(python3 eval_harness.py:*)",
+      "Bash(python3 demo/serve.py:*)",
+      "Bash(python3 support/mcp_selftest.py:*)",
+      "Bash(grep -n:*)"
+    ]
+  }
+}

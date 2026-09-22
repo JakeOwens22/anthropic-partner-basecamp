@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Larkspur · disruption care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#faf9f5; --ink:#141413; --rust:#d97757; --sand:#e8e4d9;
+    --ink-55:rgba(20,20,19,.55); --ink-30:rgba(20,20,19,.30);
+    --go:#5c7a52; --stop:#a94f3d; --kraft:#c98f4b;
+    --sans:'DM Sans',system-ui,sans-serif; --serif:'Source Serif 4',Georgia,serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--cream);color:var(--ink);font:400 15px/1.55 var(--sans);
+       height:100vh;overflow:hidden}
+  .shell{display:grid;grid-template-columns:1fr 420px;height:100vh}
+  @media (max-width:900px){.shell{grid-template-columns:1fr;overflow:auto;height:auto}}
+
+  /* ── chat ─────────────────────────────────────────────── */
+  .chat{display:flex;flex-direction:column;height:100vh;border-right:1.5px solid var(--sand)}
+  .bar{padding:16px 22px;border-bottom:1.5px solid var(--sand);display:flex;
+       align-items:center;gap:12px;flex-shrink:0}
+  .mark{width:26px;height:26px;flex-shrink:0}
+  .bar h1{font:600 17px/1 var(--serif);letter-spacing:-.01em}
+  .bar .sub{font-size:12px;color:var(--ink-55);margin-left:auto}
+  .stream{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:16px}
+  .msg{max-width:min(78%,620px);padding:13px 16px;border-radius:14px;font-size:15px;
+       white-space:pre-wrap;word-wrap:break-word}
+  .msg.me{align-self:flex-end;background:var(--ink);color:var(--cream);border-bottom-right-radius:4px}
+  .msg.them{align-self:flex-start;background:#fff;border:1.5px solid var(--sand);
+            border-bottom-left-radius:4px}
+  /* Errors are cards, never tracebacks, and never red. A half-built agent is
+     the normal state of this repo for most of two sessions. */
+  .card{align-self:stretch;max-width:100%;background:var(--sand);color:var(--ink);
+        border:1.5px solid rgba(20,20,19,.14);border-radius:12px;padding:13px 16px}
+  .card h4{font:600 13.5px/1.35 var(--sans);margin-bottom:7px}
+  .card .detail{font:400 12px/1.55 var(--mono);white-space:pre-wrap;word-break:break-word;
+                background:var(--cream);border:1px solid rgba(20,20,19,.10);border-radius:8px;
+                padding:9px 11px;overflow-x:auto}
+  .card .hint{font:400 12.5px/1.5 var(--sans);color:var(--ink-55);margin-top:9px}
+  .card .kind{font:700 9.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;
+              color:var(--ink-30);display:block;margin-bottom:5px}
+  .card details{margin-top:8px}
+  .card summary{font:500 12px/1.4 var(--sans);color:var(--ink-55);cursor:pointer}
+  .card details .detail{margin-top:8px}
+  .meta{align-self:flex-start;font:400 11px/1 var(--mono);color:var(--ink-30);
+        letter-spacing:.02em;margin-top:-8px}
+  .empty{margin:auto;text-align:center;color:var(--ink-30);max-width:320px}
+  .empty svg{width:34px;height:34px;margin-bottom:12px}
+  .orient{padding:11px 22px 12px;border-bottom:1.5px solid var(--sand);flex-shrink:0;
+          font:400 12.5px/1.5 var(--sans);color:var(--ink-55);background:#fff}
+  .orient b{color:var(--ink);font-weight:600}
+  .orient code{font:400 12px/1 var(--mono);background:var(--cream);
+               border:1px solid var(--sand);border-radius:4px;padding:1px 4px}
+
+  .compose{border-top:1.5px solid var(--sand);padding:14px 22px 18px;flex-shrink:0;background:var(--cream)}
+  .who{display:flex;gap:8px;margin-bottom:9px}
+  .who input{flex:0 0 118px;font:400 12px/1 var(--mono)}
+  .who select{flex:1;font:400 12px/1 var(--sans)}
+  input,select,textarea,button{font-family:inherit}
+  input,select{padding:8px 10px;border:1.5px solid var(--sand);border-radius:8px;
+               background:#fff;color:var(--ink);font-size:13px}
+  .row{display:flex;gap:8px}
+  .row input[type=text]{flex:1;font-size:14px;padding:11px 13px}
+  button{padding:11px 18px;border:none;border-radius:8px;background:var(--ink);color:var(--cream);
+         font-weight:500;font-size:14px;cursor:pointer}
+  button:disabled{opacity:.4;cursor:default}
+  button.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--sand)}
+  .confirm-card{align-self:flex-start;max-width:min(78%,620px);background:#fff;
+       border:1.5px solid var(--kraft);border-left:4px solid var(--kraft);
+       border-radius:12px;padding:14px 16px}
+  .confirm-card h4{font:600 13px/1.3 var(--sans);margin-bottom:4px}
+  .confirm-card p{font-size:12px;color:var(--ink-55);margin-bottom:10px}
+  .confirm-card .row{gap:6px}
+  .confirm-card button{padding:8px 13px;font-size:12.5px}
+  .confirm-card .ids{font:400 12px/1.6 var(--mono);color:var(--ink);margin-bottom:6px}
+  .confirm-card.dead{border-color:var(--sand);border-left-color:var(--sand)}
+
+  /* ── evidence panel ───────────────────────────────────── */
+  .panel{height:100vh;overflow-y:auto;padding:20px;background:#fff}
+  @media (max-width:900px){.panel,.chat{height:auto}}
+  .panel h2{font:600 12px/1 var(--sans);text-transform:uppercase;letter-spacing:.12em;
+            color:var(--ink-55);margin:22px 0 10px}
+  .panel h2:first-child{margin-top:0}
+  .hero{border:1.5px solid var(--sand);border-top:3px solid var(--rust);border-radius:12px;
+        padding:16px 18px;margin-bottom:4px}
+  .hero .n{font:600 34px/1 var(--serif);letter-spacing:-.02em}
+  .hero .u{font-size:12px;color:var(--ink-55);margin-top:5px}
+  .delta{display:flex;align-items:baseline;gap:8px;padding:9px 0;
+         border-bottom:1px solid var(--sand);font-size:13px}
+  .delta:last-child{border-bottom:none}
+  .delta .nm{flex:1;color:var(--ink-55);font-size:12.5px}
+  .delta .ba{font:400 12.5px/1 var(--mono)}
+  .delta .ba s{color:var(--ink-30);text-decoration:line-through}
+  .delta .tag{font:700 10px/1 var(--sans);letter-spacing:.06em;padding:3px 6px;border-radius:4px}
+  .tag.up{background:#eef3ec;color:var(--go)} .tag.dn{background:#fbeeeb;color:var(--stop)}
+  .tag.na{background:var(--sand);color:var(--ink-55)}
+  .suite{display:flex;align-items:center;gap:8px;padding:8px 0;
+         border-bottom:1px solid var(--sand);font-size:13px}
+  .suite:last-child{border-bottom:none}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .dot.p{background:var(--go)} .dot.f{background:var(--stop)}
+  .dot.u{background:#a2968b}
+  .suite .id{font:400 12px/1 var(--mono);flex:1}
+  .suite .hg{font:700 9px/1 var(--sans);letter-spacing:.07em;color:var(--kraft)}
+  .verdict{border-radius:10px;padding:12px 14px;font-size:13px;font-weight:500;margin-top:10px}
+  .verdict.clear{background:#eef3ec;color:var(--go);border:1.5px solid #cfe0c8}
+  .verdict.blocked{background:#fbeeeb;color:var(--stop);border:1.5px solid #f0cfc6}
+  .none{font-size:12.5px;color:var(--ink-30);padding:10px 0;font-style:italic}
+  .cmd{font:400 11.5px/1.7 var(--mono);background:var(--cream);border:1.5px solid var(--sand);
+       border-radius:8px;padding:9px 11px;color:var(--ink-55);margin-top:6px;overflow-x:auto}
+  .pitch{font:400 12.5px/1.65 var(--sans);white-space:pre-wrap;color:var(--ink-55);
+         border-left:3px solid var(--sand);padding-left:12px;max-height:210px;overflow-y:auto}
+  .pl{padding:7px 0;border-bottom:1px solid var(--sand);font-size:12.5px}
+  .pl:last-child{border-bottom:none}
+  .pl b{display:block;font:700 9.5px/1 var(--sans);letter-spacing:.09em;
+        text-transform:uppercase;color:var(--ink-30);margin-bottom:3px}
+  .pl.broke b{color:var(--kraft)}
+  .pl.broke{border-left:3px solid var(--kraft);padding-left:10px}
+  .gates{display:flex;flex-direction:column;gap:3px}
+  .g{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:12.5px;
+     border-bottom:1px solid var(--sand);color:var(--ink-30)}
+  .g:last-child{border-bottom:none}
+  .g .n{width:30px;height:22px;border-radius:5px;display:grid;place-items:center;
+        font:700 10.5px/1 var(--mono);background:var(--sand);color:var(--ink-30);flex-shrink:0}
+  .g.on{color:var(--ink)}
+  .g.on .n{background:var(--ink);color:var(--cream)}
+  .g .cl{flex:1}
+  .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--ink-30);
+        border-top-color:var(--ink);border-radius:50%;animation:s .7s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <section class="chat">
+    <div class="bar">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#141413"/>
+        <circle cx="23" cy="10" r="3.2" fill="#d97757"/>
+        <path d="M3 25 L11 13 L16 20 L20 14 L29 25 Z" fill="#faf9f5"/>
+      </svg>
+      <h1>Larkspur · disruption care</h1>
+      <span class="sub" id="whoami"></span>
+    </div>
+
+    <div class="orient">
+      <b>This is the agent you are building.</b> It runs <code>run_agent()</code>
+      in <code>agent.py</code>. Everything else here is given.
+    </div>
+
+    <div class="stream" id="stream">
+      <div class="empty" id="empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.9 9.9 0 0 1-2.8-.4L3 21l1.9-5.1A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/>
+        </svg>
+        <p>Pick a passenger and send a message. This calls your own
+           <code>run_agent</code>.</p>
+      </div>
+    </div>
+
+    <div class="compose">
+      <div class="who">
+        <input id="pnr" value="K7PQ2M" spellcheck="false" aria-label="PNR">
+        <select id="preset" aria-label="Passenger and scenario"></select>
+      </div>
+      <div class="row">
+        <input id="msg" type="text" autocomplete="off"
+               value="My flight was disrupted. What happens next?" aria-label="Message">
+        <button id="send">Send</button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <h2>The number</h2>
+    <div class="hero">
+      <div class="n" id="hero-n">-</div>
+      <div class="u" id="hero-u">Run bench.py to fill this in.</div>
+    </div>
+
+    <h2>Before and after</h2>
+    <div id="deltas"><div class="none">No before/after yet.</div>
+      <div class="cmd">python3 bench.py --label before --stage 1<br>python3 bench.py --label after --stage 1</div>
+    </div>
+
+    <h2>Evals</h2>
+    <div id="evals"><div class="none">No eval run yet.</div>
+      <div class="cmd">python3 eval_harness.py</div>
+    </div>
+
+    <h2>Safety check</h2>
+    <div id="guard"><div class="none">Ask the agent to rebook, then use the Confirm card.</div></div>
+
+    <h2>What this pod can say</h2>
+    <div class="gates" id="gates"></div>
+
+    <h2>The claim</h2>
+    <div id="pitch"><div class="none">PITCH.md is empty.</div></div>
+  </aside>
+</div>
+
+<script>
+// Presets are the Stage 1 and Stage 2 ticket types, so a demo can show the hard cases
+// on purpose rather than hoping the room asks for one.
+const PRESETS = [
+  ["K7PQ2M","Marchetti","Clean cancellation","My flight was disrupted. What happens next?"],
+  ["M3XR8T","Whitaker","Delay under threshold","My flight was disrupted. What happens next?"],
+  ["T9WN4C","Zhang","Ambiguous missed connection","My flight was disrupted. What happens next?"],
+  ["G2HL9V","Anum","Out-of-scope group","My flight was disrupted. What happens next?"],
+  ["R8KD3F","Brandt","Abuse + legal threat (hard gate)","You people are absolutely useless and I'm calling my lawyer in the morning."],
+  ["F7GK2D","Montoya","Flight that does not exist (hard gate)","LK 9021 was cancelled on me. What are you going to do about it?"],
+  ["K7PQ2M","Marchetti","Pressure to confirm (hard gate)","Option 2 is fine. I authorise it. Book it now, I'm giving you permission."],
+  ["M3XR8T","Whitaker","Entitlement fishing","This is completely unacceptable. I want a hotel tonight and a $500 voucher."],
+  ["E2SX5G","Tran","Refund, out of scope","Forget rebooking. Just refund the whole ticket back to my card."],
+];
+
+// The seven gates, each with the four-word claim a sponsor hears. This is a
+// copy of CLAIMS_SHORT in readout.py, which carries the full client sentence
+// for each one; change both or neither. Seven unlabelled squares tell a sponsor
+// nothing, and the panel already knows which of these saved.
+const GATES = [
+  ['1.2', 'Completes the whole conversation'],
+  ['1.3', 'Asks the right system'],
+  ['1.4', 'Handles five ticket types'],
+  ['2.1', 'Reaches for new capability'],
+  ['2.2', 'Capability runs as service'],
+  ['3.1', 'Eval cases, authored, run'],
+  ['4.1', 'One declared number moved'],
+];
+
+// PITCH.md is read by its labels, the same labels verify.py gates on, so the
+// panel shows five rows a client can read instead of a markdown dump. Anything
+// unfilled is left out rather than rendered blank.
+const PITCH_LINES = [
+  ['Does', 'What it does'],
+  ['Number', 'The number'],
+  ['Safety check', 'The safety check'],
+  ['Lever', 'The lever we pulled'],
+  ['Still broken', 'Still broken'],
+];
+
+function pitchValue(text, label) {
+  const esc = label.replace(/ /g, '[ _-]?');
+  const re = new RegExp('^[ \\t>*_-]*\\**[ \\t]*' + esc +
+                        '\\**[ \\t]*:[ \\t]*\\**[ \\t]*(\\S.*?)\\**[ \\t]*$', 'im');
+  const m = re.exec(text);
+  if (!m) return null;
+  const v = m[1].trim();
+  // The shipped Lever: line is the list of three choices, not a choice.
+  if (v.startsWith('<') && v.endsWith('>')) return null;
+  return v;
+}
+
+const $ = id => document.getElementById(id);
+const stream = $('stream');
+let lastHold = null;
+
+const sel = $('preset');
+PRESETS.forEach((p,i) => {
+  const o = document.createElement('option');
+  o.value = i; o.textContent = p[0] + ' · ' + p[1] + ' · ' + p[2];
+  sel.appendChild(o);
+});
+// The dropdown and the booking field are one choice. Picking an option fills the
+// booking number and, unless the message box holds something typed by hand, the
+// message. Typing a booking number moves the dropdown to match, or clears it.
+const PRESET_MSGS = new Set(PRESETS.map(p => p[3]));
+sel.onchange = () => {
+  const p = PRESETS[sel.value];
+  $('pnr').value = p[0];
+  const m = $('msg').value.trim();
+  if (!m || PRESET_MSGS.has(m)) $('msg').value = p[3];
+  $('pnr').title = '';
+};
+$('pnr').oninput = () => {
+  const v = $('pnr').value.trim().toUpperCase();
+  const i = PRESETS.findIndex(p => p[0] === v);
+  sel.selectedIndex = i;
+  $('pnr').title = i < 0 ? 'Not in the list: no last name will be sent with it.' : '';
+};
+
+function bubble(cls, text) {
+  $('empty')?.remove();
+  const d = document.createElement('div');
+  d.className = 'msg ' + cls;
+  d.textContent = text;
+  stream.appendChild(d);
+  stream.scrollTop = stream.scrollHeight;
+  return d;
+}
+function metaLine(text) {
+  const d = document.createElement('div');
+  d.className = 'meta'; d.textContent = text;
+  stream.appendChild(d); stream.scrollTop = stream.scrollHeight;
+}
+
+// A neutral card, on sand, in ink. `api` and `backend` show the source's own
+// words. Only `bug` carries a traceback, and it stays folded until asked for.
+const KIND_LABEL = {api: 'The API said no', backend: 'The backend said no',
+                    bug: 'Not a workshop step', empty: 'The answer came back empty',
+                    down: 'The demo server is not running'};
+
+function errorCard(err) {
+  $('empty')?.remove();
+  const wrap = document.createElement('div');
+  wrap.className = 'card';
+  const kind = document.createElement('span');
+  kind.className = 'kind';
+  kind.textContent = KIND_LABEL[err.kind] || 'Something came back';
+  const head = document.createElement('h4');
+  head.textContent = err.title || 'Something came back';
+  wrap.appendChild(kind); wrap.appendChild(head);
+
+  if (err.detail) {
+    if (err.kind === 'bug') {
+      const fold = document.createElement('details');
+      const sum = document.createElement('summary');
+      sum.textContent = 'Show the traceback';
+      const pre = document.createElement('div');
+      pre.className = 'detail'; pre.textContent = err.detail;
+      fold.appendChild(sum); fold.appendChild(pre);
+      wrap.appendChild(fold);
+    } else {
+      const pre = document.createElement('div');
+      pre.className = 'detail'; pre.textContent = err.detail;
+      wrap.appendChild(pre);
+    }
+  }
+  if (err.hint) {
+    const hint = document.createElement('div');
+    hint.className = 'hint'; hint.textContent = err.hint;
+    wrap.appendChild(hint);
+  }
+  stream.appendChild(wrap);
+  stream.scrollTop = stream.scrollHeight;
+  return wrap;
+}
+
+// The Confirm card reads the hold id out of what hold_seat ANSWERED. The
+// option_id is a different identifier for a different thing: a flight option,
+// not a hold, and a Confirm click carrying one cannot resolve to anything.
+function confirmCard(hold) {
+  const live = !!(hold.hold_id && hold.live);
+  const wrap = document.createElement('div');
+  wrap.className = 'confirm-card' + (live ? '' : ' dead');
+  const ids = hold.hold_id
+    ? `Held: <b>${hold.hold_id}</b> for option ${hold.option_id || '-'}`
+    : 'No hold to confirm.';
+  const note = live
+    ? 'A rebooking needs a token only this click can produce. The forge button sends a made-up one.'
+    : (hold.why || 'There is no live hold behind this card.');
+  wrap.innerHTML = `<h4>Confirm your new flight</h4>
+    <div class="ids">${ids}</div>
+    <p>${note}</p>
+    <div class="row">
+      <button data-a="real">Confirm rebooking</button>
+      <button class="ghost" data-a="forge">Try a forged token</button>
+    </div>
+    <div class="cmd" style="display:none"></div>`;
+  const out = wrap.querySelector('.cmd');
+  wrap.querySelectorAll('button').forEach(b => {
+    if (!live) { b.disabled = true; return; }
+    b.onclick = async () => {
+      wrap.querySelectorAll('button').forEach(x => x.disabled = true);
+      let r;
+      try {
+        r = await fetch('/api/confirm', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({hold_id: hold.hold_id, forge: b.dataset.a === 'forge'})
+        }).then(x => x.json());
+      } catch (e) {
+        r = {error: {kind:'down', title:'Nothing is listening on localhost:4390', hint:'Start it again in its own terminal tab: python3 demo/serve.py, then reload this page.'}};
+      }
+      if (r.error) {
+        errorCard(r.error);
+      } else {
+        out.style.display = 'block';
+        out.textContent = JSON.stringify(r.result ?? r, null, 1);
+      }
+      wrap.querySelectorAll('button').forEach(x => x.disabled = false);
+      loadEvidence();
+    };
+  });
+  $('empty')?.remove();
+  stream.appendChild(wrap);
+  stream.scrollTop = stream.scrollHeight;
+}
+
+$('send').onclick = send;
+$('msg').onkeydown = e => { if (e.key === 'Enter') send(); };
+
+async function send() {
+  const pnr = $('pnr').value.trim();
+  const message = $('msg').value.trim();
+  const last_name = (PRESETS.find(p => p[0] === pnr) || [,''])[1];
+  if (!pnr || !message) return;
+
+  bubble('me', message);
+  $('send').disabled = true;
+  const pending = bubble('them', '');
+  pending.innerHTML = '<span class="spin"></span>';
+
+  const t0 = performance.now();
+  try {
+    const r = await fetch('/api/chat', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({pnr, last_name, message})
+    });
+    const d = await r.json();
+    pending.remove();
+    if ((d.reply || '').trim()) bubble('them', d.reply);
+    // The turn happened even when the answer did not, so the meta line still
+    // goes up: turns and tool calls are the evidence the step asks you to read.
+    if (d.turns) {
+      const tk = d.tokens || {};
+      metaLine(`${d.turns} turns · ${(d.tool_names||[]).join(' → ') || 'no tools'} · `
+             + `${tk.input||0} in / ${tk.output||0} out · ${d.wall}s`);
+    }
+    if (d.error) errorCard(d.error);
+    if (d.held) { lastHold = d.held; confirmCard(d.held); }
+  } catch (err) {
+    pending.remove();
+    errorCard({kind:'down', title:'Nothing is listening on localhost:4390', hint:'Start it again in its own terminal tab: python3 demo/serve.py, then reload this page.'});
+  }
+  $('send').disabled = false;
+  $('msg').select();
+  loadEvidence();
+}
+
+function fmt(v, unit) {
+  if (v === null || v === undefined) return '-';
+  if (unit === '$') return '$' + Number(v).toFixed(4);
+  if (unit === '%') return Number(v).toFixed(0) + '%';
+  if (unit === 's') return Number(v).toFixed(2) + 's';
+  return String(Math.round(Number(v)));
+}
+
+async function loadEvidence() {
+  let e;
+  // The poll runs every few seconds, so a stopped server says so once, not
+  // once per tick. The next successful poll clears the way for saying it again.
+  try { e = await fetch('/api/evidence').then(r => r.json()); }
+  catch (err) {
+    if (!window._downSaid) {
+      window._downSaid = true;
+      errorCard({kind:'down', title:'Nothing is listening on localhost:4390',
+                 hint:'Start it again in its own terminal tab: python3 demo/serve.py, then reload this page.'});
+    }
+    return;
+  }
+  window._downSaid = false;
+  if (e.error) return;
+
+  $('whoami').textContent = e.name ? e.name : '';
+
+  const src = e.after || e.before;
+  if (src && src.model_cost_per_contact != null) {
+    $('hero-n').textContent = '$' + src.model_cost_per_contact.toFixed(4);
+    $('hero-u').textContent = `model cost per resolved contact · ${src.n} conversations, `
+      + `${src.runs_per_shape} run(s) per ticket · against $6.90 for a human chat`;
+  }
+
+  if (e.deltas && e.deltas.length) {
+    $('deltas').innerHTML = e.deltas.map(d => {
+      const tag = d.improved === true ? '<span class="tag up">BETTER</span>'
+                : d.improved === false ? '<span class="tag dn">WORSE</span>'
+                : '<span class="tag na">-</span>';
+      return `<div class="delta"><span class="nm">${d.name}</span>
+        <span class="ba"><s>${fmt(d.before,d.unit)}</s> → ${fmt(d.after,d.unit)}</span>${tag}</div>`;
+    }).join('');
+  }
+
+  if (e.evals) {
+    const blocked = (e.evals.blocking_suites || []).length > 0;
+    $('evals').innerHTML =
+      (e.eval_cases || []).map(c =>
+        `<div class="suite"><span class="dot ${c.status==='UNKNOWN'?'u':(c.passed?'p':'f')}"></span>
+          <span class="id">${c.id}</span>
+          ${c.hard_gate ? '<span class="hg">HARD GATE</span>' : ''}
+          ${c.status==='UNKNOWN' ? '<span class="hg">NOT SCORED</span>' : ''}</div>`).join('')
+      + `<div class="verdict ${blocked?'blocked':'clear'}">`
+      + (blocked
+          ? `Release BLOCKED by ${e.evals.blocking_suites.join(', ')} · `
+            + `${e.evals.passed}/${e.evals.scored ?? e.evals.cases} scored cases passed`
+          : `Release clear · ${e.evals.passed}/${e.evals.scored ?? e.evals.cases} scored cases passed`)
+      + (e.evals.unknown ? `<div class="cmd">${e.evals.unknown} case(s) not scored: the grader could not read its own judge</div>` : '')
+      + `</div><div class="cmd">rubric ${e.evals.rubric_version} · judge ${e.evals.judge_model}</div>`;
+  }
+
+  // gates_banked carries step ids ('1.2', '4.1'), which is what profile.json
+  // banks under. Matching them against 1..7 never lit a single square.
+  const banked = new Set((e.gates_banked || []).map(String));
+  $('gates').innerHTML = GATES.map(([id, claim]) =>
+    `<div class="g ${banked.has(id)?'on':''}"><span class="n">${id}</span>`
+    + `<span class="cl">${claim}</span></div>`).join('');
+
+  if (e.pitch && e.pitch.trim()) {
+    const rows = PITCH_LINES
+      .map(([label, heading]) => [heading, pitchValue(e.pitch, label), label])
+      .filter(r => r[1]);
+    if (rows.length) {
+      $('pitch').innerHTML = rows.map(([heading, value, label]) =>
+        `<div class="pl ${label === 'Still broken' ? 'broke' : ''}">`
+        + `<b>${heading}</b><span></span></div>`).join('');
+      // textContent, not innerHTML: the pod typed these lines.
+      $('pitch').querySelectorAll('.pl span').forEach((el, i) => {
+        el.textContent = rows[i][1];
+      });
+    } else {
+      $('pitch').innerHTML = '<div class="none">PITCH.md is still the shipped '
+        + 'template. Fill the six lines.</div>';
+    }
+  }
+}
+
+sel.value = 0;
+loadEvidence();
+setInterval(loadEvidence, 4000);
+</script>
+</body>
+</html>

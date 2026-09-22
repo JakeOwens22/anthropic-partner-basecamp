@@ -1,0 +1,8 @@
+# TEAM.md is the one file more than one person might append to. `merge=union`
+# keeps every line from both sides instead of raising a conflict nobody in a
+# breakout should have to resolve.
+#
+# It is normally written once, by whoever created the repo: the pod's name and
+# one line per person. The union rule is there for the late joiner who adds
+# their own line while somebody else is adding theirs.
+TEAM.md merge=union
