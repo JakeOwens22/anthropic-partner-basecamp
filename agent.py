@@ -33,35 +33,35 @@ EXTRA_TOOLS: List[Dict[str, Any]] = [
         #         "required": ["origin", "dest", "date", "cabin"],
         #     },
         # },
-        {
-            "name": "fare_rules",
-            "description": (
-                "Return the Larkspur Handbook text (fare rules and Customer Commitment, "
-                "sections 4 to 7) behind an entitlement decision. Call it when a customer "
-                "asks why something is or is not covered, or challenges an answer and wants "
-                "the rule, so the reply can quote the Handbook instead of paraphrasing it. "
-                "Call check_policy first: this is reference reading, and the policy table "
-                "remains the source of truth for what is owed. Needs one section, by number "
-                "or by words from its title. Returns that section's full text, or the list "
-                "of available sections if nothing matches."
-            ),
-            "input_schema": {
-                "type": "object",
-                "properties": {
-                    "section": {
-                        "type": "string",
-                        "description": (
-                            "Which section to read: a number ('4' to '7') or words from its "
-                            "title. 4 = fare families (Basic, Main, Main Plus, First); "
-                            "5 = when we delay, cancel or divert (cause labels, rebooking, "
-                            "refunds); 6 = care while you wait (meals, hotel, ground "
-                            "transport); 7 = what chat automation will not do."
-                        ),
-                    },
-                },
-                "required": ["section"],
-            },
-        },
+        # {
+        #     "name": "fare_rules",
+        #     "description": (
+        #         "Return the Larkspur Handbook text (fare rules and Customer Commitment, "
+        #         "sections 4 to 7) behind an entitlement decision. Call it when a customer "
+        #         "asks why something is or is not covered, or challenges an answer and wants "
+        #         "the rule, so the reply can quote the Handbook instead of paraphrasing it. "
+        #         "Call check_policy first: this is reference reading, and the policy table "
+        #         "remains the source of truth for what is owed. Needs one section, by number "
+        #         "or by words from its title. Returns that section's full text, or the list "
+        #         "of available sections if nothing matches."
+        #     ),
+        #     "input_schema": {
+        #         "type": "object",
+        #         "properties": {
+        #             "section": {
+        #                 "type": "string",
+        #                 "description": (
+        #                     "Which section to read: a number ('4' to '7') or words from its "
+        #                     "title. 4 = fare families (Basic, Main, Main Plus, First); "
+        #                     "5 = when we delay, cancel or divert (cause labels, rebooking, "
+        #                     "refunds); 6 = care while you wait (meals, hotel, ground "
+        #                     "transport); 7 = what chat automation will not do."
+        #                 ),
+        #             },
+        #         },
+        #         "required": ["section"],
+        #     },
+        # },
 ]   # ✏️ Build 2, step 2.1: schemas for the tools you add
 
 
@@ -90,7 +90,7 @@ def fare_rules(section: str) -> Dict[str, Any]:
 
 LOCAL_TOOLS: Dict[str, Any] = {
     # "next_available_day": next_available_day,
-    "fare_rules": fare_rules,
+    # "fare_rules": fare_rules,
 }         # ✏️ Build 2, step 2.1: the functions behind them
 
 
