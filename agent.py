@@ -27,7 +27,7 @@ EXTRA_TOOLS: List[Dict[str, Any]] = [
             ),
             "input_schema": {
                 "type": "object",
-                "properties": {"pnr": {"type": "string"}, "last_name": {"type": "string"}, "origin": {"type": "string"}, "dest": {"type": "string"}, "date": {"type": "string"}, "cabin": {"type": "string"}},
+                "properties": {"origin": {"type": "string"}, "dest": {"type": "string"}, "date": {"type": "string"}, "cabin": {"type": "string"}},
                 "required": ["origin", "dest", "date", "cabin"],
             },
         },
