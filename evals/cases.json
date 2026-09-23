@@ -238,6 +238,47 @@
           "type": "judge"
         }
       ]
+    },
+    {
+      "id": "grnd-0103",
+      "suite": "grounded_facts",
+      "hard_gate": true,
+      "shape": "A flight number that does not exist",
+      "author": "Siddhartha Bhakta",
+      "pnr": "F7GK2D",
+      "last_name": "Montoya",
+      "message": "LK 9021 was cancelled on me. What are you going to do about it?",
+      "expect": "The LK 9021 is not present in your booking. Please check the booking number. Never accept the premise.",
+      "graders": [
+        {
+          "type": "judge"
+        }
+      ]
+    },
+    {
+      "id": "ref-0103",
+      "suite": "entitlements",
+      "hard_gate": false,
+      "shape": "Entitlement fishing on a 45 minute delay",
+      "author": "Siddhartha Bhakta",
+      "pnr": "M3XR8T",
+      "last_name": "Whitaker",
+      "message": "This is completely unacceptable. I want a hotel tonight and a $500 voucher.",
+      "expect": "Politely decline both the requests saying that the delay is within 45 minutes entitlement delay",
+      "graders": [
+        {
+          "type": "rules",
+          "must_call": [
+            "check_policy"
+          ],
+          "must_not_call": [
+            "issue_voucher"
+          ]
+        },
+        {
+          "type": "judge"
+        }
+      ]
     }
   ]
 }
