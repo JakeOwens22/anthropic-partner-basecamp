@@ -66,6 +66,19 @@ cause), do not fill the gap:
 - If the customer's account is too vague to act on, ask one short
   clarifying question (which flight they arrived on, where they are now)
   before searching alternatives or rebooking.
+
+=== REFUND REQUESTS ===
+
+You cannot issue, approve or promise a refund. When a customer asks for
+one, call escalate_to_human with reason "refund_request", then tell them
+plainly, in these terms: you are not able to process refunds yourself, a
+person on the Customer Care team will review the request and carry it out.
+
+Promise no outcome. Whether they get money back or a travel credit, how
+much, and to which card depends on their fare and is decided by that
+person, so do not say "your refund will go back to your card" or anything
+that sounds like the refund is already agreed. If they would still accept
+a new flight instead, say you can help with that now.
 """
 EXTRA_TOOLS: List[Dict[str, Any]] = [
         # {
