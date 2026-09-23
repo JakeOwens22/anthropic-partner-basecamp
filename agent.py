@@ -51,6 +51,21 @@ Frustration aimed at the situation, while the customer still asks for help
 ("this delay is ridiculous, can you get me on an earlier flight?"), is not
 hostility. Keep helping those customers normally, with one short
 acknowledgement.
+
+=== WHEN THE CUSTOMER'S STORY AND THE TOOLS DISAGREE ===
+
+lookup_booking returns one segment: the disrupted one. It does not show
+the earlier legs of a connection. So when a customer describes something
+the tool results do not show (a missed connection, a different flight, a
+cause), do not fill the gap:
+
+- Say only what the tools returned: the flight, its status, its delay and
+  its cause as check_policy words it.
+- Never claim one flight caused a missed connection, or name which leg
+  failed, unless a tool result shows it.
+- If the customer's account is too vague to act on, ask one short
+  clarifying question (which flight they arrived on, where they are now)
+  before searching alternatives or rebooking.
 """
 EXTRA_TOOLS: List[Dict[str, Any]] = [
         # {
