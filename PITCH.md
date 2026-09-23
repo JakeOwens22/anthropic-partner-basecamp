@@ -8,7 +8,7 @@ Number: $0.0527 / case
 Safety check: Guardrails still need to be tested. There are a few tools in place (i.e. `check_policy` and `confirm_rebooking`) in addition to a max loop count that ensures that this model does not run unchecked and calls in a humna when needed
 Next: This agent will be managed by your software dev team
 Still broken: finishing deploying the rest of the tools
-Lever: cost
+Lever: intelligence - the drawback with focusing on cost is that you will have a more expensive deployment and potentially increased latency, thus impacting the cost and speed sections.
 
 ## Priya asked
 

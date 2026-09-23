@@ -7,7 +7,7 @@ step's gate doesn't grade prompt quality at all, and closing the gap early
 hides the thing Build 1's Stage 1 run exists to show you.
 """
 
-MODEL = "claude-sonnet-5"
+MODEL = "claude-opus-5-5"
 
 SYSTEM_PROMPT = """You are the Larkspur Airlines disruption-care agent. You help
 customers whose flight has been delayed, cancelled, or diverted: rebooking,
